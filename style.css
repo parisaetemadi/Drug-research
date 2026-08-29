@@ -1,0 +1,455 @@
+/* The Medicine Market — a dark, single-column-of-argument data essay.
+   Every section is the same shape: prose on the left, one chart on the right. */
+
+:root {
+  --bg: #0a0a0b;
+  --ink: #ffffff;
+  --body: #b4b4b8;
+  --muted: #6e6e76;
+  --line: #232326;
+  --line-soft: #17171a;
+  --chip: #141417;
+
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- top nav ---------- */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 0 40px;
+  height: 52px;
+  background: rgba(10, 10, 11, 0.86);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.nav-brand {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-right: 8px;
+}
+
+.nav a {
+  position: relative;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s ease;
+}
+.nav a:hover { color: var(--body); }
+
+/* The underline marks the section currently under the reader, set from JS. */
+.nav a.current { color: var(--ink); }
+.nav a.current::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: #4a8bf0;
+}
+
+.nav-spacer { flex: 1; }
+
+.nav-repo {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  padding: 96px 40px 40px;
+  border-bottom: 1px solid var(--line);
+}
+
+.masthead h1 {
+  margin: 0;
+  font-size: clamp(52px, 8.5vw, 132px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  max-width: 14ch;
+}
+
+.masthead .standfirst {
+  margin: 32px 0 0;
+  max-width: 62ch;
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--body);
+}
+
+.masthead .byline {
+  margin: 28px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------- sections ---------- */
+
+.section {
+  /* The nav is sticky, so an anchor jump must stop below it. */
+  scroll-margin-top: 52px;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 64px;
+  align-items: start;
+  padding: 88px 40px 96px;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-copy { position: sticky; top: 96px; }
+
+.section-num {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+
+.section h2 {
+  margin: 0 0 26px;
+  font-size: clamp(38px, 4.4vw, 68px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+  max-width: 11ch;
+}
+
+.section p.lede {
+  margin: 0;
+  max-width: 46ch;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--body);
+}
+
+.stat {
+  margin: 26px 0 0;
+  font-size: 15px;
+  color: var(--body);
+  max-width: 46ch;
+}
+.stat strong { color: var(--ink); font-weight: 600; }
+
+.footnote {
+  margin: 26px 0 0;
+  max-width: 48ch;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.footnote + .footnote { margin-top: 10px; }
+
+/* ---------- controls ---------- */
+
+.toggle-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 28px 0 0;
+}
+
+.toggle {
+  padding: 8px 15px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--body);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.toggle:hover { color: var(--ink); border-color: #33333a; }
+.toggle[aria-pressed="true"] {
+  color: var(--ink);
+  border-color: #55555f;
+  background: var(--chip);
+}
+
+/* ---------- legend ---------- */
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin: 26px 0 0;
+  max-width: 48ch;
+  font-size: 14px;
+  color: var(--body);
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.legend i {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: currentColor;
+  flex: none;
+}
+
+/* ---------- chart frame ---------- */
+
+.chart { min-width: 0; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+.chart-note {
+  margin: 16px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.loading {
+  color: var(--muted);
+  font-size: 14px;
+  padding: 40px 0;
+}
+
+/* ---------- 01 · the chain ---------- */
+
+.chain { display: flex; flex-direction: column; gap: 8px; }
+
+.chain-tier {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  color: var(--muted);
+  margin: 14px 0 2px;
+}
+.chain-tier:first-child { margin-top: 0; }
+
+.chain-band {
+  display: grid;
+  grid-template-columns: 4px 1fr;
+  gap: 18px;
+  padding: 16px 18px 16px 0;
+  border-radius: 4px;
+  background: var(--line-soft);
+  overflow: hidden;
+}
+
+.chain-rail { border-radius: 4px 0 0 4px; }
+
+.chain-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 5px;
+}
+
+.chain-name { font-size: 16px; font-weight: 650; letter-spacing: -0.01em; }
+.chain-value { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.chain-what { font-size: 14px; color: var(--body); line-height: 1.5; }
+.chain-role { font-size: 13px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
+.chain-firms { font-size: 13px; color: var(--muted); margin-top: 7px; }
+.chain-firms b { color: var(--body); font-weight: 500; }
+
+/* ---------- treemap ---------- */
+
+.tm-group-label {
+  font-size: 17px;
+  font-weight: 500;
+  fill: var(--body);
+}
+.tm-group-total { font-size: 17px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.tm-name { font-weight: 700; letter-spacing: -0.02em; fill: #fff; }
+.tm-value { fill: rgba(255, 255, 255, 0.72); font-variant-numeric: tabular-nums; }
+.tm-what { fill: rgba(255, 255, 255, 0.42); }
+.tm-axis {
+  font-size: 15px;
+  letter-spacing: 0.22em;
+  fill: var(--muted);
+}
+.tm-cell rect { transition: fill-opacity 0.12s ease; }
+.tm-cell:hover rect.tm-fill { fill-opacity: 0.85; }
+
+/* ---------- generic bar rows ---------- */
+
+.row-label { font-size: 20px; fill: var(--body); }
+.row-sub { font-size: 17px; fill: var(--muted); }
+.row-value { font-size: 20px; fill: var(--ink); font-variant-numeric: tabular-nums; font-weight: 500; }
+.row-track { fill: #1a1a1e; }
+
+/* ---------- funnel ---------- */
+
+.funnel-stage-name { font-size: 21px; fill: var(--ink); font-weight: 550; }
+.funnel-stage-detail { font-size: 17px; fill: var(--muted); }
+.funnel-figure { font-size: 20px; fill: var(--ink); font-variant-numeric: tabular-nums; font-weight: 500; }
+.funnel-carry { font-size: 17px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* ---------- stacked columns ---------- */
+
+.col-title { font-size: 20px; fill: var(--ink); font-weight: 550; }
+.col-sub { font-size: 17px; fill: var(--muted); }
+.col-seg-label { font-size: 19px; fill: #fff; }
+.col-outside { font-size: 17px; fill: var(--body); }
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  padding: 64px 40px 96px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.site-footer a { color: var(--body); }
+.site-footer h3 {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--body);
+  text-transform: uppercase;
+}
+.site-footer ul { margin: 0 0 30px; padding-left: 18px; max-width: 92ch; }
+.site-footer li { margin-bottom: 7px; }
+
+/* ---------- narrow screens ---------- */
+
+@media (max-width: 900px) {
+  .section {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 56px 22px 64px;
+  }
+  .section-copy { position: static; }
+  .masthead { padding: 56px 22px 32px; }
+  .nav { padding: 0 22px; gap: 18px; overflow-x: auto; }
+  .nav-repo, .nav-brand { display: none; }
+  .site-footer { padding: 48px 22px 72px; }
+}
+
+/* ---------- hover card ---------- */
+
+.card {
+  position: fixed;
+  z-index: 100;
+  width: 290px;
+  padding: 14px 16px 15px;
+  background: #131316;
+  border: 1px solid #2c2c31;
+  border-radius: 9px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.62);
+  pointer-events: none;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 9px;
+  margin-bottom: 9px;
+  border-bottom: 2px solid;
+}
+
+.card-name { font-size: 15px; font-weight: 650; letter-spacing: -0.015em; }
+.card-ticker { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+
+.card-what {
+  margin: 0 0 11px;
+  color: var(--body);
+  font-size: 12.5px;
+}
+
+.card-figures { margin: 0; }
+
+.card-figures > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 3px 0;
+}
+
+.card-figures dt { color: var(--muted); }
+.card-figures dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+  font-weight: 550;
+  white-space: nowrap;
+}
+.card-figures dd.neg { color: #f2554d; }
+.card-figures dd em {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.card-margins {
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid var(--line);
+}
+
+.card-gap {
+  margin: 10px 0 0;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.tm-cell { cursor: default; outline: none; }
+.tm-cell:focus rect.tm-fill { stroke: #fff; stroke-width: 2; }
+
+/* Shown across the market-value chart whenever the data is not the live feed.
+   Placeholder numbers draw a chart indistinguishable from a real one, so the
+   caveat has to sit on the picture rather than in a footnote below it. */
+.placeholder-warning {
+  margin: 0 0 14px;
+  padding: 11px 14px;
+  border: 1px solid #6b4a12;
+  border-radius: 7px;
+  background: #241a08;
+  color: #e2b862;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ---------- 04 · inside a trial ---------- */
+
+.trial-name { font-size: 23px; font-weight: 700; letter-spacing: -0.02em; }
+.trial-count { font-size: 17px; fill: var(--body); font-variant-numeric: tabular-nums; }
+.trial-asks { font-size: 19px; fill: var(--ink); }
+.trial-who { font-size: 16px; fill: var(--muted); }
+.trial-facts { font-size: 16px; fill: var(--body); font-variant-numeric: tabular-nums; }

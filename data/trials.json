@@ -1,0 +1,49 @@
+{
+  "note": "Typical figures for one trial at each phase. Every one of these varies enormously by disease — a dermatology Phase 3 and a pain Phase 3 differ by nearly fivefold in cost — so these are middles, not rules.",
+  "phases": [
+    {
+      "name": "Phase 1",
+      "color": "#3b82f6",
+      "asks": "Is it safe, and at what dose?",
+      "who": "Healthy volunteers, usually — people with the disease when the drug is too toxic to give anyone else",
+      "typical": 50,
+      "range": "20–100 people",
+      "sites": "about 5 sites",
+      "duration": "several months to a year",
+      "cost": 3800000
+    },
+    {
+      "name": "Phase 2",
+      "color": "#10a37f",
+      "asks": "Does it actually do anything?",
+      "who": "Patients who have the disease, in one or two forms of it",
+      "typical": 200,
+      "range": "a few dozen to 300 people",
+      "sites": "up to about 15 sites",
+      "duration": "several months to two years",
+      "cost": 13350000
+    },
+    {
+      "name": "Phase 3",
+      "color": "#16a34a",
+      "asks": "Is it better than what we already have, and what does it do to a lot of people?",
+      "who": "Patients across many hospitals and often many countries",
+      "typical": 1500,
+      "range": "300–3,000 people",
+      "sites": "dozens to a few hundred sites",
+      "duration": "one to four years",
+      "cost": 19890000
+    }
+  ],
+  "phase4": {
+    "name": "Phase 4",
+    "asks": "What shows up once it is on the market?",
+    "detail": "Runs after approval, in thousands of patients, and costs about as much as a Phase 3 — roughly $19.95M per study. It is where rare side effects finally become visible, because the earlier phases were never large enough to see them.",
+    "cost": 19950000
+  },
+  "sources": [
+    "Per-study costs: Sertkaya et al. for HHS/ASPE, 'Examination of Clinical Trial Costs and Barriers for Drug Development' — averages across therapeutic areas of $3.8M (Phase 1), $13.35M (Phase 2), $19.89M (Phase 3) and $19.95M (Phase 4). The spread by disease area is wide: Phase 3 runs from $11.5M in dermatology to $52.9M in pain and anaesthesia.",
+    "Participant counts, site counts and durations: FDA, 'Step 3: Clinical Research', and standard clinical-research references.",
+    "Cost per participant is derived here by dividing the per-study cost by the typical enrolment, not taken from a source."
+  ]
+}

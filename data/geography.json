@@ -1,0 +1,36 @@
+{
+  "columns": [
+    {
+      "title": "Where the ingredients are made",
+      "subtitle": "FDA-registered API manufacturing sites, 2025",
+      "segments": [
+        { "name": "United States", "pct": 22 },
+        { "name": "India",         "pct": 21 },
+        { "name": "China",         "pct": 20 },
+        { "name": "Europe",        "pct": 19 },
+        { "name": "Rest of world", "pct": 18 }
+      ]
+    },
+    {
+      "title": "Where new molecules start",
+      "subtitle": "Share of early-stage drug programmes, 2024",
+      "segments": [
+        { "name": "United States", "pct": 37 },
+        { "name": "China",         "pct": 32 },
+        { "name": "Rest of world", "pct": 31 }
+      ]
+    }
+  ],
+  "colors": {
+    "United States": "#d99a0b",
+    "India":         "#ea580c",
+    "China":         "#16a34a",
+    "Europe":        "#3b82f6",
+    "Rest of world": "#8b7ff0"
+  },
+  "sources": [
+    "API sites: US Pharmacopeia analysis of FDA facility registrations, 2025 — the US 22%, India 21%, China 20%, the EU 19%.",
+    "Early-stage programmes: analyses of drug-origin data reported in 2025–2026 — the US share fell from about 48% in 2015 to just over 37% in 2024 while China's rose from 8% to just over 32%. The source does not break India or Europe out separately, so they sit inside 'rest of world' in the right-hand column.",
+    "The two columns come from different sources and count different things: sites in one, programmes in the other. They are placed side by side to contrast where medicines are physically made with where they are invented, not to be subtracted from one another."
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "note": "The eight layers of the medicine business, ordered from the inputs at the bottom to the companies that own and sell finished drugs at the top. Colour is used consistently across every chart on the page.",
+  "layers": [
+    {
+      "id": "tools",
+      "name": "Tools & instruments",
+      "color": "#3b82f6",
+      "tier": "inputs",
+      "what": "The machines science runs on: DNA sequencers, mass spectrometers, microscopes, cell analysers.",
+      "role": "Sells hardware to everyone above it. Does not own a drug."
+    },
+    {
+      "id": "inputs",
+      "name": "Reagents & bioprocessing",
+      "color": "#ea580c",
+      "tier": "inputs",
+      "what": "The consumables: enzymes, antibodies, culture media, single-use bioreactor bags, chromatography resins, vials and stoppers.",
+      "role": "Sold by the litre and the kilo, repeatedly, to every drug that gets made."
+    },
+    {
+      "id": "discovery",
+      "name": "Discovery software",
+      "color": "#10a37f",
+      "tier": "inputs",
+      "what": "Physics simulation, machine-learned structure prediction, and the software that runs trials and files with regulators.",
+      "role": "The newest layer, and by far the smallest."
+    },
+    {
+      "id": "preclinical",
+      "name": "Preclinical services",
+      "color": "#d99a0b",
+      "tier": "services",
+      "what": "Safety and toxicology testing in cells and animals, before a molecule is allowed near a person.",
+      "role": "A legal prerequisite. Almost every drug programme passes through one of a handful of firms."
+    },
+    {
+      "id": "cdmo",
+      "name": "Contract manufacturing",
+      "color": "#ec4899",
+      "tier": "services",
+      "what": "CDMOs. They build the molecule at scale, fill it into vials and pens, and package it.",
+      "role": "Most drug companies own no factory. They rent one."
+    },
+    {
+      "id": "cro",
+      "name": "Clinical trials",
+      "color": "#16a34a",
+      "tier": "services",
+      "what": "CROs. They recruit the patients, run the sites, monitor the data and assemble the filing.",
+      "role": "The trial in a press release is usually operated by a company not named in it."
+    },
+    {
+      "id": "biotech",
+      "name": "Biotech",
+      "color": "#8b7ff0",
+      "tier": "owners",
+      "what": "Companies whose worth is still mostly a pipeline: one idea, a few programmes, and years of losses.",
+      "role": "Where most new medicines are actually invented. Where most of them also die."
+    },
+    {
+      "id": "pharma",
+      "name": "Big pharma",
+      "color": "#f2554d",
+      "tier": "owners",
+      "what": "Diversified companies selling approved medicines in every major market.",
+      "role": "Buys what the layer below invents, pays for the Phase 3, and sells the result."
+    },
+    {
+      "id": "distribution",
+      "name": "Distribution & pharmacy",
+      "color": "#9ca3af",
+      "tier": "delivery",
+      "what": "Wholesalers and pharmacy chains: the physical route from a factory loading dock to a patient's hand.",
+      "role": "Enormous revenue, thin margins. Handles nearly every prescription in the country."
+    }
+  ]
+}

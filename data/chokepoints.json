@@ -1,0 +1,20 @@
+{
+  "note": "Each bar is one dependency: a share of supply held by a single country or a very small number of suppliers. The bases differ — some measure global output, some measure US imports — so each is labelled.",
+  "items": [
+    { "name": "Amoxicillin",        "share": 94, "holder": "China", "basis": "key starting materials for US supply", "layer": "inputs" },
+    { "name": "Medical isotopes",   "share": 95, "holder": "seven suppliers", "basis": "world Mo-99 output, the source of most nuclear imaging", "layer": "cdmo" },
+    { "name": "Penicillin",         "share": 90, "holder": "China", "basis": "global output", "layer": "inputs" },
+    { "name": "Ibuprofen",          "share": 90, "holder": "China", "basis": "US imports", "layer": "inputs" },
+    { "name": "Heparin",            "share": 80, "holder": "China", "basis": "global supply — it is made from pig intestine", "layer": "inputs" },
+    { "name": "Antibiotic APIs",    "share": 75, "holder": "China", "basis": "global output", "layer": "inputs" },
+    { "name": "Vitamin C",          "share": 74, "holder": "China", "basis": "US imports", "layer": "inputs" },
+    { "name": "Blood plasma",       "share": 70, "holder": "United States", "basis": "world supply — the US pays donors, most countries do not", "layer": "inputs" },
+    { "name": "Acetaminophen",      "share": 70, "holder": "China", "basis": "key starting materials for US supply", "layer": "inputs" }
+  ],
+  "sources": [
+    "Key starting material and US import shares: Brookings, 'US drug supply chain exposure to China'; ITIF testimony to the Senate Special Committee on Aging, July 2026.",
+    "Heparin and antibiotic API shares: Council on Foreign Relations, 'The Pharma Choke Point' (2026); Pew Charitable Trusts.",
+    "Mo-99: National Academies, 'Molybdenum-99 for Medical Imaging' — about 95% of world supply comes from seven irradiation services suppliers.",
+    "Plasma: reporting on the global plasma trade, 2025–2026."
+  ]
+}

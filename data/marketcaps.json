@@ -1,0 +1,872 @@
+{
+  "generatedAt": null,
+  "source": "approximate placeholder, pending the first live fetch",
+  "note": "Rounded order-of-magnitude market values so the chart has a shape before the scheduled job first runs. Not quotes. Overwritten wholesale by scripts/fetch-marketcaps.mjs.",
+  "priced": 86,
+  "missing": [],
+  "fx": {
+    "USD": 1
+  },
+  "quotes": {
+    "TMO": {
+      "marketCap": 190000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "DHR": {
+      "marketCap": 145000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "A": {
+      "marketCap": 35000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "MTD": {
+      "marketCap": 25000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "WAT": {
+      "marketCap": 22000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "ILMN": {
+      "marketCap": 15000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "RVTY": {
+      "marketCap": 11000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "BRKR": {
+      "marketCap": 6000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "QGEN": {
+      "marketCap": 10000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "BIO": {
+      "marketCap": 8000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "TXG": {
+      "marketCap": 1500000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "SRT3.DE": {
+      "marketCap": 16000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "DIM.PA": {
+      "marketCap": 15000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "AVTR": {
+      "marketCap": 9000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "RGEN": {
+      "marketCap": 8000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "WST": {
+      "marketCap": 17000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "MRK.DE": {
+      "marketCap": 55000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "STVN": {
+      "marketCap": 6000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "VEEV": {
+      "marketCap": 45000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "SDGR": {
+      "marketCap": 1500000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "CERT": {
+      "marketCap": 1500000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "RXRX": {
+      "marketCap": 2500000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "SLP": {
+      "marketCap": 600000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "ABSI": {
+      "marketCap": 400000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "CRL": {
+      "marketCap": 8000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "LH": {
+      "marketCap": 22000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "NOTV": {
+      "marketCap": 150000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "LONN.SW": {
+      "marketCap": 50000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "207940.KS": {
+      "marketCap": 55000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "2269.HK": {
+      "marketCap": 15000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "603259.SS": {
+      "marketCap": 35000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "DIVISLAB.NS": {
+      "marketCap": 20000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "SFZN.SW": {
+      "marketCap": 5000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "BANB.SW": {
+      "marketCap": 4000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "1349.HK": {
+      "marketCap": 4000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "IQV": {
+      "marketCap": 32000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "ICLR": {
+      "marketCap": 12000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "MEDP": {
+      "marketCap": 10000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "FTRE": {
+      "marketCap": 1000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "ARGX": {
+      "marketCap": 45000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "ALNY": {
+      "marketCap": 55000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "NBIX": {
+      "marketCap": 13000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "INSM": {
+      "marketCap": 25000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "UTHR": {
+      "marketCap": 17000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "BNTX": {
+      "marketCap": 28000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "MRNA": {
+      "marketCap": 10000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "BMRN": {
+      "marketCap": 11000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "IONS": {
+      "marketCap": 9000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "EXEL": {
+      "marketCap": 11000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "INCY": {
+      "marketCap": 17000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "JAZZ": {
+      "marketCap": 7000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "SRPT": {
+      "marketCap": 2000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "MDGL": {
+      "marketCap": 9000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "LEGN": {
+      "marketCap": 8000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "ROIV": {
+      "marketCap": 8000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "RARE": {
+      "marketCap": 4000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "CRSP": {
+      "marketCap": 5000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "NTLA": {
+      "marketCap": 2000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "BEAM": {
+      "marketCap": 2000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "SMMT": {
+      "marketCap": 12000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "ZLAB": {
+      "marketCap": 4000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "LLY": {
+      "marketCap": 850000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "NVO": {
+      "marketCap": 240000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "JNJ": {
+      "marketCap": 460000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "ABBV": {
+      "marketCap": 380000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "ROG.SW": {
+      "marketCap": 290000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "MRK": {
+      "marketCap": 230000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "AZN": {
+      "marketCap": 260000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "NVS": {
+      "marketCap": 250000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "PFE": {
+      "marketCap": 145000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "AMGN": {
+      "marketCap": 155000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "SAN.PA": {
+      "marketCap": 130000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "GILD": {
+      "marketCap": 145000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "VRTX": {
+      "marketCap": 110000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "REGN": {
+      "marketCap": 60000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "GSK": {
+      "marketCap": 90000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "BMY": {
+      "marketCap": 100000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "BIIB": {
+      "marketCap": 20000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "4502.T": {
+      "marketCap": 45000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "BAYN.DE": {
+      "marketCap": 30000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "4568.T": {
+      "marketCap": 60000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "TEVA": {
+      "marketCap": 25000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "MCK": {
+      "marketCap": 95000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "COR": {
+      "marketCap": 60000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "CAH": {
+      "marketCap": 35000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    },
+    "WBA": {
+      "marketCap": 10000000000,
+      "revenue": null,
+      "netIncome": null,
+      "grossMargin": null,
+      "operatingMargin": null,
+      "profitMargin": null,
+      "revenueGrowth": null,
+      "currency": "USD"
+    }
+  }
+}

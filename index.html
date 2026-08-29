@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Medicine Market</title>
+<meta name="description" content="How a drug gets from a screening library to a pharmacy shelf, and who owns each step along the way.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0b'/%3E%3Crect x='16' y='14' width='32' height='36' rx='16' fill='%238b7ff0'/%3E%3Cpath d='M16 32h32' stroke='%230a0a0b' stroke-width='4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-brand">The Medicine Market</span>
+  <a href="#chain">The chain</a>
+  <a href="#value">Value</a>
+  <a href="#gauntlet">Attrition</a>
+  <a href="#trials">Inside a trial</a>
+  <a href="#chokepoints">Chokepoints</a>
+  <a href="#geography">Geography</a>
+  <a href="#prices">Prices</a>
+  <span class="nav-spacer"></span>
+  <a class="nav-repo" href="https://github.com/parisaetemadi/Drug-research" target="_blank" rel="noopener">Source</a>
+</nav>
+
+<header class="masthead">
+  <h1>The Medicine Market</h1>
+  <p class="standfirst">
+    A drug starts as one of ten thousand molecules in a screening library and ends as
+    something a pharmacist hands across a counter. In between are eight distinct
+    businesses, and almost none of them are the company whose name is on the box.
+    This is who does what, what each part is worth, and how much of it depends on
+    a single supplier.
+  </p>
+  <p class="byline">Parisa Etemadi · every figure is sourced, and the sources are listed at the foot of the page</p>
+</header>
+
+<main>
+
+  <!-- ============ 01 · THE CHAIN ============ -->
+  <section class="section" id="chain">
+    <div class="section-copy">
+      <div class="section-num">01</div>
+      <h2>The chain, end to end</h2>
+      <p class="lede">
+        Nine businesses stacked bottom to top: what goes into a drug, who tests it,
+        who makes it, who owns it. A biotech with a promising molecule owns almost
+        none of the machinery that turns it into a medicine — it rents the animals,
+        the factory, the trial and the trucks.
+      </p>
+      <p class="stat" id="chain-stat"></p>
+      <p class="footnote">
+        The split between biotech and big pharma is a judgement, not a legal category:
+        biotech here means a company still valued mainly on its pipeline, big pharma
+        one selling a broad approved portfolio. Vertex and argenx sit close to the line.
+      </p>
+    </div>
+    <div class="chart"><div class="chain" id="chain-vis"><p class="loading">Loading…</p></div></div>
+  </section>
+
+  <!-- ============ 02 · MARKET VALUE ============ -->
+  <section class="section" id="value">
+    <div class="section-copy">
+      <div class="section-num">02</div>
+      <h2>What each layer is worth</h2>
+      <p class="lede">
+        Value is distributed nothing like the work. Everyone who supplies, tests,
+        manufactures and ships for the industry — every sequencer, every factory,
+        every trial — adds up to less than a fifth of it. The rest sits with the
+        companies whose name goes on the box.
+      </p>
+      <div class="toggle-row" id="value-toggles"></div>
+      <div class="toggle-row" id="value-scale"></div>
+      <p class="stat" id="value-stat"></p>
+      <div class="legend" id="value-legend"></div>
+      <p class="footnote">
+        Boxes are market value, scaled by how much of each company is actually a
+        medicines business — Johnson &amp; Johnson counts at 65% because MedTech is not
+        a drug business, Bayer at 45% because crop science is not either. Height is
+        position in the stack: inputs at the bottom, the companies that own the drug
+        at the top.
+      </p>
+      <p class="footnote">
+        <strong>Readable areas</strong> compresses every box toward the middle so the
+        smallest companies stay legible — the largest company here is some twenty
+        thousand times the smallest, which at true scale is a box two pixels wide.
+        Order is preserved and the number printed in each box is always the real one.
+        <strong>True areas</strong> shows the honest proportions.
+      </p>
+      <p class="footnote" id="value-asof"></p>
+    </div>
+    <div class="chart" id="value-vis"><p class="loading">Loading market values…</p></div>
+  </section>
+
+  <!-- ============ 03 · THE GAUNTLET ============ -->
+  <section class="section" id="gauntlet">
+    <div class="section-copy">
+      <div class="section-num">03</div>
+      <h2>The ten-year gauntlet</h2>
+      <p class="lede">
+        Almost everything fails. Of a hundred molecules that make it as far as a first
+        human trial — already the survivors of years of screening — about seven are
+        ever approved. Phase 2 is where they die: it is the first test of whether the
+        drug does anything at all, and roughly seven in ten do not.
+      </p>
+      <div class="toggle-row" id="gauntlet-toggles"></div>
+      <p class="stat" id="gauntlet-stat"></p>
+      <p class="footnote" id="gauntlet-note"></p>
+    </div>
+    <div class="chart" id="gauntlet-vis"><p class="loading">Loading…</p></div>
+  </section>
+
+  <!-- ============ 04 · INSIDE A TRIAL ============ -->
+  <section class="section" id="trials">
+    <div class="section-copy">
+      <div class="section-num">04</div>
+      <h2>Inside a trial</h2>
+      <p class="lede">
+        Each phase asks a different question, of a different number of people. Phase 1
+        asks whether the drug hurts anyone, and needs fifty. Phase 3 asks whether it
+        beats the treatment patients already get, and needs a few thousand, across
+        dozens of hospitals, for years. Every dot below is one participant, drawn at
+        the same size throughout.
+      </p>
+      <p class="stat" id="trials-stat"></p>
+      <p class="footnote" id="trials-phase4"></p>
+      <p class="footnote">
+        Middles, not rules. A trial's size and cost depend far more on the disease
+        than on the phase: a Phase 3 in dermatology runs about $11.5M, one in pain
+        and anaesthesia nearly $53M. Cost per participant is worked out here from
+        the two figures beside it, not taken from a source.
+      </p>
+    </div>
+    <div class="chart" id="trials-vis"><p class="loading">Loading…</p></div>
+  </section>
+
+  <!-- ============ 05 · CHOKEPOINTS ============ -->
+  <section class="section" id="chokepoints">
+    <div class="section-copy">
+      <div class="section-num">05</div>
+      <h2>Where the supply is thin</h2>
+      <p class="lede">
+        The expensive end of this industry is the visible one. The fragile end is a
+        handful of chemical plants making ingredients nobody has heard of. Amoxicillin,
+        ibuprofen and paracetamol are cheap, generic and ordinary — and their starting
+        materials come, almost entirely, from one country.
+      </p>
+      <div class="legend" id="chokepoint-legend"></div>
+      <p class="footnote">
+        Each bar measures a different thing — some are shares of world output, some are
+        shares of what the United States imports — so the basis is written under every
+        label. These are published estimates and should be read as ranges of a few
+        points, not exact figures.
+      </p>
+    </div>
+    <div class="chart" id="chokepoint-vis"><p class="loading">Loading…</p></div>
+  </section>
+
+  <!-- ============ 06 · GEOGRAPHY ============ -->
+  <section class="section" id="geography">
+    <div class="section-copy">
+      <div class="section-num">06</div>
+      <h2>Made everywhere, invented somewhere</h2>
+      <p class="lede">
+        Manufacturing is spread almost evenly across four regions. Invention is not,
+        and it is moving fast: a decade ago roughly half the world's early-stage drug
+        programmes started in the United States and one in twelve in China. They are
+        now close to level.
+      </p>
+      <div class="legend" id="geography-legend"></div>
+      <p class="footnote" id="geography-note"></p>
+    </div>
+    <div class="chart" id="geography-vis"><p class="loading">Loading…</p></div>
+  </section>
+
+  <!-- ============ 07 · PRICES ============ -->
+  <section class="section" id="prices">
+    <div class="section-copy">
+      <div class="section-num">07</div>
+      <h2>What one medicine costs</h2>
+      <p class="lede">
+        A month of metformin and one dose of Lenmeldy are both prescription medicines.
+        One costs four dollars and is taken by a large fraction of everyone with type 2
+        diabetes; the other costs more than four million and is given to a few dozen
+        children a year. The bar is drawn on a logarithmic scale, because nothing else fits.
+      </p>
+      <p class="stat" id="price-stat"></p>
+      <div class="legend" id="price-legend"></div>
+      <p class="footnote">
+        US list prices. Almost nobody pays list — insurers negotiate rebates and patients
+        pay a copay — but it is the only figure published for every drug, so it is the only
+        one that compares across all of them.
+      </p>
+    </div>
+    <div class="chart" id="price-vis"><p class="loading">Loading…</p></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <h3>Sources</h3>
+  <ul id="sources"></ul>
+  <p>
+    Built by Parisa Etemadi. Data and code at
+    <a href="https://github.com/parisaetemadi/Drug-research" target="_blank" rel="noopener">github.com/parisaetemadi/Drug-research</a>.
+    Market values refresh from Yahoo Finance on weekdays; everything else is a curated
+    figure with its source named above. Nothing here is investment advice or medical advice.
+  </p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

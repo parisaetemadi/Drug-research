@@ -1,0 +1,26 @@
+{
+  "note": "US list prices. Almost nobody pays list — insurers negotiate rebates, and patients pay a copay — but list is the only number published for every drug, so it is the only one that can be compared across all of them.",
+  "categories": {
+    "Generic":      "#3b82f6",
+    "Brand":        "#d99a0b",
+    "Specialty":    "#ec4899",
+    "Gene therapy": "#8b7ff0"
+  },
+  "items": [
+    { "name": "Metformin",        "buys": "one month · type 2 diabetes",            "price": 4,        "category": "Generic",      "treats": "over 150 million people worldwide" },
+    { "name": "Insulin lispro",   "buys": "one vial · unbranded, list price",       "price": 25,       "category": "Generic",      "treats": "millions, after a 70% list-price cut in 2023" },
+    { "name": "Ozempic",          "buys": "one month · type 2 diabetes",            "price": 1028,     "category": "Brand",        "treats": "millions — list price falls to $675 in January 2027" },
+    { "name": "Wegovy",           "buys": "one month · obesity",                    "price": 1349,     "category": "Brand",        "treats": "millions — list price falls to $675 in January 2027" },
+    { "name": "Keytruda",         "buys": "one infusion · every three weeks",       "price": 12272,    "category": "Specialty",    "treats": "hundreds of thousands, across dozens of cancers" },
+    { "name": "Zolgensma",        "buys": "one dose · once, ever",                  "price": 2100000,  "category": "Gene therapy", "treats": "infants with spinal muscular atrophy" },
+    { "name": "Hemgenix",         "buys": "one dose · once, ever",                  "price": 3500000,  "category": "Gene therapy", "treats": "adults with haemophilia B" },
+    { "name": "Lenmeldy",         "buys": "one dose · once, ever",                  "price": 4250000,  "category": "Gene therapy", "treats": "a few dozen children a year" }
+  ],
+  "sources": [
+    "Ozempic $1,028 and Wegovy $1,349 monthly list, falling to $675 from 1 January 2027: Novo Nordisk announcement, February 2026.",
+    "Keytruda $12,272 per three-week infusion: list price as of May 2026.",
+    "Insulin lispro $25 per vial: Eli Lilly list price following its 2023 reduction.",
+    "Metformin $4 for a 30-day supply: cash price at major US pharmacy chains.",
+    "Zolgensma $2.1M, Hemgenix $3.5M, Lenmeldy $4.25M: published one-time list prices; Lenmeldy is the most expensive approved drug in the world."
+  ]
+}

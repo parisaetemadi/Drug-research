@@ -1,0 +1,70 @@
+{
+  "headline": {
+    "survivors": "About 7 in 100 molecules that reach a first human trial are ever approved.",
+    "years": "Roughly 14 years from the first screen to a prescription."
+  },
+  "totalCost": "$2.6B",
+  "totalCostNote": "the capitalised cost of one approval, counting every failure paid for along the way",
+  "stages": [
+    {
+      "id": "discovery",
+      "name": "Discovery",
+      "layer": "discovery",
+      "detail": "Screening libraries for something that touches the target at all",
+      "survivalPct": null,
+      "years": 4.5,
+      "yearsRange": "3–6 years"
+    },
+    {
+      "id": "preclinical",
+      "name": "Preclinical",
+      "layer": "preclinical",
+      "detail": "Cells and animals — is it safe enough to give a person?",
+      "survivalPct": null,
+      "years": 1.5,
+      "yearsRange": "1–2 years"
+    },
+    {
+      "id": "phase1",
+      "name": "Phase 1",
+      "layer": "cro",
+      "detail": "Tens of healthy volunteers. Does it hurt anyone?",
+      "survivalPct": 47,
+      "years": 1.5,
+      "yearsRange": "1–2 years"
+    },
+    {
+      "id": "phase2",
+      "name": "Phase 2",
+      "layer": "cro",
+      "detail": "Hundreds of patients. Does it do anything? Most drugs die here",
+      "survivalPct": 28,
+      "years": 2.5,
+      "yearsRange": "2–3 years"
+    },
+    {
+      "id": "phase3",
+      "name": "Phase 3",
+      "layer": "cro",
+      "detail": "Thousands of patients, hundreds of sites, most of the money",
+      "survivalPct": 55,
+      "years": 3.0,
+      "yearsRange": "3–4 years"
+    },
+    {
+      "id": "review",
+      "name": "Regulatory review",
+      "layer": "pharma",
+      "detail": "The filing. By this point almost everything gets through",
+      "survivalPct": 92,
+      "years": 0.8,
+      "yearsRange": "about 1 year"
+    }
+  ],
+  "cumulativeFromPhase1": 6.7,
+  "sources": [
+    "Phase transition rates and the 6.7% likelihood of approval from Phase 1: industry analyses of clinical development success rates reported in 2025 (pharmaphorum / Norstella, drawing on Citeline data).",
+    "Capitalised cost of $2.6B per approved drug: DiMasi et al., Tufts Center for the Study of Drug Development (2014) — $1,395M out-of-pocket plus $1,163M in capital costs over the development period.",
+    "Stage durations are the ranges routinely quoted by FDA and industry; they vary widely by disease area."
+  ]
+}
