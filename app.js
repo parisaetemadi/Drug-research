@@ -808,16 +808,40 @@ function scrollspy() {
    boot
    ========================================================= */
 
+// Market data comes from the Stock-update repository, which is where all the
+// price fetching for this dashboard lives — one public repo with free Actions
+// minutes, one Yahoo integration to maintain. The committed placeholder is the
+// fallback, so the chart still draws (and still says it is provisional) if that
+// feed is unreachable or has not run yet.
+const MARKET_FEED =
+  'https://raw.githubusercontent.com/parisaetemadi/Stock-update/main/data/drugchain.json';
+
 async function load(name) {
   const res = await fetch(`data/${name}.json`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`${name}: http ${res.status}`);
   return res.json();
 }
 
+async function loadMarket() {
+  try {
+    // Bounded: a feed that hangs must not hold up the two sections that need
+    // it, and the committed fallback is right there.
+    const stop = new AbortController();
+    const timer = setTimeout(() => stop.abort(), 6000);
+    try {
+      const res = await fetch(MARKET_FEED, { cache: 'no-cache', signal: stop.signal });
+      if (res.ok) return await res.json();
+    } finally {
+      clearTimeout(timer);
+    }
+  } catch (err) { /* fall through to the committed placeholder */ }
+  return load('marketcaps');
+}
+
 (async function main() {
   try {
-    const [layersFile, companiesFile, caps, gauntlet, trials, chokepoints, geography, prices] = await Promise.all(
-      ['layers', 'companies', 'marketcaps', 'gauntlet', 'trials', 'chokepoints', 'geography', 'prices'].map(load)
+    const [layersFile, companiesFile, gauntlet, trials, chokepoints, geography, prices] = await Promise.all(
+      ['layers', 'companies', 'gauntlet', 'trials', 'chokepoints', 'geography', 'prices'].map(load)
     );
 
     const layers = layersFile.layers;
@@ -825,18 +849,23 @@ async function load(name) {
     const layerColor = Object.fromEntries(layers.map(l => [l.id, l.color]));
     const layerName = Object.fromEntries(layers.map(l => [l.id, l.name]));
 
-    renderChain(layers, companies, caps);
-    renderValue(layers, companies, caps);
+    // Five of the seven sections need no market data, so they are drawn before
+    // the network is consulted at all.
     renderGauntlet(gauntlet, layerColor);
     renderTrials(trials);
     renderChokepoints(chokepoints, layerColor, layerName);
     renderGeography(geography);
     renderPrices(prices);
 
+    const caps = await loadMarket();
+    renderChain(layers, companies, caps);
+    renderValue(layers, companies, caps);
+
     const list = $('sources');
     list.replaceChildren(...[
       ...gauntlet.sources, ...trials.sources, ...chokepoints.sources, ...geography.sources, ...prices.sources,
-      'Market values and trailing revenue: Yahoo Finance, refreshed by a scheduled job in this repository.'
+      'Market value, trailing revenue, profit and margins: Yahoo Finance, refreshed daily by the '
+      + 'Stock-update repository, which does the price fetching for this and the rest of the dashboard.'
     ].map(text => {
       const li = document.createElement('li');
       li.textContent = text;

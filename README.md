@@ -25,21 +25,27 @@ Everything in `data/` is either a curated figure with a named source, or fetched
   `geography.json`, `prices.json`. Each file carries a `sources` array, and those
   strings are what the page prints in its own footer. Editing a number means
   editing its source alongside it.
-- **Fetched** — `marketcaps.json`, written by `scripts/fetch-marketcaps.mjs` and
-  committed by the workflow in `.github/workflows/marketcaps.yml`. It runs on
-  weekdays after the US close, and on any push that changes the company list.
+- **Fetched** — market value, trailing revenue, net income and margins, served
+  from [`Stock-update`](https://github.com/parisaetemadi/Stock-update) at
+  `data/drugchain.json`. That repository does all the price fetching for this
+  dashboard, so there is one Yahoo integration rather than two, and its commits
+  never rebuild anything here.
 
-The fetch script asks Yahoo Finance for market value, trailing revenue, net
-income and margins for every ticker in `companies.json`, converts each into
-dollars, and refuses to write the file if fewer than 60% of the companies priced
-— a bad run leaves yesterday's numbers alone rather than half-emptying the chart.
-Companies it could not price are listed in `missing` and left off the treemap,
-and the page says how many.
+`companies.json` stays the source of truth for *who* is in the chain:
+Stock-update's `update-drugchain.mjs` reads this file over the network at run
+time and prices whatever it finds. Add a company here and it is priced on the
+next daily run, with no change needed there.
 
-Until that job has run for the first time, `marketcaps.json` is a placeholder and
-the market-value section says so on the chart itself, in a box you cannot miss.
-A treemap of made-up numbers looks exactly like a real one, so the caveat does
-not live in a footnote.
+That job refuses to write if fewer than 60% of the companies priced, so a bad
+run leaves the previous numbers alone rather than half-emptying the chart.
+Companies it could not price are listed in `missing`, left off the treemap, and
+counted on the page.
+
+`data/marketcaps.json` is the committed fallback, used when the feed is
+unreachable. It holds rounded approximations, and the market-value section says
+so on the chart itself in a box you cannot miss — a treemap of provisional
+numbers looks exactly like a real one, so the caveat does not live in a
+footnote.
 
 ### The `share` field
 
