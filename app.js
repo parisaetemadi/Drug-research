@@ -49,6 +49,27 @@ function priceLabel(n) {
   return `$${n.toLocaleString('en-US')}`;
 }
 
+// Filled boxes carry white labels, which need roughly 4.5:1 behind them. The
+// layer hues are chosen against a near-black ground, so on the light palette
+// the lighter ones are darkened at the point of use rather than forked.
+// A half-opaque hue over near-black reads darker; over cream it reads paler,
+// and the white label on top of it stops carrying. So the boxes go solid on the
+// light palette, where the hue itself has to do the work.
+const isLight = () => document.documentElement.dataset.theme === 'light';
+const cellOpacity = () => (isLight() ? 0.92 : 0.5);
+const groupOpacity = () => (isLight() ? 0.16 : 0.11);
+
+function inkable(hex) {
+  if (!isLight()) return hex;
+  const n = parseInt(hex.slice(1), 16);
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  if (lum <= 0.48) return hex;
+  const k = 0.48 / lum;
+  const to = v => Math.round(v * k).toString(16).padStart(2, '0');
+  return `#${to(r)}${to(g)}${to(b)}`;
+}
+
 // SVG has no text metrics until a node is in the document, and no way to wrap.
 // Inter's average advance is close enough to 0.56em for laying out box labels,
 // which only ever need to answer "does this fit".
@@ -383,14 +404,14 @@ function renderValue(layers, companies, caps) {
     const placed = squarify(groups, { x: 0, y: 0, w: W, h: H }, true, 'layoutV');
 
     for (const g of placed) {
-      const color = g.layer.color;
+      const color = inkable(g.layer.color);
       const gx = g.x + GAP / 2, gy = g.y + GAP / 2;
       const gw = Math.max(0, g.w - GAP), gh = Math.max(0, g.h - GAP);
       const group = el('g');
 
       group.append(el('rect', {
         x: gx, y: gy, width: gw, height: gh, rx: 3,
-        fill: color, 'fill-opacity': 0.11,
+        fill: color, 'fill-opacity': groupOpacity(),
         stroke: color, 'stroke-opacity': 0.34
       }));
 
@@ -425,7 +446,7 @@ function renderValue(layers, companies, caps) {
         cell.append(el('rect', {
           class: 'tm-fill',
           x: c.x + 1, y: c.y + 1, width: cw, height: ch, rx: 2,
-          fill: color, 'fill-opacity': 0.5,
+          fill: color, 'fill-opacity': cellOpacity(),
           stroke: color, 'stroke-opacity': 0.7
         }));
         attachCard(cell, c, caps.quotes[c.ticker], color, mode);
@@ -499,7 +520,7 @@ function renderValue(layers, companies, caps) {
     { id: 'true', label: 'True areas' }
   ], id => { scaleMode = id; draw(); });
 
-  legendInto($('value-legend'), layers.map(l => [l.name, l.color]));
+  legendInto($('value-legend'), layers.map(l => [l.name, inkable(l.color)]));
 
   const when = caps.generatedAt ? new Date(caps.generatedAt) : null;
   const missing = (caps.missing || []).length;
@@ -542,7 +563,7 @@ function renderGauntlet(data, layerColor) {
 
     stages.forEach((stage, i) => {
       const y = PAD + i * ROW;
-      const color = layerColor[stage.layer] || '#8b7ff0';
+      const color = inkable(layerColor[stage.layer] || '#8b7ff0');
 
       chart.append(el('text', { x: 0, y: y + 27, class: 'funnel-stage-name' }, stage.name));
 
@@ -566,7 +587,7 @@ function renderGauntlet(data, layerColor) {
       }));
       chart.append(el('rect', {
         x: trackX, y: y + 8, width: Math.max(2, trackW * frac), height: 32, rx: 3,
-        fill: color, 'fill-opacity': 0.85
+        fill: color, 'fill-opacity': isLight() ? 1 : 0.85
       }));
       chart.append(el('text', {
         x: W, y: y + 31, 'text-anchor': 'end', class: 'funnel-figure'
@@ -680,7 +701,7 @@ function renderChokepoints(data, layerColor, layerName) {
 
   items.forEach((item, i) => {
     const y = PAD + i * ROW;
-    const color = layerColor[item.layer] || '#8b7ff0';
+    const color = inkable(layerColor[item.layer] || '#8b7ff0');
 
     chart.append(el('text', { x: LABEL - 20, y: y + 22, 'text-anchor': 'end', class: 'row-label' }, item.name));
     chart.append(el('text', { x: LABEL - 20, y: y + 40, 'text-anchor': 'end', class: 'row-sub' }, item.holder));
@@ -688,14 +709,14 @@ function renderChokepoints(data, layerColor, layerName) {
     chart.append(el('rect', { class: 'row-track', x: trackX, y: y + 6, width: trackW, height: 26, rx: 3 }));
     chart.append(el('rect', {
       x: trackX, y: y + 6, width: trackW * (item.share / 100), height: 26, rx: 3,
-      fill: color, 'fill-opacity': 0.9
+      fill: color, 'fill-opacity': isLight() ? 1 : 0.9
     }));
     chart.append(el('text', { x: W, y: y + 25, 'text-anchor': 'end', class: 'row-value' }, `${item.share}%`));
     chart.append(el('text', { x: trackX, y: y + 50, class: 'row-sub' }, item.basis));
   });
 
   fill(host, chart);
-  legendInto($('chokepoint-legend'), [...new Set(items.map(i => i.layer))].map(id => [layerName[id], layerColor[id]]));
+  legendInto($('chokepoint-legend'), [...new Set(items.map(i => i.layer))].map(id => [layerName[id], inkable(layerColor[id])]));
 }
 
 /* =========================================================
@@ -719,8 +740,8 @@ function renderGeography(data) {
     let y = TOP;
     for (const seg of col.segments) {
       const h = (seg.pct / 100) * colH;
-      const color = data.colors[seg.name] || '#8b7ff0';
-      chart.append(el('rect', { x, y: y + 1, width: colW, height: Math.max(0, h - 2), rx: 2, fill: color, 'fill-opacity': 0.86 }));
+      const color = inkable(data.colors[seg.name] || '#8b7ff0');
+      chart.append(el('rect', { x, y: y + 1, width: colW, height: Math.max(0, h - 2), rx: 2, fill: color, 'fill-opacity': isLight() ? 1 : 0.86 }));
 
       const text = `${seg.name} ${seg.pct}%`;
       if (h > 30) {
@@ -735,7 +756,7 @@ function renderGeography(data) {
   });
 
   fill(host, chart);
-  legendInto($('geography-legend'), Object.entries(data.colors));
+  legendInto($('geography-legend'), Object.entries(data.colors).map(([k, v]) => [k, inkable(v)]));
   $('geography-note').textContent = data.sources[2];
 }
 
@@ -760,7 +781,7 @@ function renderPrices(data) {
 
   items.forEach((item, i) => {
     const y = PAD + i * ROW;
-    const color = data.categories[item.category] || '#8b7ff0';
+    const color = inkable(data.categories[item.category] || '#8b7ff0');
 
     chart.append(el('rect', { x: 0, y: y + 10, width: 10, height: 10, rx: 2, fill: color }));
     chart.append(el('text', { x: 22, y: y + 20, class: 'row-label', style: 'fill:var(--ink);font-weight:600' }, item.name));
@@ -771,13 +792,13 @@ function renderPrices(data) {
     chart.append(el('rect', {
       // A floor of 6px keeps the cheapest bar visible rather than zero-width.
       x: trackX, y: y + 10, width: Math.max(6, trackW * pos(item.price)), height: 24, rx: 3,
-      fill: color, 'fill-opacity': 0.9
+      fill: color, 'fill-opacity': isLight() ? 1 : 0.9
     }));
     chart.append(el('text', { x: W, y: y + 28, 'text-anchor': 'end', class: 'row-value' }, priceLabel(item.price)));
   });
 
   fill(host, chart);
-  legendInto($('price-legend'), Object.entries(data.categories));
+  legendInto($('price-legend'), Object.entries(data.categories).map(([k, v]) => [k, inkable(v)]));
 
   const ratio = Math.round(items[items.length - 1].price / items[0].price);
   $('price-stat').innerHTML =
@@ -817,11 +838,11 @@ function renderExclusivity(data, layerColor) {
   chart.append(el('text', { x: 0, y: y + 44, class: 'row-sub' }, '20 years from filing'));
   chart.append(el('rect', {
     x: at(0), y: y + 6, width: at(approval) - at(0), height: 30, rx: 3,
-    fill: layerColor.pharma, 'fill-opacity': 0.28
+    fill: inkable(layerColor.pharma), 'fill-opacity': 0.28
   }));
   chart.append(el('rect', {
     x: at(approval), y: y + 6, width: at(patent.termYears) - at(approval), height: 30, rx: 3,
-    fill: layerColor.pharma
+    fill: inkable(layerColor.pharma)
   }));
   chart.append(el('text', {
     x: (at(0) + at(approval)) / 2, y: y + 26, 'text-anchor': 'middle', class: 'bar-note'
@@ -837,7 +858,7 @@ function renderExclusivity(data, layerColor) {
 
   y += ROW + 12;
   for (const ex of exclusivities) {
-    const color = layerColor[ex.colorLayer] || '#8b7ff0';
+    const color = inkable(layerColor[ex.colorLayer] || '#8b7ff0');
     chart.append(el('text', { x: 0, y: y + 22, class: 'row-label', style: 'fill:var(--ink);font-weight:600' }, ex.name));
     chart.append(el('rect', {
       x: at(approval), y: y + 4, width: Math.max(3, at(approval + ex.years) - at(approval)), height: 26, rx: 3,
@@ -880,7 +901,7 @@ function renderPricing(data, layerColor) {
     chart.append(el('text', { x: LABEL - 20, y: y + 42, 'text-anchor': 'end', class: 'row-sub' }, item.treats));
     chart.append(el('rect', { class: 'row-track', x: trackX, y: y + 6, width: trackW, height: 28, rx: 3 }));
     chart.append(el('rect', {
-      x: trackX, y: y + 6, width: Math.max(3, trackW * kept), height: 28, rx: 3, fill: layerColor.pharma
+      x: trackX, y: y + 6, width: Math.max(3, trackW * kept), height: 28, rx: 3, fill: inkable(layerColor.pharma)
     }));
     chart.append(el('text', { x: W, y: y + 27, 'text-anchor': 'end', class: 'row-value' }, `\u2212${item.cut}%`));
     chart.append(el('text', { x: trackX, y: y + 52, class: 'row-sub' },
@@ -910,6 +931,30 @@ function renderPricing(data, layerColor) {
 
   $('profit-cap').textContent = data.profitCap;
 }
+
+/* =========================================================
+   theme
+
+   The page is dark on its own. Framed in the dashboard, it follows that
+   dashboard's day/night toggle: the initial choice arrives in the URL and is
+   applied before first paint, and later changes arrive as a message so the
+   frame restyles in place — reloading a long page to restyle it would cost the
+   reader their position in it.
+   ========================================================= */
+
+function currentTheme() {
+  return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+}
+
+window.addEventListener('message', event => {
+  // The message can only pick one of two palettes, so its shape is the whole
+  // check — anything else is ignored rather than acted on.
+  const wanted = event.data && event.data.type === 'theme' ? event.data.theme : null;
+  if (wanted !== 'light' && wanted !== 'dark') return;
+  if (wanted === currentTheme()) return;
+  document.documentElement.dataset.theme = wanted;
+  redraw();
+});
 
 /* =========================================================
    nav underline follows the section under the reader
@@ -951,6 +996,27 @@ async function load(name) {
   return res.json();
 }
 
+// Kept so a theme change can redraw without refetching: the fills are chosen
+// per theme, so every chart has to be laid out again, but none of the data has.
+let loaded = null;
+
+function redraw() {
+  if (!loaded) return;
+  const { layers, companies, caps, layerColor, layerName,
+          gauntlet, trials, chokepoints, geography, prices, exclusivity, pricing } = loaded;
+  renderGauntlet(gauntlet, layerColor);
+  renderTrials(trials);
+  renderChokepoints(chokepoints, layerColor, layerName);
+  renderGeography(geography);
+  renderPrices(prices);
+  renderExclusivity(exclusivity, layerColor);
+  renderPricing(pricing, layerColor);
+  if (caps) {
+    renderChain(layers, companies, caps);
+    renderValue(layers, companies, caps);
+  }
+}
+
 (async function main() {
   try {
     const [layersFile, companiesFile, gauntlet, trials, chokepoints, geography, prices, exclusivity, pricing] = await Promise.all(
@@ -962,17 +1028,15 @@ async function load(name) {
     const layerColor = Object.fromEntries(layers.map(l => [l.id, l.color]));
     const layerName = Object.fromEntries(layers.map(l => [l.id, l.name]));
 
-    // Five of the seven sections need no market data, so they are drawn before
-    // the network is consulted at all.
-    renderGauntlet(gauntlet, layerColor);
-    renderTrials(trials);
-    renderChokepoints(chokepoints, layerColor, layerName);
-    renderGeography(geography);
-    renderPrices(prices);
-    renderExclusivity(exclusivity, layerColor);
-    renderPricing(pricing, layerColor);
+    loaded = { layers, companies, caps: null, layerColor, layerName,
+               gauntlet, trials, chokepoints, geography, prices, exclusivity, pricing };
 
-    const caps = await load('marketcaps');
+    // Seven of the nine sections need no market data, so they are drawn before
+    // the file is read at all.
+    redraw();
+
+    loaded.caps = await load('marketcaps');
+    const caps = loaded.caps;
     renderChain(layers, companies, caps);
     renderValue(layers, companies, caps);
 
