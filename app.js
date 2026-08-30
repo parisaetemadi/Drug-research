@@ -934,34 +934,21 @@ function scrollspy() {
    boot
    ========================================================= */
 
-// Market data comes from the Stock-update repository, which is where all the
-// price fetching for this dashboard lives — one public repo with free Actions
-// minutes, one Yahoo integration to maintain. The committed placeholder is the
-// fallback, so the chart still draws (and still says it is provisional) if that
-// feed is unreachable or has not run yet.
-const MARKET_FEED =
-  'https://raw.githubusercontent.com/parisaetemadi/Stock-update/main/data/drugchain.json';
-
+// This page has no live market data, and says so on the chart itself.
+//
+// Market value and the income statement come from Yahoo's quote and
+// quoteSummary endpoints, which answer 429 for GitHub's runners, so no
+// scheduled job can produce them. The dashboard gets them from Cloudflare Pages
+// functions, which Yahoo will serve — but those sit on a private origin behind
+// an access policy and send no CORS headers, so this page cannot read them.
+//
+// So marketcaps.json is the only source here. It holds rounded approximations,
+// and renderValue puts a warning across the chart because a treemap of
+// provisional numbers looks exactly like a real one.
 async function load(name) {
   const res = await fetch(`data/${name}.json`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`${name}: http ${res.status}`);
   return res.json();
-}
-
-async function loadMarket() {
-  try {
-    // Bounded: a feed that hangs must not hold up the two sections that need
-    // it, and the committed fallback is right there.
-    const stop = new AbortController();
-    const timer = setTimeout(() => stop.abort(), 6000);
-    try {
-      const res = await fetch(MARKET_FEED, { cache: 'no-cache', signal: stop.signal });
-      if (res.ok) return await res.json();
-    } finally {
-      clearTimeout(timer);
-    }
-  } catch (err) { /* fall through to the committed placeholder */ }
-  return load('marketcaps');
 }
 
 (async function main() {
@@ -985,7 +972,7 @@ async function loadMarket() {
     renderExclusivity(exclusivity, layerColor);
     renderPricing(pricing, layerColor);
 
-    const caps = await loadMarket();
+    const caps = await load('marketcaps');
     renderChain(layers, companies, caps);
     renderValue(layers, companies, caps);
 
@@ -993,8 +980,9 @@ async function loadMarket() {
     list.replaceChildren(...[
       ...gauntlet.sources, ...trials.sources, ...chokepoints.sources, ...geography.sources, ...prices.sources,
       ...exclusivity.sources, ...pricing.sources,
-      'Market value, trailing revenue, profit and margins: Yahoo Finance, refreshed daily by the '
-      + 'Stock-update repository, which does the price fetching for this and the rest of the dashboard.'
+      'Market values on this page are rounded approximations, not quotes. Yahoo refuses the '
+      + 'endpoints carrying market capitalisation to automated callers, so there is no scheduled '
+      + 'job behind these figures — read the shape, not the numbers.'
     ].map(text => {
       const li = document.createElement('li');
       li.textContent = text;
