@@ -1,7 +1,13 @@
 /* The Medicine Market — a dark, single-column-of-argument data essay.
    Every section is the same shape: prose on the left, one chart on the right. */
 
+/* Dark is this page's own idiom, and what it uses when opened directly.
+   It is also framed inside a dashboard that has a day/night toggle, so a
+   ?theme= parameter or a message from the parent can flip it to light. The
+   light palette borrows that dashboard's warm tokens, so a framed page reads
+   as part of the page around it rather than a white rectangle dropped into it. */
 :root {
+  --accent-warn: #e2b862;
   --bg: #0a0a0b;
   --ink: #ffffff;
   --body: #b4b4b8;
@@ -14,6 +20,26 @@
 
   color-scheme: dark;
 }
+
+:root[data-theme="light"] {
+  --accent-warn: #8a5a12;
+  --bg: #efe6d3;
+  --ink: #24211c;
+  --body: #4a453b;
+  --muted: #726b5c;
+  --line: #dccdac;
+  --line-soft: #e5d9bc;
+  --chip: #e5d9bc;
+
+  color-scheme: light;
+}
+
+/* Treemap and bar fills carry white text, which needs a darker hue on a cream
+   ground than on a near-black one. Handled per-fill in app.js; this only fixes
+   the two places the stylesheet hard-codes white. */
+:root[data-theme="light"] .tm-name { fill: #fff; }
+:root[data-theme="light"] .tm-value { fill: rgba(255, 255, 255, 0.9); }
+:root[data-theme="light"] .tm-what { fill: rgba(255, 255, 255, 0.7); }
 
 * { box-sizing: border-box; }
 
@@ -41,7 +67,7 @@ body {
   gap: 28px;
   padding: 0 40px;
   height: 52px;
-  background: rgba(10, 10, 11, 0.86);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line-soft);
 }
@@ -364,8 +390,8 @@ body {
   z-index: 100;
   width: 290px;
   padding: 14px 16px 15px;
-  background: #131316;
-  border: 1px solid #2c2c31;
+  background: var(--chip);
+  border: 1px solid var(--line);
   border-radius: 9px;
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.62);
   pointer-events: none;
@@ -438,10 +464,10 @@ body {
 .placeholder-warning {
   margin: 0 0 14px;
   padding: 11px 14px;
-  border: 1px solid #6b4a12;
+  border: 1px solid var(--accent-warn, #6b4a12);
   border-radius: 7px;
-  background: #241a08;
-  color: #e2b862;
+  background: var(--chip);
+  color: var(--accent-warn, #e2b862);
   font-size: 13px;
   line-height: 1.5;
 }

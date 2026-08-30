@@ -10,6 +10,19 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script>
+  // Applied before first paint so a framed page never flashes the wrong ground.
+  // Dark is the default and what this page uses on its own; the dashboard that
+  // frames it passes its current choice in the URL, then messages any change.
+  (function () {
+    try {
+      var wanted = new URLSearchParams(location.search).get('theme');
+      document.documentElement.dataset.theme = wanted === 'light' ? 'light' : 'dark';
+    } catch (e) {
+      document.documentElement.dataset.theme = 'dark';
+    }
+  })();
+</script>
 </head>
 <body>
 
