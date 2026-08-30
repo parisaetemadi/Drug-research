@@ -785,6 +785,132 @@ function renderPrices(data) {
     + `a <strong>${ratio.toLocaleString('en-US')}×</strong> range.`;
 }
 
+
+/* =========================================================
+   08 · how long the monopoly lasts
+
+   Two clocks on one axis. The patent's starts at filing; regulatory
+   exclusivity starts at approval, which is why the biologic bar ends past
+   the patent's own expiry -- drawing them on separate axes would hide the
+   one thing worth seeing.
+   ========================================================= */
+
+function renderExclusivity(data, layerColor) {
+  const host = $('exclusivity-vis');
+  const W = 1000, PAD = 20, LABEL = 250, ROW = 62;
+  const { patent, exclusivities } = data;
+  const approval = patent.typicalFilingToApproval;
+  const span = Math.max(patent.termYears, approval + Math.max(...exclusivities.map(e => e.years))) + 1;
+  const plotX = LABEL, plotW = W - LABEL - 110;
+  const at = years => plotX + (years / span) * plotW;
+
+  const H = PAD * 2 + 46 + (1 + exclusivities.length) * ROW + 34;
+  const chart = svg(W, H);
+
+  for (let yr = 0; yr <= span; yr += 5) {
+    chart.append(el('line', { x1: at(yr), x2: at(yr), y1: 40, y2: H - 34, stroke: '#232326' }));
+    chart.append(el('text', { x: at(yr), y: 30, 'text-anchor': 'middle', class: 'axis-tick' }, `year ${yr}`));
+  }
+
+  let y = PAD + 46;
+  chart.append(el('text', { x: 0, y: y + 24, class: 'row-label', style: 'fill:var(--ink);font-weight:600' }, 'The patent'));
+  chart.append(el('text', { x: 0, y: y + 44, class: 'row-sub' }, '20 years from filing'));
+  chart.append(el('rect', {
+    x: at(0), y: y + 6, width: at(approval) - at(0), height: 30, rx: 3,
+    fill: layerColor.pharma, 'fill-opacity': 0.28
+  }));
+  chart.append(el('rect', {
+    x: at(approval), y: y + 6, width: at(patent.termYears) - at(approval), height: 30, rx: 3,
+    fill: layerColor.pharma
+  }));
+  chart.append(el('text', {
+    x: (at(0) + at(approval)) / 2, y: y + 26, 'text-anchor': 'middle', class: 'bar-note'
+  }, 'spent getting approved'));
+  chart.append(el('text', { x: W, y: y + 28, 'text-anchor': 'end', class: 'row-value' },
+    `${patent.termYears - approval} yrs left`));
+
+  chart.append(el('line', {
+    x1: at(approval), x2: at(approval), y1: y, y2: H - 34,
+    stroke: '#ffffff', 'stroke-width': 1.5, 'stroke-dasharray': '3 3', 'stroke-opacity': 0.7
+  }));
+  chart.append(el('text', { x: at(approval), y: H - 16, 'text-anchor': 'middle', class: 'axis-tick' }, 'APPROVAL'));
+
+  y += ROW + 12;
+  for (const ex of exclusivities) {
+    const color = layerColor[ex.colorLayer] || '#8b7ff0';
+    chart.append(el('text', { x: 0, y: y + 22, class: 'row-label', style: 'fill:var(--ink);font-weight:600' }, ex.name));
+    chart.append(el('rect', {
+      x: at(approval), y: y + 4, width: Math.max(3, at(approval + ex.years) - at(approval)), height: 26, rx: 3,
+      fill: color
+    }));
+    chart.append(el('text', { x: W, y: y + 24, 'text-anchor': 'end', class: 'row-value' },
+      ex.years < 1 ? `+${ex.years * 12} mo` : `${ex.years} yrs`));
+    chart.append(el('text', { x: 0, y: y + 42, class: 'row-sub' }, ex.what));
+    y += ROW;
+  }
+
+  fill(host, chart);
+
+  $('exclusivity-stat').innerHTML =
+    `A patent runs <strong>${patent.termYears} years</strong> from filing, but roughly `
+    + `<strong>${approval}</strong> go on getting approved — leaving `
+    + `<strong>${patent.effectivePostApproval} years</strong> of selling once restoration and the 14-year cap apply.`;
+
+  const t = data.thicket;
+  $('thicket-note').innerHTML = `<strong>${t.drug}:</strong> ${t.note}`;
+}
+
+/* =========================================================
+   09 · what stops them charging anything
+   ========================================================= */
+
+function renderPricing(data, layerColor) {
+  const host = $('pricing-vis');
+  const W = 1000, PAD = 16, LABEL = 260, ROW = 74;
+  const items = data.negotiated;
+  const chart = svg(W, PAD * 2 + items.length * ROW);
+  const trackX = LABEL, trackW = W - LABEL - 120;
+
+  items.forEach((item, i) => {
+    const y = PAD + i * ROW;
+    // Scaled to each drug's own list price: the prices span thirtyfold and the
+    // comparison is within a drug, not across them.
+    const kept = item.price / item.list;
+    chart.append(el('text', { x: LABEL - 20, y: y + 22, 'text-anchor': 'end', class: 'row-label', style: 'fill:var(--ink);font-weight:600' }, item.name));
+    chart.append(el('text', { x: LABEL - 20, y: y + 42, 'text-anchor': 'end', class: 'row-sub' }, item.treats));
+    chart.append(el('rect', { class: 'row-track', x: trackX, y: y + 6, width: trackW, height: 28, rx: 3 }));
+    chart.append(el('rect', {
+      x: trackX, y: y + 6, width: Math.max(3, trackW * kept), height: 28, rx: 3, fill: layerColor.pharma
+    }));
+    chart.append(el('text', { x: W, y: y + 27, 'text-anchor': 'end', class: 'row-value' }, `\u2212${item.cut}%`));
+    chart.append(el('text', { x: trackX, y: y + 52, class: 'row-sub' },
+      `$${item.list.toLocaleString('en-US')} list  \u2192  $${item.price.toLocaleString('en-US')} negotiated, per month`));
+  });
+
+  fill(host, chart);
+
+  const h = data.headline;
+  $('pricing-stat').innerHTML =
+    `<strong>${h.drugs} drugs</strong>, cut between <strong>38%</strong> and <strong>79%</strong> from ${h.effective} · `
+    + `about <strong>${money(h.firstYearSaving)}</strong> saved in the first year, across `
+    + `<strong>${(h.beneficiaries / 1e6).toFixed(1)} million</strong> people.`;
+
+  $('rules-list').replaceChildren(...data.rules.map(rule => {
+    const row = document.createElement('div');
+    row.className = 'rule';
+    row.innerHTML = `
+      <div class="rule-where">${rule.where}</div>
+      <div>
+        ${rule.before ? `<p class="rule-before"><b>Before:</b> ${rule.before}</p>` : ''}
+        <p class="rule-now">${rule.now}</p>
+        <p class="rule-catch">${rule.catch}</p>
+      </div>`;
+    return row;
+  }));
+
+  $('profit-cap').textContent = data.profitCap;
+}
+
 /* =========================================================
    nav underline follows the section under the reader
    ========================================================= */
@@ -840,8 +966,8 @@ async function loadMarket() {
 
 (async function main() {
   try {
-    const [layersFile, companiesFile, gauntlet, trials, chokepoints, geography, prices] = await Promise.all(
-      ['layers', 'companies', 'gauntlet', 'trials', 'chokepoints', 'geography', 'prices'].map(load)
+    const [layersFile, companiesFile, gauntlet, trials, chokepoints, geography, prices, exclusivity, pricing] = await Promise.all(
+      ['layers', 'companies', 'gauntlet', 'trials', 'chokepoints', 'geography', 'prices', 'exclusivity', 'pricing'].map(load)
     );
 
     const layers = layersFile.layers;
@@ -856,6 +982,8 @@ async function loadMarket() {
     renderChokepoints(chokepoints, layerColor, layerName);
     renderGeography(geography);
     renderPrices(prices);
+    renderExclusivity(exclusivity, layerColor);
+    renderPricing(pricing, layerColor);
 
     const caps = await loadMarket();
     renderChain(layers, companies, caps);
@@ -864,6 +992,7 @@ async function loadMarket() {
     const list = $('sources');
     list.replaceChildren(...[
       ...gauntlet.sources, ...trials.sources, ...chokepoints.sources, ...geography.sources, ...prices.sources,
+      ...exclusivity.sources, ...pricing.sources,
       'Market value, trailing revenue, profit and margins: Yahoo Finance, refreshed daily by the '
       + 'Stock-update repository, which does the price fetching for this and the rest of the dashboard.'
     ].map(text => {

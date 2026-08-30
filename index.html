@@ -22,6 +22,8 @@
   <a href="#chokepoints">Chokepoints</a>
   <a href="#geography">Geography</a>
   <a href="#prices">Prices</a>
+  <a href="#exclusivity">Monopoly</a>
+  <a href="#pricing">Price caps</a>
   <span class="nav-spacer"></span>
   <a class="nav-repo" href="https://github.com/parisaetemadi/Drug-research" target="_blank" rel="noopener">Source</a>
 </nav>
@@ -196,6 +198,51 @@
       </p>
     </div>
     <div class="chart" id="price-vis"><p class="loading">Loading…</p></div>
+  </section>
+
+
+  <!-- ============ 08 · HOW LONG THE MONOPOLY LASTS ============ -->
+  <section class="section" id="exclusivity">
+    <div class="section-copy">
+      <div class="section-num">08</div>
+      <h2>How long the monopoly lasts</h2>
+      <p class="lede">
+        Two clocks run at once. The patent starts when the molecule is filed, years before
+        anyone knows whether it works, and most of its twenty years is spent getting
+        approved. Regulatory exclusivity starts at approval instead, does not depend on
+        holding a patent at all, and for a biologic runs twelve years &mdash; outlasting
+        the patent that started the whole thing.
+      </p>
+      <p class="stat" id="exclusivity-stat"></p>
+      <p class="footnote" id="thicket-note"></p>
+      <p class="footnote">
+        Restoration returns up to five years lost to review, but total protection after
+        approval is capped at fourteen, which is why the sellable period lands where it does.
+      </p>
+    </div>
+    <div class="chart" id="exclusivity-vis"><p class="loading">Loading…</p></div>
+  </section>
+
+  <!-- ============ 09 · WHAT STOPS THEM CHARGING ANYTHING ============ -->
+  <section class="section" id="pricing">
+    <div class="section-copy">
+      <div class="section-num">09</div>
+      <h2>What stops them charging anything</h2>
+      <p class="lede">
+        For most of this industry's history, in the United States, nothing did. A
+        manufacturer set the launch price and raised it when it liked. That changed on
+        1 January 2026, when Medicare's first negotiated prices took effect. The figures
+        here are what happened, not a forecast.
+      </p>
+      <p class="stat" id="pricing-stat"></p>
+      <div class="rules" id="rules-list"></div>
+      <p class="punch" id="profit-cap"></p>
+      <p class="footnote">
+        Each bar is scaled to that drug's own list price, because the prices span thirtyfold
+        and the comparison is within a drug rather than across them. Per 30-day equivalent supply.
+      </p>
+    </div>
+    <div class="chart" id="pricing-vis"><p class="loading">Loading…</p></div>
   </section>
 
 </main>

@@ -453,3 +453,52 @@ body {
 .trial-asks { font-size: 19px; fill: var(--ink); }
 .trial-who { font-size: 16px; fill: var(--muted); }
 .trial-facts { font-size: 16px; fill: var(--body); font-variant-numeric: tabular-nums; }
+
+/* ---------- 08 · exclusivity timeline ---------- */
+
+.axis-tick {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  fill: var(--muted);
+}
+
+/* Sits inside the dimmed half of the patent bar, not on a solid fill. */
+.bar-note { font-size: 15px; fill: var(--body); }
+
+/* ---------- 09 · the rules ---------- */
+
+.rules {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 26px 0 0;
+  max-width: 48ch;
+}
+
+.rule {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 16px;
+  padding: 14px 16px;
+  background: var(--line-soft);
+  border-radius: 6px;
+}
+
+.rule-where { font-size: 15px; font-weight: 650; letter-spacing: -0.01em; }
+.rule p { margin: 0; }
+.rule-before { font-size: 12.5px; color: var(--muted); margin-bottom: 6px !important; }
+.rule-before b { color: var(--body); font-weight: 500; }
+.rule-now { font-size: 14px; line-height: 1.55; color: var(--body); }
+.rule-catch { margin-top: 6px !important; font-size: 12.5px; color: var(--muted); font-style: italic; }
+
+/* The finding the section is built to deliver. */
+.punch {
+  margin: 24px 0 0;
+  padding: 16px 18px;
+  max-width: 48ch;
+  border-left: 3px solid #f2554d;
+  background: var(--chip);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+}

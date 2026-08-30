@@ -1,0 +1,50 @@
+{
+  "note": "How long a company can be the only seller of a drug, and where that time goes. Two clocks run at once: the patent, which starts when the molecule is filed, and regulatory exclusivity, which starts at approval and does not depend on holding a patent at all.",
+  "patent": {
+    "termYears": 20,
+    "typicalFilingToApproval": 11,
+    "approvalRange": "10 to 13 years",
+    "restorationMaxYears": 5,
+    "postApprovalCapYears": 14,
+    "effectivePostApproval": "10 to 14 years"
+  },
+  "exclusivities": [
+    {
+      "name": "New chemical entity",
+      "years": 5,
+      "colorLayer": "pharma",
+      "what": "A brand-new small molecule. No generic application may even be filed for five years"
+    },
+    {
+      "name": "Orphan drug",
+      "years": 7,
+      "colorLayer": "biotech",
+      "what": "A disease affecting fewer than 200,000 Americans. Seven years, and it stacks on the rest"
+    },
+    {
+      "name": "New biologic",
+      "years": 12,
+      "colorLayer": "cdmo",
+      "what": "Antibodies and other biologics. Twelve years before a biosimilar can be approved"
+    },
+    {
+      "name": "Paediatric study",
+      "years": 0.5,
+      "colorLayer": "cro",
+      "what": "Six months added to whatever is already running, for testing the drug in children"
+    }
+  ],
+  "thicket": {
+    "drug": "Humira",
+    "patentsFiled": 247,
+    "patentsGranted": 132,
+    "usEntry": 2023,
+    "euEntry": 2018,
+    "note": "The patent is not the only wall. AbbVie filed 247 patent applications on Humira and was granted 132; an analysis of the US portfolio found about 80% of them were not patentably distinct from one another. Biosimilars reached European patients in 2018 and American patients in 2023."
+  },
+  "sources": [
+    "Patent term, restoration and the 14-year post-approval cap: the Hatch-Waxman Act. Restoration returns up to 5 years lost to FDA review, but total protection after approval cannot exceed 14 years, which is why effective exclusivity lands at 10 to 14 years.",
+    "Exclusivity periods: FDA — 5 years for a new chemical entity, 7 for an orphan drug, 12 for a new biologic under the BPCIA, plus 6 months for paediatric studies. These run from approval and are independent of any patent.",
+    "Humira: I-MAK analysis of the patent portfolio (247 applications, 132 granted); Journal of Law and the Biosciences, 'Biological patent thickets and delayed access to biosimilars' (2022), which found about 80% of the US patents were not patentably distinct. European biosimilar entry October 2018, US January 2023."
+  ]
+}
