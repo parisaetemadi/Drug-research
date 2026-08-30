@@ -1,0 +1,50 @@
+{
+  "note": "For most of the industry's history the United States set no limit on what a drug could cost. The Inflation Reduction Act changed that for Medicare, and the first negotiated prices took effect on 1 January 2026 — the figures below are what actually happened, not a forecast.",
+  "headline": {
+    "drugs": 10,
+    "effective": "1 January 2026",
+    "priorMedicareSpend": 50500000000,
+    "firstYearSaving": 6000000000,
+    "outOfPocketSaving": 1500000000,
+    "beneficiaries": 8800000
+  },
+  "negotiated": [
+    { "name": "Januvia",        "treats": "type 2 diabetes",                    "list": 527,   "price": 113,  "cut": 79 },
+    { "name": "NovoLog / Fiasp","treats": "diabetes, insulin",                  "list": 495,   "price": 119,  "cut": 76 },
+    { "name": "Farxiga",        "treats": "diabetes, heart, kidney", "list": 556,   "price": 178,  "cut": 68 },
+    { "name": "Enbrel",         "treats": "rheumatoid arthritis",               "list": 7106,  "price": 2355, "cut": 67 },
+    { "name": "Jardiance",      "treats": "type 2 diabetes",                    "list": 573,   "price": 197,  "cut": 66 },
+    { "name": "Stelara",        "treats": "psoriasis, Crohn's disease",         "list": 13836, "price": 4695, "cut": 66 },
+    { "name": "Xarelto",        "treats": "blood clots",                        "list": 517,   "price": 197,  "cut": 62 },
+    { "name": "Eliquis",        "treats": "blood clots",                        "list": 521,   "price": 231,  "cut": 56 },
+    { "name": "Entresto",       "treats": "heart failure",                      "list": 628,   "price": 295,  "cut": 53 },
+    { "name": "Imbruvica",      "treats": "blood cancers",                      "list": 14934, "price": 9319, "cut": 38 }
+  ],
+  "rules": [
+    {
+      "where": "United States",
+      "before": "No cap. A manufacturer set the launch price and raised it at will",
+      "now": "Medicare negotiates a Maximum Fair Price for a growing list of drugs, rebates back price rises above inflation, and caps Part D out-of-pocket costs at $2,000 a year",
+      "catch": "Only Medicare, only selected drugs, and only after 9 years on the market for a small molecule or 13 for a biologic"
+    },
+    {
+      "where": "Germany",
+      "before": null,
+      "now": "A company sets its own price for the first year. A benefit assessment then decides how much better the drug is than what exists, and the price is negotiated from there",
+      "catch": "Fast access, with the reckoning deferred rather than avoided"
+    },
+    {
+      "where": "England",
+      "before": null,
+      "now": "NICE compares the health gained against the cost and declines to buy above a threshold per quality-adjusted life year",
+      "catch": "A drug that fails the threshold may simply not be sold"
+    }
+  ],
+  "profitCap": "There is no cap on profit anywhere in this list. Every mechanism above works on price or on volume, not on margin — no government tells a drug company what it may earn.",
+  "sources": [
+    "Negotiated prices and discounts: CMS and HHS/ASPE, Medicare Drug Price Negotiation Program. Prices are per 30-day equivalent supply and took effect 1 January 2026.",
+    "Savings and reach: CMS projections of about $6B net in the first year and $1.5B in out-of-pocket savings across 8.8 million beneficiaries; the ten drugs previously accounted for roughly $50.5B of annual Medicare spending.",
+    "Eligibility timing: a small molecule becomes eligible for selection 7 years after approval with a negotiated price from year 9; a biologic 11 and 13 years respectively.",
+    "Germany: the 2011 Pharmaceutical Market Restructuring Act (AMNOG) — free pricing in year one, then benefit assessment and negotiation. England: NICE cost-effectiveness thresholds per QALY."
+  ]
+}
