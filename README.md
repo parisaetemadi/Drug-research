@@ -28,27 +28,27 @@ Everything in `data/` is either a curated figure with a named source, or fetched
   `pricing.json`. Each file carries a `sources` array, and those strings are what
   the page prints in its own footer. Editing a number means editing its source
   alongside it.
-- **Fetched** — market value, trailing revenue, net income and margins, served
-  from [`Stock-update`](https://github.com/parisaetemadi/Stock-update) at
-  `data/drugchain.json`. That repository does all the price fetching for this
-  dashboard, so there is one Yahoo integration rather than two, and its commits
-  never rebuild anything here.
+- **Approximate** — `marketcaps.json`. Market values here are rounded
+  order-of-magnitude figures, not quotes, and the market-value section says so
+  on the chart itself in a box you cannot miss. A treemap of provisional numbers
+  looks exactly like a real one, so that caveat does not live in a footnote.
 
-`companies.json` stays the source of truth for *who* is in the chain:
-Stock-update's `update-drugchain.mjs` reads this file over the network at run
-time and prices whatever it finds. Add a company here and it is priced on the
-next daily run, with no change needed there.
+### Why there is no live market feed
 
-That job refuses to write if fewer than 60% of the companies priced, so a bad
-run leaves the previous numbers alone rather than half-emptying the chart.
-Companies it could not price are listed in `missing`, left off the treemap, and
-counted on the page.
+Market capitalisation and the income statement come from Yahoo's `v7/quote` and
+`v10/quoteSummary` endpoints. Yahoo answers both with **429 for GitHub's
+runners** — every call, across five attempts with backoff and a freshly minted
+session — so no scheduled job can produce them. The `v8/finance/chart` endpoint
+is unaffected but returns only a price.
 
-`data/marketcaps.json` is the committed fallback, used when the feed is
-unreachable. It holds rounded approximations, and the market-value section says
-so on the chart itself in a box you cannot miss — a treemap of provisional
-numbers looks exactly like a real one, so the caveat does not live in a
-footnote.
+Cloudflare reaches Yahoo from addresses it will serve, so the private dashboard
+that also renders this research gets live figures from a Pages function. That
+function sits on a private origin behind an access policy and sends no CORS
+headers, so this page cannot read it.
+
+If you want live values here, the options are a keyed API (FMP, Finnhub) or a
+public proxy of your own. Until then the numbers are honest about being
+approximate.
 
 ### The `share` field
 
@@ -68,8 +68,8 @@ python3 -m http.server 8000   # then visit http://localhost:8000
 
 ## Publishing
 
-The repository is a static site with no build step, so any static host serves it
-as-is. Two that need no configuration beyond pointing at this repo:
+The repository is a static site with no build step and no Actions, so any static
+host serves it as-is. Two that need no configuration beyond pointing at this repo:
 
 - **GitHub Pages** — Settings → Pages → Build and deployment → Source: *Deploy from
   a branch*, branch `main`, folder `/ (root)`.
