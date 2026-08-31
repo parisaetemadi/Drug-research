@@ -1,0 +1,428 @@
+{
+  "note": "Headcount, where it sits, and what the work actually is. Employee numbers are the most recently reported figure for each company and are not all from the same date, so each carries its own — a company that reported in March 2026 is not being compared like-for-like with one that reported in December 2025.",
+  "employers": [
+    {
+      "name": "Johnson & Johnson",
+      "layer": "pharma",
+      "employees": 130000,
+      "asOf": "2026",
+      "note": "Whole group, MedTech included"
+    },
+    {
+      "name": "Thermo Fisher",
+      "layer": "tools",
+      "employees": 125000,
+      "asOf": "Dec 2025",
+      "note": "Sells to everyone else on this list"
+    },
+    {
+      "name": "Roche",
+      "layer": "pharma",
+      "employees": 112774,
+      "asOf": "2025",
+      "note": "Pharma and diagnostics"
+    },
+    {
+      "name": "AstraZeneca",
+      "layer": "pharma",
+      "employees": 100000,
+      "asOf": "2026",
+      "note": "Reported as over 100,000"
+    },
+    {
+      "name": "Novartis",
+      "layer": "pharma",
+      "employees": 78000,
+      "asOf": "2026",
+      "note": "After spinning out generics"
+    },
+    {
+      "name": "Merck & Co",
+      "layer": "pharma",
+      "employees": 69000,
+      "asOf": "2026",
+      "note": "Reported as over 69,000"
+    },
+    {
+      "name": "IQVIA",
+      "layer": "cro",
+      "employees": 68409,
+      "asOf": "Mar 2026",
+      "note": "Runs other companies' trials"
+    },
+    {
+      "name": "WuXi AppTec",
+      "layer": "cdmo",
+      "employees": 33834,
+      "asOf": "Dec 2025",
+      "note": "Discovery and manufacturing under contract"
+    },
+    {
+      "name": "Charles River",
+      "layer": "preclinical",
+      "employees": 19700,
+      "asOf": "Dec 2025",
+      "note": "Safety testing before the first human dose"
+    },
+    {
+      "name": "Lonza",
+      "layer": "cdmo",
+      "employees": 17121,
+      "asOf": "Mar 2026",
+      "note": "The largest contract manufacturer"
+    }
+  ],
+  "regions": [
+    {
+      "name": "Europe",
+      "total": 950000,
+      "basis": "EFPIA member countries, direct employment",
+      "countries": [
+        {
+          "name": "Germany",
+          "employees": 132660
+        },
+        {
+          "name": "France",
+          "employees": 98043
+        },
+        {
+          "name": "Italy",
+          "employees": 70000
+        },
+        {
+          "name": "Spain",
+          "employees": 57800
+        },
+        {
+          "name": "Belgium",
+          "employees": 44958
+        },
+        {
+          "name": "Rest of Europe",
+          "employees": 546539
+        }
+      ]
+    },
+    {
+      "name": "United States",
+      "total": 391591,
+      "basis": "pharmaceutical manufacturing, brand-name and generic",
+      "countries": [
+        {
+          "name": "Brand-name manufacturing",
+          "employees": 352022
+        },
+        {
+          "name": "Generic manufacturing",
+          "employees": 39569
+        }
+      ]
+    }
+  ],
+  "outlook": {
+    "from": 350500,
+    "fromYear": 2024,
+    "to": 369500,
+    "toYear": 2034,
+    "note": "US pharmaceutical manufacturing, projected by the Bureau of Labor Statistics — about 5% growth, and close to 19,000 added production jobs, which ranks it among the faster-growing industries it tracks."
+  },
+  "roles": [
+    {
+      "layer": "tools",
+      "stage": "Tools & instruments",
+      "roles": [
+        {
+          "title": "Field application scientist",
+          "what": "Installs the instrument and teaches the lab to use it",
+          "wants": "A science degree and the willingness to travel"
+        },
+        {
+          "title": "R&D engineer",
+          "what": "Builds the optics, fluidics and software inside the machine",
+          "wants": "Engineering or physics"
+        },
+        {
+          "title": "Technical support scientist",
+          "what": "Works out why someone's assay stopped working",
+          "wants": "Bench experience in the technique"
+        }
+      ]
+    },
+    {
+      "layer": "inputs",
+      "stage": "Reagents & bioprocessing",
+      "roles": [
+        {
+          "title": "Process development scientist",
+          "what": "Gets a cell line to make more protein, more consistently",
+          "wants": "Biochemistry or bioprocess engineering"
+        },
+        {
+          "title": "QC analyst",
+          "what": "Tests each batch against specification before it ships",
+          "wants": "A science degree; GMP training on the job"
+        },
+        {
+          "title": "Supply chain planner",
+          "what": "Keeps a factory from running out of a resin with a nine-month lead time",
+          "wants": "Operations, often no science"
+        }
+      ]
+    },
+    {
+      "layer": "discovery",
+      "stage": "Discovery software",
+      "roles": [
+        {
+          "title": "Computational chemist",
+          "what": "Predicts which molecules are worth making before anyone makes them",
+          "wants": "Chemistry plus code",
+          "bls": "Chemists"
+        },
+        {
+          "title": "Machine learning engineer",
+          "what": "Trains models on assay and structure data",
+          "wants": "ML; biology picked up on the job"
+        },
+        {
+          "title": "Scientific software engineer",
+          "what": "Builds the tools the scientists actually use",
+          "wants": "Software engineering"
+        }
+      ]
+    },
+    {
+      "layer": "preclinical",
+      "stage": "Preclinical services",
+      "roles": [
+        {
+          "title": "Toxicologist",
+          "what": "Finds the dose at which the drug does harm, before a person takes it",
+          "wants": "Toxicology or pharmacology"
+        },
+        {
+          "title": "Study director",
+          "what": "Owns one safety study end to end and signs the report",
+          "wants": "Years in the lab, then accountability"
+        },
+        {
+          "title": "Bioanalytical chemist",
+          "what": "Measures how much drug is in a sample, at very low concentrations",
+          "wants": "Analytical chemistry"
+        },
+        {
+          "title": "Veterinary technician",
+          "what": "Cares for the animals and runs the dosing",
+          "wants": "Veterinary technology certification"
+        }
+      ]
+    },
+    {
+      "layer": "cdmo",
+      "stage": "Contract manufacturing",
+      "roles": [
+        {
+          "title": "Process engineer",
+          "what": "Scales a recipe from a flask to a two-thousand-litre bioreactor",
+          "wants": "Chemical or bioprocess engineering",
+          "bls": "Chemical engineers"
+        },
+        {
+          "title": "Validation engineer",
+          "what": "Proves to a regulator that the equipment does what is claimed",
+          "wants": "Engineering and a tolerance for documentation"
+        },
+        {
+          "title": "QA specialist",
+          "what": "Reviews the batch record and decides whether it can be released",
+          "wants": "A science degree and GMP experience"
+        },
+        {
+          "title": "Aseptic operator",
+          "what": "Fills sterile vials without contaminating them",
+          "wants": "Trained in-house; the bar is discipline"
+        }
+      ]
+    },
+    {
+      "layer": "cro",
+      "stage": "Clinical trials",
+      "roles": [
+        {
+          "title": "Clinical research associate",
+          "what": "Visits the hospitals running the trial and checks the data against the source records",
+          "wants": "A life-science degree; the classic way in"
+        },
+        {
+          "title": "Clinical data manager",
+          "what": "Builds the database and chases every discrepancy in it",
+          "wants": "Data skills; the science can follow"
+        },
+        {
+          "title": "Biostatistician",
+          "what": "Writes the analysis plan and decides what the result means",
+          "wants": "A master's in statistics or biostatistics",
+          "bls": "Statisticians"
+        },
+        {
+          "title": "Epidemiologist",
+          "what": "Designs the study and works out who to compare with whom",
+          "wants": "A master's or doctorate in epidemiology",
+          "bls": "Epidemiologists"
+        },
+        {
+          "title": "Medical writer",
+          "what": "Turns the analysis into the protocol, the report and the filing",
+          "wants": "Scientific training and the ability to write"
+        },
+        {
+          "title": "Pharmacovigilance associate",
+          "what": "Records and reports every adverse event, for the life of the drug",
+          "wants": "Life sciences, nursing or pharmacy"
+        },
+        {
+          "title": "Regulatory affairs associate",
+          "what": "Assembles the submission and answers the agency's questions",
+          "wants": "Science plus patience with process"
+        }
+      ]
+    },
+    {
+      "layer": "biotech",
+      "stage": "Biotech",
+      "roles": [
+        {
+          "title": "Medicinal chemist",
+          "what": "Designs and makes the molecules",
+          "wants": "A doctorate in organic chemistry, usually",
+          "bls": "Chemists"
+        },
+        {
+          "title": "In-vivo pharmacologist",
+          "what": "Tests whether the molecule does anything in an animal model",
+          "wants": "Pharmacology or physiology"
+        },
+        {
+          "title": "Translational scientist",
+          "what": "Decides which patients the drug should be tried in first",
+          "wants": "A doctorate, and often a clinical background",
+          "bls": "Medical scientists"
+        }
+      ]
+    },
+    {
+      "layer": "pharma",
+      "stage": "Big pharma",
+      "roles": [
+        {
+          "title": "Medical science liaison",
+          "what": "Explains the evidence to specialists who prescribe",
+          "wants": "PharmD, MD or PhD"
+        },
+        {
+          "title": "HEOR analyst",
+          "what": "Builds the case that the drug is worth what it costs",
+          "wants": "Health economics, epidemiology or public health"
+        },
+        {
+          "title": "Market access manager",
+          "what": "Negotiates with the people who decide whether it is paid for",
+          "wants": "Commercial, with health-policy literacy"
+        },
+        {
+          "title": "Drug safety physician",
+          "what": "Judges whether a reported harm was caused by the drug",
+          "wants": "A medical degree"
+        }
+      ]
+    },
+    {
+      "layer": "distribution",
+      "stage": "Distribution & pharmacy",
+      "roles": [
+        {
+          "title": "Pharmacist",
+          "what": "The last check before the drug reaches a person",
+          "wants": "A pharmacy degree and a licence",
+          "bls": "Pharmacists"
+        },
+        {
+          "title": "Cold chain specialist",
+          "what": "Keeps a biologic within two degrees of where it must stay, across an ocean",
+          "wants": "Logistics, with regulatory training"
+        }
+      ]
+    }
+  ],
+  "pay": {
+    "basis": "US median annual wage, all industries, from the Bureau of Labor Statistics. These are the national median for the occupation everywhere it is practised, not a pharma-only number — pharmaceutical employers generally pay above them, so read them as a floor and a ranking rather than an offer.",
+    "asOf": "May 2025, except biological technicians (May 2024)",
+    "occupations": [
+      {
+        "title": "Medical & health services managers",
+        "median": 140970,
+        "layer": "pharma",
+        "growth": 23,
+        "note": "Runs a site, a programme or a department"
+      },
+      {
+        "title": "Pharmacists",
+        "median": 140910,
+        "layer": "payers",
+        "growth": 5,
+        "note": "Dispenses, and increasingly reviews the therapy"
+      },
+      {
+        "title": "Chemical engineers",
+        "median": 125040,
+        "layer": "cdmo",
+        "growth": 10,
+        "note": "Scales a reaction from flask to reactor"
+      },
+      {
+        "title": "Statisticians",
+        "median": 105650,
+        "layer": "cro",
+        "growth": 11,
+        "note": "Designs the trial and reads out the endpoint"
+      },
+      {
+        "title": "Medical scientists",
+        "median": 103410,
+        "layer": "biotech",
+        "growth": 13,
+        "note": "Runs the research programme itself"
+      },
+      {
+        "title": "Chemists",
+        "median": 91240,
+        "layer": "discovery",
+        "growth": 7,
+        "note": "Makes and characterises the molecule"
+      },
+      {
+        "title": "Epidemiologists",
+        "median": 87220,
+        "layer": "regulatory",
+        "growth": 19,
+        "note": "Tracks who the disease hits and how hard"
+      },
+      {
+        "title": "Biological technicians",
+        "median": 52000,
+        "layer": "tools",
+        "growth": 3,
+        "note": "Runs the bench work the rest of it depends on"
+      }
+    ]
+  },
+  "sources": [
+    "Company headcounts: most recently reported figures as compiled in 2026 industry surveys of the largest pharmaceutical employers, and company reporting. Dates differ by company and are shown per row.",
+    "Europe: EFPIA, 'The Pharmaceutical Industry in Figures' — direct employment across member countries, around 950,000, with the national figures shown from the same dataset.",
+    "United States: brand-name pharmaceutical manufacturing 352,022 and generic 39,569 as of 2026 (IBISWorld industry employment series).",
+    "Outlook: US Bureau of Labor Statistics employment projections, 2024–34, for pharmaceutical and medicine manufacturing.",
+    "Roles are the ones each stage routinely advertises for and what those jobs involve. They are descriptive, not a count of open positions — no vacancy figures are claimed here.",
+    "Pay: US Bureau of Labor Statistics, Occupational Outlook Handbook — median annual wage by occupation, all industries (May 2025; biological technicians May 2024). Not pharma-specific: the industry generally pays above these medians."
+  ]
+}
