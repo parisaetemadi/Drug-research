@@ -268,6 +268,24 @@ body {
   background: var(--chip);
 }
 
+/* The zoom pair are actions rather than modes, so they never latch, and they
+   are square because a + in a pill reads as a word. */
+.toggle-step {
+  width: 36px;
+  padding: 8px 0;
+  font-size: 17px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+/* A rule, not a spring: a growing spacer in a wrapping row pushed the zoom
+   pair onto a line of their own. */
+.toggle-gap {
+  width: 1px;
+  align-self: stretch;
+  margin: 0 3px;
+  background: var(--line);
+}
+
 /* ---------- legend ---------- */
 
 .legend {
@@ -674,7 +692,14 @@ body {
    everything outside the crop has to be clipped rather than drawn over the
    rest of the section. */
 /* Beats `.chart svg`, which is the rule being overridden. */
-.chart svg.map-svg { overflow: hidden; }
+.chart svg.map-svg {
+  overflow: hidden;
+  cursor: grab;
+  /* Drag pans the map, but a vertical swipe still has to scroll the page —
+     nobody wants a map that traps the reader halfway down an essay. */
+  touch-action: pan-y;
+}
+.chart svg.map-svg.dragging { cursor: grabbing; }
 
 /* Land is context, not data: it sits far enough back that the circles read as
    the only thing carrying a number. */
