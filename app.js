@@ -1219,40 +1219,81 @@ function renderMap(world, companies, layers, layerColor, layerName) {
   const clusters = clusterCompanies(placed);
   const hosts = new Set(placed.map(c => c.hq.country));
 
-  const worldWidth = project({ lon: MAP_VIEWS[0].lon[1], lat: 0 }).x
-                   - project({ lon: MAP_VIEWS[0].lon[0], lat: 0 }).x;
+  const boxFor = view => {
+    const a = project({ lon: view.lon[0], lat: view.lat[1] });
+    const b = project({ lon: view.lon[1], lat: view.lat[0] });
+    return [a.x, a.y, b.x - a.x, b.y - a.y];
+  };
+  const worldBox = boxFor(MAP_VIEWS[0]);
+  // How far in the wheel and the buttons are allowed to go: out to the whole
+  // world, in to about a metropolitan area.
+  const MIN_W = 26, MAX_W = worldBox[2];
 
-  const drawMap = view => {
-    const box = [
-      project({ lon: view.lon[0], lat: view.lat[1] }).x,
-      project({ lon: view.lon[0], lat: view.lat[1] }).y,
-      project({ lon: view.lon[1], lat: 0 }).x - project({ lon: view.lon[0], lat: 0 }).x,
-      project({ lon: 0, lat: view.lat[0] }).y - project({ lon: 0, lat: view.lat[1] }).y
-    ];
-    // Circles and gaps are given in drawing units, so without this a zoomed
-    // view would magnify them along with the coastline and cover the map.
-    // Measured against the widest view, so a circle keeps its size on screen.
-    const zoom = box[2] / worldWidth;
+  /* ---- the drawing, built once ---- */
 
-    const chart = svg(W, H, box);
-    chart.setAttribute('class', 'map-svg');
-    chart.append(el('path', { d: world.land, class: 'map-land' }));
-    for (const [name, d] of Object.entries(world.countries)) {
-      if (hosts.has(name)) chart.append(el('path', { d, class: 'map-country' }));
-    }
+  const chart = svg(W, H, worldBox);
+  chart.setAttribute('class', 'map-svg');
+  chart.append(el('path', { d: world.land, class: 'map-land' }));
+  for (const [name, d] of Object.entries(world.countries)) {
+    if (hosts.has(name)) chart.append(el('path', { d, class: 'map-country' }));
+  }
+
+  // Tethers under every circle, then the circles smallest first so a lone
+  // company never covers the hub beside it. Nothing here is rebuilt when the
+  // view changes — only the numbers on it — so the cards keep their listeners
+  // through a zoom.
+  const tethers = clusters.map(() => el('line', { class: 'map-tether' }));
+  tethers.forEach(t => chart.append(t));
+
+  const dots = clusters.map(g => {
+    const color = inkable(layerColor[g.layer] || '#8b7ff0');
+    const dot = el('circle', {
+      class: 'map-dot', fill: color,
+      'fill-opacity': isLight() ? 0.85 : 0.72,
+      tabindex: 0, role: 'button',
+      'aria-label': `${g.hub}, ${g.count} ${g.count === 1 ? 'company' : 'companies'}`
+    });
+    const show = e => {
+      renderHubCard(g, color, layerName);
+      const point = e.touches ? e.touches[0] : e;
+      placeCard(point.clientX ?? 0, point.clientY ?? 0);
+    };
+    dot.addEventListener('pointerenter', show);
+    dot.addEventListener('pointerleave', () => { card.hidden = true; });
+    dot.addEventListener('focus', () => {
+      renderHubCard(g, color, layerName);
+      const r = dot.getBoundingClientRect();
+      placeCard(r.left + r.width / 2, r.top + r.height / 2);
+    });
+    dot.addEventListener('blur', () => { card.hidden = true; });
+    return dot;
+  });
+  [...clusters.keys()].sort((a, b) => clusters[b].count - clusters[a].count)
+    .reverse().forEach(i => chart.append(dots[i]));
+
+  /* ---- laying the circles out for a given view ---- */
+
+  let box = worldBox.slice();
+
+  const layout = () => {
+    chart.setAttribute('viewBox', box.join(' '));
+    // Circles are drawn in map units, so they have to shrink as the view does
+    // or a zoomed map would be nothing but circles. Measured against the whole
+    // world, which keeps them the same size on screen at every zoom.
+    const zoom = box[2] / MAX_W;
 
     // Area, not radius, carries the count — a thirteen-company cluster next to
     // a one-company cluster would otherwise be thirteen times too loud.
-    const laid = clusters.map(g => ({ ...g, r: (3.4 + Math.sqrt(g.count) * 4.3) * zoom }));
+    const laid = clusters.map(g => ({ count: g.count, r: (3.4 + Math.sqrt(g.count) * 4.3) * zoom, x: g.x, y: g.y }));
+    const home = clusters.map(g => ({ x: g.x, y: g.y }));
 
     // Boston, New York and Philadelphia are five pixels apart at world scale,
     // so the largest circle swallowed the two behind it. Overlaps are pushed
     // apart until every circle is visible, which moves a few of them off true
-    // — less and less as the view zooms in, until at country scale there is
+    // — less and less as the view zooms in, until at city scale there is
     // nothing left to move.
-    const anchored = laid.map(g => ({ x: g.x, y: g.y }));
     const MAX_SHIFT = 12 * zoom;
-    for (let pass = 0; pass < 200; pass++) {
+    for (let pass = 0; pass < 120; pass++) {
       let moved = false;
       for (let a = 0; a < laid.length; a++) {
         for (let b = a + 1; b < laid.length; b++) {
@@ -1277,54 +1318,139 @@ function renderMap(world, companies, layers, layerColor, layerName) {
         }
       }
       laid.forEach((g, i) => {
-        const dx = g.x - anchored[i].x, dy = g.y - anchored[i].y;
+        const dx = g.x - home[i].x, dy = g.y - home[i].y;
         const d = Math.hypot(dx, dy);
         if (d > MAX_SHIFT) {
-          g.x = anchored[i].x + (dx / d) * MAX_SHIFT;
-          g.y = anchored[i].y + (dy / d) * MAX_SHIFT;
+          g.x = home[i].x + (dx / d) * MAX_SHIFT;
+          g.y = home[i].y + (dy / d) * MAX_SHIFT;
         }
       });
       if (!moved) break;
     }
 
-    // Smallest first, so a lone company never sits on top of the hub beside it.
-    [...laid].reverse().forEach((g, ri) => {
-      const i = laid.length - 1 - ri;
-      if (Math.hypot(g.x - anchored[i].x, g.y - anchored[i].y) > g.r * 0.5) {
-        chart.append(el('line', {
-          x1: anchored[i].x, y1: anchored[i].y, x2: g.x, y2: g.y, class: 'map-tether'
-        }));
-      }
-      const color = inkable(layerColor[g.layer] || '#8b7ff0');
-      const dot = el('circle', {
-        cx: g.x, cy: g.y, r: g.r, fill: color, class: 'map-dot',
-        'fill-opacity': isLight() ? 0.85 : 0.72,
-        tabindex: 0, role: 'button',
-        'aria-label': `${g.hub}, ${g.count} ${g.count === 1 ? 'company' : 'companies'}`
-      });
-
-      const show = e => {
-        renderHubCard(g, color, layerName);
-        const point = e.touches ? e.touches[0] : e;
-        placeCard(point.clientX ?? 0, point.clientY ?? 0);
-      };
-      dot.addEventListener('pointerenter', show);
-      // A tap fires no pointerenter on some touch browsers, so the press opens
-      // the card too — and the next tap anywhere closes it.
-      dot.addEventListener('pointerdown', show);
-      dot.addEventListener('pointermove', e => { if (!card.hidden) placeCard(e.clientX, e.clientY); });
-      dot.addEventListener('pointerleave', () => { card.hidden = true; });
-      dot.addEventListener('focus', () => {
-        renderHubCard(g, color, layerName);
-        const r = dot.getBoundingClientRect();
-        placeCard(r.left + r.width / 2, r.top + r.height / 2);
-      });
-      dot.addEventListener('blur', () => { card.hidden = true; });
-      chart.append(dot);
+    laid.forEach((g, i) => {
+      dots[i].setAttribute('cx', g.x);
+      dots[i].setAttribute('cy', g.y);
+      dots[i].setAttribute('r', g.r);
+      const off = Math.hypot(g.x - home[i].x, g.y - home[i].y) > g.r * 0.5;
+      tethers[i].setAttribute('x1', home[i].x);
+      tethers[i].setAttribute('y1', home[i].y);
+      tethers[i].setAttribute('x2', g.x);
+      tethers[i].setAttribute('y2', g.y);
+      tethers[i].style.display = off ? '' : 'none';
     });
-
-    return chart;
   };
+
+  /* ---- zooming and panning ---- */
+
+  const clampBox = ([x, y, w, h]) => [
+    Math.min(Math.max(x, 0), Math.max(0, W - w)),
+    Math.min(Math.max(y, 0), Math.max(0, H - h)),
+    w, h
+  ];
+
+  // Zoom holds the aspect ratio of whatever view it starts from, so the panel
+  // keeps its height while the wheel turns. Only picking a region changes it.
+  const zoomBy = (factor, clientX, clientY) => {
+    const rect = chart.getBoundingClientRect();
+    const fx = rect.width ? (clientX - rect.left) / rect.width : 0.5;
+    const fy = rect.height ? (clientY - rect.top) / rect.height : 0.5;
+    const anchorX = box[0] + fx * box[2];
+    const anchorY = box[1] + fy * box[3];
+
+    const w = Math.min(Math.max(box[2] * factor, MIN_W), MAX_W);
+    const k = w / box[2];
+    box = clampBox([anchorX - (anchorX - box[0]) * k, anchorY - (anchorY - box[1]) * k, w, box[3] * k]);
+    layout();
+    clearRegion();
+  };
+
+  const centreZoom = factor => {
+    const rect = chart.getBoundingClientRect();
+    zoomBy(factor, rect.left + rect.width / 2, rect.top + rect.height / 2);
+  };
+
+  chart.addEventListener('wheel', e => {
+    e.preventDefault();
+    // Exponential so a trackpad flick and a mouse notch both feel the same.
+    zoomBy(Math.exp(e.deltaY * 0.0016), e.clientX, e.clientY);
+  }, { passive: false });
+
+  chart.addEventListener('dblclick', e => zoomBy(0.5, e.clientX, e.clientY));
+
+  let drag = null;
+  chart.addEventListener('pointerdown', e => {
+    if (e.button !== 0) return;
+    drag = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: false };
+    chart.setPointerCapture(e.pointerId);
+    chart.classList.add('dragging');
+  });
+  chart.addEventListener('pointermove', e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const rect = chart.getBoundingClientRect();
+    const dx = ((e.clientX - drag.x) / rect.width) * box[2];
+    const dy = ((e.clientY - drag.y) / rect.height) * box[3];
+    if (Math.abs(dx) + Math.abs(dy) > 0.01) drag.moved = true;
+    drag.x = e.clientX;
+    drag.y = e.clientY;
+    box = clampBox([box[0] - dx, box[1] - dy, box[2], box[3]]);
+    // The card would otherwise sit over the map being dragged out from under it.
+    card.hidden = true;
+    layout();
+  });
+  const endDrag = () => {
+    if (drag && drag.moved) clearRegion();
+    drag = null;
+    chart.classList.remove('dragging');
+  };
+  chart.addEventListener('pointerup', endDrag);
+  chart.addEventListener('pointercancel', endDrag);
+
+  /* ---- the control row ---- */
+
+  // Written out rather than built with toggles(), because a region here is a
+  // jump rather than a mode: the moment the wheel or a drag moves the view,
+  // no region is selected any more, and toggles() has no way to say so.
+  const controls = $('map-zoom');
+  const regionButtons = MAP_VIEWS.map(view => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'toggle';
+    b.textContent = view.label;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      box = clampBox(boxFor(view));
+      layout();
+      regionButtons.forEach(other => other.setAttribute('aria-pressed', String(other === b)));
+    });
+    return b;
+  });
+  function clearRegion() {
+    regionButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
+  }
+
+  const stepButton = (label, title, onClick) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'toggle toggle-step';
+    b.textContent = label;
+    b.title = title;
+    b.setAttribute('aria-label', title);
+    b.addEventListener('click', onClick);
+    return b;
+  };
+
+  const spacer = document.createElement('span');
+  spacer.className = 'toggle-gap';
+
+  controls.replaceChildren(
+    ...regionButtons,
+    spacer,
+    stepButton('−', 'Zoom out', () => centreZoom(1 / 0.7)),
+    stepButton('+', 'Zoom in', () => centreZoom(0.7))
+  );
+
+  /* ---- the share bar ---- */
 
   // A share bar rather than a second ranking: the finding is the proportion of
   // one list held by one country, and that is a thing to see rather than read.
@@ -1358,9 +1484,8 @@ function renderMap(world, companies, layers, layerColor, layerName) {
   key.className = 'legend country-key';
   legendInto(key, countries.map(([name, n], i) => [`${name} ${n}`, colorOf(i)]));
 
-  toggles($('map-zoom'), MAP_VIEWS, id => {
-    fill(host, drawMap(MAP_VIEWS.find(v => v.id === id)), bar, key);
-  });
+  fill(host, chart, bar, key);
+  regionButtons[0].click();
 
   legendInto($('map-legend'), layers.map(l => [l.name, inkable(l.color)]));
 
