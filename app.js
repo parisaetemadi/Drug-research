@@ -1176,6 +1176,35 @@ function clusterCompanies(companies) {
   }).sort((a, b) => b.count - a.count || a.hub.localeCompare(b.hub));
 }
 
+// The circles are the whole of it now, so they carry their own card: the city,
+// how many of these companies are in it, and which ones. That replaced a
+// numbered list under the map, which was the same information read twice.
+function renderHubCard(hub, color, layerName) {
+  card.innerHTML = `
+    <div class="card-head" style="border-color:${color}">
+      <span class="card-name">${hub.hub}</span>
+      <span class="card-ticker">${hub.country}</span>
+    </div>
+    <p class="card-what">
+      <strong>${hub.count}</strong> ${hub.count === 1 ? 'company' : 'companies'} ·
+      mostly ${layerName[hub.layer].toLowerCase()}
+    </p>
+    <ul class="card-list">
+      ${hub.members.map(m => `<li><span>${m.name}</span><em>${layerName[m.layer]}</em></li>`).join('')}
+    </ul>`;
+}
+
+// Four framings of the same drawing. Zooming is what makes the American east
+// coast readable — at world scale Boston, New York and Philadelphia are five
+// pixels apart — and it costs nothing but a viewBox, because the outlines are
+// generated for the whole globe.
+const MAP_VIEWS = [
+  { id: 'world',   label: 'World',         lon: [-132, 152], lat: [2, 74] },
+  { id: 'america', label: 'North America', lon: [-127, -64], lat: [23, 52] },
+  { id: 'europe',  label: 'Europe',        lon: [-11, 26],   lat: [37, 60] },
+  { id: 'asia',    label: 'Asia',          lon: [66, 146],   lat: [8, 46] }
+];
+
 function renderMap(world, companies, layers, layerColor, layerName) {
   const host = $('map-vis');
   const W = world.width, H = world.height;
@@ -1187,101 +1216,115 @@ function renderMap(world, companies, layers, layerColor, layerName) {
   const placed = companies
     .filter(c => c.hq)
     .map(c => ({ ...c, hq: { ...c.hq, ...project(c.hq) } }));
-
   const clusters = clusterCompanies(placed);
-  // Numbered down to the natural break rather than to a round ten: below three
-  // companies there are a dozen clusters on the same count and the ordering
-  // between them would be invented.
-  const ranked = clusters.filter(g => g.count >= 3).length;
-
-  // Cropped to the band the industry actually occupies. The outlines are
-  // generated for the whole globe, so this is a viewBox rather than a second
-  // dataset — and it buys about a fifth more scale, which the American east
-  // coast needs badly.
-  const cropX = lon => ((lon - world.lon0) / (world.lon1 - world.lon0)) * W;
-  const cropY = lat => ((world.lat1 - lat) / (world.lat1 - world.lat0)) * H;
-  const box = [cropX(-132), cropY(74), cropX(152) - cropX(-132), cropY(2) - cropY(74)];
-
-  const chart = svg(W, H, box);
-  chart.append(el('path', { d: world.land, class: 'map-land' }));
   const hosts = new Set(placed.map(c => c.hq.country));
-  for (const [name, d] of Object.entries(world.countries)) {
-    if (hosts.has(name)) chart.append(el('path', { d, class: 'map-country' }));
-  }
 
-  // Area, not radius, carries the count — a thirteen-company cluster next to a
-  // one-company cluster would otherwise be thirteen times too loud.
-  for (const g of clusters) g.r = 3.0 + Math.sqrt(g.count) * 3.9;
+  const worldWidth = project({ lon: MAP_VIEWS[0].lon[1], lat: 0 }).x
+                   - project({ lon: MAP_VIEWS[0].lon[0], lat: 0 }).x;
 
-  // Boston, New York and Philadelphia are five pixels apart at this scale, so
-  // the largest circle swallowed the two behind it and took their numbers with
-  // it. Overlaps are pushed apart, largest held still, until every circle is
-  // visible — which moves a few of them a degree or so off true, and the
-  // footnote says as much.
-  const anchored = clusters.map(g => ({ ...g }));
-  // Displacement is capped: left to run, the pile on the American east coast
-  // pushed New York into Kentucky. Twelve units is roughly three hundred
-  // kilometres here, so a circle stays inside the region it belongs to and
-  // some overlap survives, which is the better trade.
-  const MAX_SHIFT = 12;
-  for (let pass = 0; pass < 200; pass++) {
-    let moved = false;
-    for (let a = 0; a < clusters.length; a++) {
-      for (let b = a + 1; b < clusters.length; b++) {
-        const p = clusters[a], q = clusters[b];
-        const dx = q.x - p.x, dy = q.y - p.y;
-        const gap = p.r + q.r + 1.4;
-        let d = Math.hypot(dx, dy);
-        if (d >= gap) continue;
-        // Two head offices in the same city land on the same point; nudge on a
-        // fixed diagonal rather than dividing by zero.
-        const ux = d < 0.01 ? 0.7 : dx / d;
-        const uy = d < 0.01 ? 0.7 : dy / d;
-        const push = (gap - (d < 0.01 ? 0 : d)) / 2;
-        // Each gives ground in inverse proportion to its size, so the hubs
-        // stay put and the singletons move around them.
-        const total = p.count + q.count;
-        p.x -= ux * push * (q.count / total) * 2;
-        p.y -= uy * push * (q.count / total) * 2;
-        q.x += ux * push * (p.count / total) * 2;
-        q.y += uy * push * (p.count / total) * 2;
-        moved = true;
+  const drawMap = view => {
+    const box = [
+      project({ lon: view.lon[0], lat: view.lat[1] }).x,
+      project({ lon: view.lon[0], lat: view.lat[1] }).y,
+      project({ lon: view.lon[1], lat: 0 }).x - project({ lon: view.lon[0], lat: 0 }).x,
+      project({ lon: 0, lat: view.lat[0] }).y - project({ lon: 0, lat: view.lat[1] }).y
+    ];
+    // Circles and gaps are given in drawing units, so without this a zoomed
+    // view would magnify them along with the coastline and cover the map.
+    // Measured against the widest view, so a circle keeps its size on screen.
+    const zoom = box[2] / worldWidth;
+
+    const chart = svg(W, H, box);
+    chart.setAttribute('class', 'map-svg');
+    chart.append(el('path', { d: world.land, class: 'map-land' }));
+    for (const [name, d] of Object.entries(world.countries)) {
+      if (hosts.has(name)) chart.append(el('path', { d, class: 'map-country' }));
+    }
+
+    // Area, not radius, carries the count — a thirteen-company cluster next to
+    // a one-company cluster would otherwise be thirteen times too loud.
+    const laid = clusters.map(g => ({ ...g, r: (3.4 + Math.sqrt(g.count) * 4.3) * zoom }));
+
+    // Boston, New York and Philadelphia are five pixels apart at world scale,
+    // so the largest circle swallowed the two behind it. Overlaps are pushed
+    // apart until every circle is visible, which moves a few of them off true
+    // — less and less as the view zooms in, until at country scale there is
+    // nothing left to move.
+    const anchored = laid.map(g => ({ x: g.x, y: g.y }));
+    const MAX_SHIFT = 12 * zoom;
+    for (let pass = 0; pass < 200; pass++) {
+      let moved = false;
+      for (let a = 0; a < laid.length; a++) {
+        for (let b = a + 1; b < laid.length; b++) {
+          const p = laid[a], q = laid[b];
+          const dx = q.x - p.x, dy = q.y - p.y;
+          const gap = p.r + q.r + 1.4 * zoom;
+          const d = Math.hypot(dx, dy);
+          if (d >= gap) continue;
+          // Two head offices in the same city land on the same point; nudge on
+          // a fixed diagonal rather than dividing by zero.
+          const ux = d < 0.01 ? 0.7 : dx / d;
+          const uy = d < 0.01 ? 0.7 : dy / d;
+          const push = (gap - (d < 0.01 ? 0 : d)) / 2;
+          // Each gives ground in inverse proportion to its size, so the hubs
+          // stay put and the singletons move around them.
+          const total = p.count + q.count;
+          p.x -= ux * push * (q.count / total) * 2;
+          p.y -= uy * push * (q.count / total) * 2;
+          q.x += ux * push * (p.count / total) * 2;
+          q.y += uy * push * (p.count / total) * 2;
+          moved = true;
+        }
       }
+      laid.forEach((g, i) => {
+        const dx = g.x - anchored[i].x, dy = g.y - anchored[i].y;
+        const d = Math.hypot(dx, dy);
+        if (d > MAX_SHIFT) {
+          g.x = anchored[i].x + (dx / d) * MAX_SHIFT;
+          g.y = anchored[i].y + (dy / d) * MAX_SHIFT;
+        }
+      });
+      if (!moved) break;
     }
-    clusters.forEach((g, i) => {
-      const home = anchored[i];
-      const dx = g.x - home.x, dy = g.y - home.y;
-      const d = Math.hypot(dx, dy);
-      if (d > MAX_SHIFT) {
-        g.x = home.x + (dx / d) * MAX_SHIFT;
-        g.y = home.y + (dy / d) * MAX_SHIFT;
-      }
-    });
-    if (!moved) break;
-  }
 
-  // Drawn smallest first so the numbered hubs sit on top of whatever is left
-  // touching them.
-  [...clusters].reverse().forEach(g => {
-    const i = clusters.indexOf(g);
-    const r = g.r;
-    const home = anchored[i];
-    if (Math.hypot(g.x - home.x, g.y - home.y) > r * 0.5) {
-      chart.append(el('line', {
-        x1: home.x, y1: home.y, x2: g.x, y2: g.y, class: 'map-tether'
-      }));
-    }
-    const color = inkable(layerColor[g.layer] || '#8b7ff0');
-    const dot = el('circle', {
-      cx: g.x, cy: g.y, r, fill: color, class: 'map-dot',
-      'fill-opacity': isLight() ? 0.85 : 0.72
+    // Smallest first, so a lone company never sits on top of the hub beside it.
+    [...laid].reverse().forEach((g, ri) => {
+      const i = laid.length - 1 - ri;
+      if (Math.hypot(g.x - anchored[i].x, g.y - anchored[i].y) > g.r * 0.5) {
+        chart.append(el('line', {
+          x1: anchored[i].x, y1: anchored[i].y, x2: g.x, y2: g.y, class: 'map-tether'
+        }));
+      }
+      const color = inkable(layerColor[g.layer] || '#8b7ff0');
+      const dot = el('circle', {
+        cx: g.x, cy: g.y, r: g.r, fill: color, class: 'map-dot',
+        'fill-opacity': isLight() ? 0.85 : 0.72,
+        tabindex: 0, role: 'button',
+        'aria-label': `${g.hub}, ${g.count} ${g.count === 1 ? 'company' : 'companies'}`
+      });
+
+      const show = e => {
+        renderHubCard(g, color, layerName);
+        const point = e.touches ? e.touches[0] : e;
+        placeCard(point.clientX ?? 0, point.clientY ?? 0);
+      };
+      dot.addEventListener('pointerenter', show);
+      // A tap fires no pointerenter on some touch browsers, so the press opens
+      // the card too — and the next tap anywhere closes it.
+      dot.addEventListener('pointerdown', show);
+      dot.addEventListener('pointermove', e => { if (!card.hidden) placeCard(e.clientX, e.clientY); });
+      dot.addEventListener('pointerleave', () => { card.hidden = true; });
+      dot.addEventListener('focus', () => {
+        renderHubCard(g, color, layerName);
+        const r = dot.getBoundingClientRect();
+        placeCard(r.left + r.width / 2, r.top + r.height / 2);
+      });
+      dot.addEventListener('blur', () => { card.hidden = true; });
+      chart.append(dot);
     });
-    dot.append(el('title', {}, `${g.hub} — ${g.count} ${g.count === 1 ? 'company' : 'companies'}: ${g.members.map(m => m.name).join(', ')}`));
-    chart.append(dot);
-    if (i < ranked) {
-      chart.append(el('text', { x: g.x, y: g.y + 3.6, 'text-anchor': 'middle', class: 'map-rank' }, String(i + 1)));
-    }
-  });
+
+    return chart;
+  };
 
   // A share bar rather than a second ranking: the finding is the proportion of
   // one list held by one country, and that is a thing to see rather than read.
@@ -1311,30 +1354,13 @@ function renderMap(world, companies, layers, layerColor, layerName) {
     cx += w;
   });
 
-  fill(host, chart, bar);
-
   const key = document.createElement('div');
   key.className = 'legend country-key';
-  host.append(key);
   legendInto(key, countries.map(([name, n], i) => [`${name} ${n}`, colorOf(i)]));
 
-  // The ranked clusters get named in a list under the map rather than on it:
-  // at this scale the New Jersey and Basel labels would sit on top of each
-  // other, and the numbers in the circles do the pointing.
-  const list = document.createElement('ol');
-  list.className = 'hub-list';
-  list.replaceChildren(...clusters.slice(0, ranked).map(g => {
-    const li = document.createElement('li');
-    li.style.setProperty('--layer', inkable(layerColor[g.layer] || '#8b7ff0'));
-    const names = g.members.map(m => m.name);
-    const shown = names.slice(0, 4).join(', ');
-    li.innerHTML = `
-      <div class="hub-place">${g.hub}<span class="hub-country">${g.country}</span></div>
-      <div class="hub-count"><strong>${g.count}</strong> ${g.count === 1 ? 'company' : 'companies'} · mostly ${layerName[g.layer].toLowerCase()}</div>
-      <div class="hub-names">${shown}${names.length > 4 ? ` <em>+${names.length - 4} more</em>` : ''}</div>`;
-    return li;
-  }));
-  host.append(list);
+  toggles($('map-zoom'), MAP_VIEWS, id => {
+    fill(host, drawMap(MAP_VIEWS.find(v => v.id === id)), bar, key);
+  });
 
   legendInto($('map-legend'), layers.map(l => [l.name, inkable(l.color)]));
 

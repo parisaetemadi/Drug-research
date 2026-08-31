@@ -20,7 +20,7 @@ Fourteen sections, one chart each:
 | **11 · Where the jobs are** | European direct employment against US pharmaceutical manufacturing |
 | **12 · What the jobs are** | Thirty-three roles across the nine layers, and what each one does |
 | **13 · What it pays** | Median wages by occupation, against the median for every US occupation |
-| **14 · Where the companies are** | All 86 head offices on a world map, clustered by city-region |
+| **14 · Where the companies are** | All 86 head offices on a world map, clustered by city-region and zoomable to a continent |
 
 Plain HTML, CSS and JavaScript. No framework, no build step, no chart library —
 the treemap is a hand-written squarify and everything else is SVG drawn directly.
@@ -105,6 +105,8 @@ host serves it as-is. Two that need no configuration beyond pointing at this rep
 - Section 13's wages are BLS medians for the occupation across all industries,
   not pharma-specific. The industry generally pays above them, so read them as
   a floor and a ranking.
-- Section 14 shows head offices only, and nudges circles apart by up to about
-  300km where they would otherwise overlap. Where the work happens is section 06.
+- Section 14 shows head offices only. Circles that would overlap are nudged
+  apart, so a few sit slightly off true — less and less as the view zooms in,
+  since the four views share one drawing and differ only by viewBox. Where the
+  work happens is section 06.
 - Nothing here is investment advice or medical advice.

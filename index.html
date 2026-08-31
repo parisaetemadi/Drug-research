@@ -28,21 +28,22 @@
 
 <nav class="nav">
   <span class="nav-brand">The Medicine Market</span>
-  <a href="#chain">The chain</a>
-  <a href="#value">Value</a>
-  <a href="#gauntlet">Attrition</a>
-  <a href="#trials">Inside a trial</a>
-  <a href="#chokepoints">Chokepoints</a>
-  <a href="#geography">Geography</a>
-  <a href="#prices">Prices</a>
-  <a href="#exclusivity">Monopoly</a>
-  <a href="#pricing">Price caps</a>
-  <a href="#employers">Employers</a>
-  <a href="#jobgeo">Where</a>
-  <a href="#roles">The jobs</a>
-  <a href="#pay">What it pays</a>
-  <a href="#map">On the map</a>
-  <span class="nav-spacer"></span>
+  <div class="nav-list">
+    <a href="#chain">The chain</a>
+    <a href="#value">Value</a>
+    <a href="#gauntlet">Attrition</a>
+    <a href="#trials">Inside a trial</a>
+    <a href="#chokepoints">Chokepoints</a>
+    <a href="#geography">Geography</a>
+    <a href="#prices">Prices</a>
+    <a href="#exclusivity">Monopoly</a>
+    <a href="#pricing">Price caps</a>
+    <a href="#employers">Employers</a>
+    <a href="#jobgeo">Where</a>
+    <a href="#roles">The jobs</a>
+    <a href="#pay">What it pays</a>
+    <a href="#map">On the map</a>
+  </div>
   <a class="nav-repo" href="https://github.com/parisaetemadi/Drug-research" target="_blank" rel="noopener">Source</a>
 </nav>
 
@@ -358,14 +359,15 @@
         the person who did this last time is worth more than cheap floor space,
         so the clusters keep tightening.
       </p>
+      <div class="toggle-row" id="map-zoom"></div>
       <p class="stat" id="map-stat"></p>
       <div class="legend" id="map-legend"></div>
       <p class="footnote">
         Each circle is a headquarters cluster, sized by how many of these
         companies sit in it and coloured by the layer most of them belong to.
-        Where two circles would sit on top of each other they are nudged apart
-        by up to about 300km, so a few sit slightly off true; the numbers match
-        the list below. Headquarters only &mdash; research sites, plants and
+        Point at one for the city and the companies in it. Where two circles
+        would sit on top of each other they are nudged apart, by less and less
+        as you zoom in. Headquarters only &mdash; research sites, plants and
         trial networks are spread far wider than this, and section 06 covers
         where the making actually happens.
       </p>
