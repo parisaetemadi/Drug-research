@@ -1,99 +1,1265 @@
 {
   "note": "Company list for the market-value chart. `share` is the fraction of the company judged to be a medicines business, applied to market value and revenue so that a conglomerate is not counted whole. No prices live in this file — those are fetched into marketcaps.json.",
   "companies": [
-    { "ticker": "TMO",        "name": "Thermo Fisher",      "layer": "tools",        "share": 1.0,  "what": "Instruments, reagents and, through PPD, trials" },
-    { "ticker": "DHR",        "name": "Danaher",            "layer": "tools",        "share": 1.0,  "what": "Bioprocessing and diagnostics" },
-    { "ticker": "A",          "name": "Agilent",            "layer": "tools",        "share": 1.0,  "what": "Analytical instruments" },
-    { "ticker": "MTD",        "name": "Mettler-Toledo",     "layer": "tools",        "share": 0.6,  "what": "Precision weighing and lab instruments" },
-    { "ticker": "WAT",        "name": "Waters",             "layer": "tools",        "share": 1.0,  "what": "Chromatography and mass spectrometry" },
-    { "ticker": "ILMN",       "name": "Illumina",           "layer": "tools",        "share": 1.0,  "what": "DNA sequencers" },
-    { "ticker": "RVTY",       "name": "Revvity",            "layer": "tools",        "share": 1.0,  "what": "Life-science detection and diagnostics" },
-    { "ticker": "BRKR",       "name": "Bruker",             "layer": "tools",        "share": 1.0,  "what": "Spectroscopy and structural biology" },
-    { "ticker": "QGEN",       "name": "Qiagen",             "layer": "tools",        "share": 1.0,  "what": "Sample prep and molecular testing" },
-    { "ticker": "BIO",        "name": "Bio-Rad",            "layer": "tools",        "share": 1.0,  "what": "Life-science research instruments" },
-    { "ticker": "TXG",        "name": "10x Genomics",       "layer": "tools",        "share": 1.0,  "what": "Single-cell and spatial biology" },
-
-    { "ticker": "SRT3.DE",    "name": "Sartorius",          "layer": "inputs",       "share": 1.0,  "what": "Single-use bioprocessing equipment" },
-    { "ticker": "DIM.PA",     "name": "Sartorius Stedim",   "layer": "inputs",       "share": 1.0,  "what": "Biologics manufacturing consumables" },
-    { "ticker": "AVTR",       "name": "Avantor",            "layer": "inputs",       "share": 1.0,  "what": "Ultra-pure materials and lab supply" },
-    { "ticker": "RGEN",       "name": "Repligen",           "layer": "inputs",       "share": 1.0,  "what": "Filtration and chromatography for biologics" },
-    { "ticker": "WST",        "name": "West Pharmaceutical","layer": "inputs",       "share": 1.0,  "what": "Stoppers, seals and injector components" },
-    { "ticker": "MRK.DE",     "name": "Merck KGaA",         "layer": "inputs",       "share": 0.45, "what": "Life-science reagents (Sigma-Aldrich)" },
-    { "ticker": "STVN",       "name": "Stevanato",          "layer": "inputs",       "share": 1.0,  "what": "Glass vials, syringes and pen assembly" },
-
-    { "ticker": "VEEV",       "name": "Veeva",              "layer": "discovery",    "share": 1.0,  "what": "The software trials and filings run on" },
-    { "ticker": "SDGR",       "name": "Schrödinger",        "layer": "discovery",    "share": 1.0,  "what": "Physics-based molecule simulation" },
-    { "ticker": "CERT",       "name": "Certara",            "layer": "discovery",    "share": 1.0,  "what": "Modelling drug behaviour in the body" },
-    { "ticker": "RXRX",       "name": "Recursion",          "layer": "discovery",    "share": 1.0,  "what": "Machine-learned phenotypic screening" },
-    { "ticker": "SLP",        "name": "Simulations Plus",   "layer": "discovery",    "share": 1.0,  "what": "Simulation software for drug developers" },
-    { "ticker": "ABSI",       "name": "Absci",              "layer": "discovery",    "share": 1.0,  "what": "Generative antibody design" },
-
-    { "ticker": "CRL",        "name": "Charles River",      "layer": "preclinical",  "share": 1.0,  "what": "Research models and safety testing" },
-    { "ticker": "LH",         "name": "Labcorp",            "layer": "preclinical",  "share": 0.25, "what": "Central lab work for trials" },
-    { "ticker": "NOTV",       "name": "Inotiv",             "layer": "preclinical",  "share": 1.0,  "what": "Preclinical toxicology" },
-
-    { "ticker": "LONN.SW",    "name": "Lonza",              "layer": "cdmo",         "share": 1.0,  "what": "The largest contract manufacturer" },
-    { "ticker": "207940.KS",  "name": "Samsung Biologics",  "layer": "cdmo",         "share": 1.0,  "what": "Large-scale antibody manufacturing" },
-    { "ticker": "2269.HK",    "name": "WuXi Biologics",     "layer": "cdmo",         "share": 1.0,  "what": "Biologics discovery through manufacture" },
-    { "ticker": "603259.SS",  "name": "WuXi AppTec",        "layer": "cdmo",         "share": 1.0,  "what": "Small-molecule CRO and CDMO" },
-    { "ticker": "DIVISLAB.NS","name": "Divi's Laboratories","layer": "cdmo",         "share": 1.0,  "what": "Active ingredients at scale" },
-    { "ticker": "SFZN.SW",    "name": "Siegfried",          "layer": "cdmo",         "share": 1.0,  "what": "Drug substance and finished dose" },
-    { "ticker": "BANB.SW",    "name": "Bachem",             "layer": "cdmo",         "share": 1.0,  "what": "Peptides — the GLP-1 bottleneck" },
-    { "ticker": "1349.HK",    "name": "Pharmaron",          "layer": "cdmo",         "share": 1.0,  "what": "Discovery and development services" },
-
-    { "ticker": "IQV",        "name": "IQVIA",              "layer": "cro",          "share": 1.0,  "what": "The largest trial operator, and the industry's data broker" },
-    { "ticker": "ICLR",       "name": "ICON",               "layer": "cro",          "share": 1.0,  "what": "Global trial operations" },
-    { "ticker": "MEDP",       "name": "Medpace",            "layer": "cro",          "share": 1.0,  "what": "Trials for small and mid-size biotech" },
-    { "ticker": "FTRE",       "name": "Fortrea",            "layer": "cro",          "share": 1.0,  "what": "Spun out of Labcorp in 2023" },
-
-    { "ticker": "ARGX",       "name": "argenx",             "layer": "biotech",      "share": 1.0,  "what": "Antibodies for autoimmune disease" },
-    { "ticker": "ALNY",       "name": "Alnylam",            "layer": "biotech",      "share": 1.0,  "what": "RNA interference" },
-    { "ticker": "NBIX",       "name": "Neurocrine",         "layer": "biotech",      "share": 1.0,  "what": "Neurological and endocrine disease" },
-    { "ticker": "INSM",       "name": "Insmed",             "layer": "biotech",      "share": 1.0,  "what": "Rare lung disease" },
-    { "ticker": "UTHR",       "name": "United Therapeutics", "layer": "biotech",     "share": 1.0,  "what": "Pulmonary hypertension, and organ engineering" },
-    { "ticker": "BNTX",       "name": "BioNTech",           "layer": "biotech",      "share": 1.0,  "what": "mRNA, now aimed at oncology" },
-    { "ticker": "MRNA",       "name": "Moderna",            "layer": "biotech",      "share": 1.0,  "what": "mRNA vaccines and therapeutics" },
-    { "ticker": "BMRN",       "name": "BioMarin",           "layer": "biotech",      "share": 1.0,  "what": "Rare genetic disease" },
-    { "ticker": "IONS",       "name": "Ionis",              "layer": "biotech",      "share": 1.0,  "what": "Antisense oligonucleotides" },
-    { "ticker": "EXEL",       "name": "Exelixis",           "layer": "biotech",      "share": 1.0,  "what": "Targeted cancer therapy" },
-    { "ticker": "INCY",       "name": "Incyte",             "layer": "biotech",      "share": 1.0,  "what": "Oncology and inflammation" },
-    { "ticker": "JAZZ",       "name": "Jazz",               "layer": "biotech",      "share": 1.0,  "what": "Sleep and epilepsy medicines" },
-    { "ticker": "SRPT",       "name": "Sarepta",            "layer": "biotech",      "share": 1.0,  "what": "Duchenne muscular dystrophy" },
-    { "ticker": "MDGL",       "name": "Madrigal",           "layer": "biotech",      "share": 1.0,  "what": "The first approved drug for MASH" },
-    { "ticker": "LEGN",       "name": "Legend Biotech",     "layer": "biotech",      "share": 1.0,  "what": "CAR-T for myeloma" },
-    { "ticker": "ROIV",       "name": "Roivant",            "layer": "biotech",      "share": 1.0,  "what": "A holding company of biotechs" },
-    { "ticker": "RARE",       "name": "Ultragenyx",         "layer": "biotech",      "share": 1.0,  "what": "Ultra-rare disease" },
-    { "ticker": "CRSP",       "name": "CRISPR Therapeutics","layer": "biotech",      "share": 1.0,  "what": "Gene editing" },
-    { "ticker": "NTLA",       "name": "Intellia",           "layer": "biotech",      "share": 1.0,  "what": "In-vivo gene editing" },
-    { "ticker": "BEAM",       "name": "Beam",               "layer": "biotech",      "share": 1.0,  "what": "Base editing" },
-    { "ticker": "SMMT",       "name": "Summit",             "layer": "biotech",      "share": 1.0,  "what": "Bispecific antibody licensed from China" },
-    { "ticker": "ZLAB",       "name": "Zai Lab",            "layer": "biotech",      "share": 1.0,  "what": "Licenses Western drugs into China" },
-
-    { "ticker": "LLY",        "name": "Eli Lilly",          "layer": "pharma",       "share": 1.0,  "what": "GLP-1s, diabetes, Alzheimer's" },
-    { "ticker": "NVO",        "name": "Novo Nordisk",       "layer": "pharma",       "share": 1.0,  "what": "Semaglutide, insulin" },
-    { "ticker": "JNJ",        "name": "Johnson & Johnson",  "layer": "pharma",       "share": 0.65, "what": "Innovative Medicine, excluding MedTech" },
-    { "ticker": "ABBV",       "name": "AbbVie",             "layer": "pharma",       "share": 1.0,  "what": "Immunology and aesthetics" },
-    { "ticker": "ROG.SW",     "name": "Roche",              "layer": "pharma",       "share": 1.0,  "what": "Pharma and diagnostics" },
-    { "ticker": "MRK",        "name": "Merck & Co",         "layer": "pharma",       "share": 1.0,  "what": "Keytruda, vaccines" },
-    { "ticker": "AZN",        "name": "AstraZeneca",        "layer": "pharma",       "share": 1.0,  "what": "Oncology, respiratory, rare disease" },
-    { "ticker": "NVS",        "name": "Novartis",           "layer": "pharma",       "share": 1.0,  "what": "Cardiovascular, oncology, radioligands" },
-    { "ticker": "PFE",        "name": "Pfizer",             "layer": "pharma",       "share": 1.0,  "what": "Vaccines and oncology" },
-    { "ticker": "AMGN",       "name": "Amgen",              "layer": "pharma",       "share": 1.0,  "what": "Biologics and biosimilars" },
-    { "ticker": "SAN.PA",     "name": "Sanofi",             "layer": "pharma",       "share": 1.0,  "what": "Immunology and vaccines" },
-    { "ticker": "GILD",       "name": "Gilead",             "layer": "pharma",       "share": 1.0,  "what": "HIV and virology" },
-    { "ticker": "VRTX",       "name": "Vertex",             "layer": "pharma",       "share": 1.0,  "what": "Cystic fibrosis, now pain and kidney" },
-    { "ticker": "REGN",       "name": "Regeneron",          "layer": "pharma",       "share": 1.0,  "what": "Eylea, Dupixent" },
-    { "ticker": "GSK",        "name": "GSK",                "layer": "pharma",       "share": 1.0,  "what": "Vaccines, HIV, respiratory" },
-    { "ticker": "BMY",        "name": "Bristol Myers Squibb","layer": "pharma",      "share": 1.0,  "what": "Oncology and cardiovascular" },
-    { "ticker": "BIIB",       "name": "Biogen",             "layer": "pharma",       "share": 1.0,  "what": "Neurology" },
-    { "ticker": "4502.T",     "name": "Takeda",             "layer": "pharma",       "share": 1.0,  "what": "Japan's largest drugmaker" },
-    { "ticker": "BAYN.DE",    "name": "Bayer",              "layer": "pharma",       "share": 0.45, "what": "Pharma division, excluding crop science" },
-    { "ticker": "4568.T",     "name": "Daiichi Sankyo",     "layer": "pharma",       "share": 1.0,  "what": "Antibody-drug conjugates" },
-    { "ticker": "TEVA",       "name": "Teva",               "layer": "pharma",       "share": 1.0,  "what": "The largest generics maker" },
-
-    { "ticker": "MCK",        "name": "McKesson",           "layer": "distribution", "share": 1.0,  "what": "Drug wholesaling at national scale" },
-    { "ticker": "COR",        "name": "Cencora",            "layer": "distribution", "share": 1.0,  "what": "Formerly AmerisourceBergen" },
-    { "ticker": "CAH",        "name": "Cardinal Health",    "layer": "distribution", "share": 1.0,  "what": "Distribution and medical products" },
-    { "ticker": "WBA",        "name": "Walgreens",          "layer": "distribution", "share": 0.6,  "what": "Retail pharmacy" }
+    {
+      "ticker": "TMO",
+      "name": "Thermo Fisher",
+      "layer": "tools",
+      "share": 1.0,
+      "what": "Instruments, reagents and, through PPD, trials",
+      "hq": {
+        "city": "Waltham",
+        "country": "United States",
+        "lat": 42.376,
+        "lon": -71.236,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "DHR",
+      "name": "Danaher",
+      "layer": "tools",
+      "share": 1.0,
+      "what": "Bioprocessing and diagnostics",
+      "hq": {
+        "city": "Washington",
+        "country": "United States",
+        "lat": 38.907,
+        "lon": -77.037,
+        "region": "D.C.",
+        "hub": "Washington DC area"
+      }
+    },
+    {
+      "ticker": "A",
+      "name": "Agilent",
+      "layer": "tools",
+      "share": 1.0,
+      "what": "Analytical instruments",
+      "hq": {
+        "city": "Santa Clara",
+        "country": "United States",
+        "lat": 37.354,
+        "lon": -121.955,
+        "region": "California",
+        "hub": "San Francisco Bay Area"
+      }
+    },
+    {
+      "ticker": "MTD",
+      "name": "Mettler-Toledo",
+      "layer": "tools",
+      "share": 0.6,
+      "what": "Precision weighing and lab instruments",
+      "hq": {
+        "city": "Greifensee",
+        "country": "Switzerland",
+        "lat": 47.366,
+        "lon": 8.68,
+        "hub": "Zurich"
+      }
+    },
+    {
+      "ticker": "WAT",
+      "name": "Waters",
+      "layer": "tools",
+      "share": 1.0,
+      "what": "Chromatography and mass spectrometry",
+      "hq": {
+        "city": "Milford",
+        "country": "United States",
+        "lat": 42.139,
+        "lon": -71.517,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "ILMN",
+      "name": "Illumina",
+      "layer": "tools",
+      "share": 1.0,
+      "what": "DNA sequencers",
+      "hq": {
+        "city": "San Diego",
+        "country": "United States",
+        "lat": 32.895,
+        "lon": -117.213,
+        "region": "California",
+        "hub": "San Diego"
+      }
+    },
+    {
+      "ticker": "RVTY",
+      "name": "Revvity",
+      "layer": "tools",
+      "share": 1.0,
+      "what": "Life-science detection and diagnostics",
+      "hq": {
+        "city": "Waltham",
+        "country": "United States",
+        "lat": 42.376,
+        "lon": -71.236,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "BRKR",
+      "name": "Bruker",
+      "layer": "tools",
+      "share": 1.0,
+      "what": "Spectroscopy and structural biology",
+      "hq": {
+        "city": "Billerica",
+        "country": "United States",
+        "lat": 42.558,
+        "lon": -71.269,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "QGEN",
+      "name": "Qiagen",
+      "layer": "tools",
+      "share": 1.0,
+      "what": "Sample prep and molecular testing",
+      "hq": {
+        "city": "Venlo",
+        "country": "Netherlands",
+        "lat": 51.37,
+        "lon": 6.172,
+        "hub": "Venlo"
+      }
+    },
+    {
+      "ticker": "BIO",
+      "name": "Bio-Rad",
+      "layer": "tools",
+      "share": 1.0,
+      "what": "Life-science research instruments",
+      "hq": {
+        "city": "Hercules",
+        "country": "United States",
+        "lat": 38.017,
+        "lon": -122.289,
+        "region": "California",
+        "hub": "San Francisco Bay Area"
+      }
+    },
+    {
+      "ticker": "TXG",
+      "name": "10x Genomics",
+      "layer": "tools",
+      "share": 1.0,
+      "what": "Single-cell and spatial biology",
+      "hq": {
+        "city": "Pleasanton",
+        "country": "United States",
+        "lat": 37.663,
+        "lon": -121.875,
+        "region": "California",
+        "hub": "San Francisco Bay Area"
+      }
+    },
+    {
+      "ticker": "SRT3.DE",
+      "name": "Sartorius",
+      "layer": "inputs",
+      "share": 1.0,
+      "what": "Single-use bioprocessing equipment",
+      "hq": {
+        "city": "Göttingen",
+        "country": "Germany",
+        "lat": 51.541,
+        "lon": 9.916,
+        "hub": "Göttingen"
+      }
+    },
+    {
+      "ticker": "DIM.PA",
+      "name": "Sartorius Stedim",
+      "layer": "inputs",
+      "share": 1.0,
+      "what": "Biologics manufacturing consumables",
+      "hq": {
+        "city": "Aubagne",
+        "country": "France",
+        "lat": 43.292,
+        "lon": 5.57,
+        "hub": "Marseille area"
+      }
+    },
+    {
+      "ticker": "AVTR",
+      "name": "Avantor",
+      "layer": "inputs",
+      "share": 1.0,
+      "what": "Ultra-pure materials and lab supply",
+      "hq": {
+        "city": "Radnor",
+        "country": "United States",
+        "lat": 40.045,
+        "lon": -75.362,
+        "region": "Pennsylvania",
+        "hub": "Greater Philadelphia"
+      }
+    },
+    {
+      "ticker": "RGEN",
+      "name": "Repligen",
+      "layer": "inputs",
+      "share": 1.0,
+      "what": "Filtration and chromatography for biologics",
+      "hq": {
+        "city": "Waltham",
+        "country": "United States",
+        "lat": 42.376,
+        "lon": -71.236,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "WST",
+      "name": "West Pharmaceutical",
+      "layer": "inputs",
+      "share": 1.0,
+      "what": "Stoppers, seals and injector components",
+      "hq": {
+        "city": "Exton",
+        "country": "United States",
+        "lat": 40.029,
+        "lon": -75.621,
+        "region": "Pennsylvania",
+        "hub": "Greater Philadelphia"
+      }
+    },
+    {
+      "ticker": "MRK.DE",
+      "name": "Merck KGaA",
+      "layer": "inputs",
+      "share": 0.45,
+      "what": "Life-science reagents (Sigma-Aldrich)",
+      "hq": {
+        "city": "Darmstadt",
+        "country": "Germany",
+        "lat": 49.872,
+        "lon": 8.651,
+        "hub": "Rhine-Main"
+      }
+    },
+    {
+      "ticker": "STVN",
+      "name": "Stevanato",
+      "layer": "inputs",
+      "share": 1.0,
+      "what": "Glass vials, syringes and pen assembly",
+      "hq": {
+        "city": "Piombino Dese",
+        "country": "Italy",
+        "lat": 45.607,
+        "lon": 11.996,
+        "hub": "Padua area"
+      }
+    },
+    {
+      "ticker": "VEEV",
+      "name": "Veeva",
+      "layer": "discovery",
+      "share": 1.0,
+      "what": "The software trials and filings run on",
+      "hq": {
+        "city": "Pleasanton",
+        "country": "United States",
+        "lat": 37.663,
+        "lon": -121.875,
+        "region": "California",
+        "hub": "San Francisco Bay Area"
+      }
+    },
+    {
+      "ticker": "SDGR",
+      "name": "Schrödinger",
+      "layer": "discovery",
+      "share": 1.0,
+      "what": "Physics-based molecule simulation",
+      "hq": {
+        "city": "New York",
+        "country": "United States",
+        "lat": 40.713,
+        "lon": -74.006,
+        "region": "New York",
+        "hub": "New York & New Jersey"
+      }
+    },
+    {
+      "ticker": "CERT",
+      "name": "Certara",
+      "layer": "discovery",
+      "share": 1.0,
+      "what": "Modelling drug behaviour in the body",
+      "hq": {
+        "city": "Radnor",
+        "country": "United States",
+        "lat": 40.045,
+        "lon": -75.362,
+        "region": "Pennsylvania",
+        "hub": "Greater Philadelphia"
+      }
+    },
+    {
+      "ticker": "RXRX",
+      "name": "Recursion",
+      "layer": "discovery",
+      "share": 1.0,
+      "what": "Machine-learned phenotypic screening",
+      "hq": {
+        "city": "Salt Lake City",
+        "country": "United States",
+        "lat": 40.761,
+        "lon": -111.891,
+        "region": "Utah",
+        "hub": "Salt Lake City"
+      }
+    },
+    {
+      "ticker": "SLP",
+      "name": "Simulations Plus",
+      "layer": "discovery",
+      "share": 1.0,
+      "what": "Simulation software for drug developers",
+      "hq": {
+        "city": "Lancaster",
+        "country": "United States",
+        "lat": 34.687,
+        "lon": -118.154,
+        "region": "California",
+        "hub": "Greater Los Angeles"
+      }
+    },
+    {
+      "ticker": "ABSI",
+      "name": "Absci",
+      "layer": "discovery",
+      "share": 1.0,
+      "what": "Generative antibody design",
+      "hq": {
+        "city": "Vancouver",
+        "country": "United States",
+        "lat": 45.639,
+        "lon": -122.661,
+        "region": "Washington",
+        "hub": "Portland–Vancouver"
+      }
+    },
+    {
+      "ticker": "CRL",
+      "name": "Charles River",
+      "layer": "preclinical",
+      "share": 1.0,
+      "what": "Research models and safety testing",
+      "hq": {
+        "city": "Wilmington",
+        "country": "United States",
+        "lat": 42.546,
+        "lon": -71.174,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "LH",
+      "name": "Labcorp",
+      "layer": "preclinical",
+      "share": 0.25,
+      "what": "Central lab work for trials",
+      "hq": {
+        "city": "Burlington",
+        "country": "United States",
+        "lat": 36.096,
+        "lon": -79.438,
+        "region": "North Carolina",
+        "hub": "Research Triangle"
+      }
+    },
+    {
+      "ticker": "NOTV",
+      "name": "Inotiv",
+      "layer": "preclinical",
+      "share": 1.0,
+      "what": "Preclinical toxicology",
+      "hq": {
+        "city": "West Lafayette",
+        "country": "United States",
+        "lat": 40.426,
+        "lon": -86.908,
+        "region": "Indiana",
+        "hub": "Indianapolis area"
+      }
+    },
+    {
+      "ticker": "LONN.SW",
+      "name": "Lonza",
+      "layer": "cdmo",
+      "share": 1.0,
+      "what": "The largest contract manufacturer",
+      "hq": {
+        "city": "Basel",
+        "country": "Switzerland",
+        "lat": 47.559,
+        "lon": 7.588,
+        "hub": "Basel"
+      }
+    },
+    {
+      "ticker": "207940.KS",
+      "name": "Samsung Biologics",
+      "layer": "cdmo",
+      "share": 1.0,
+      "what": "Large-scale antibody manufacturing",
+      "hq": {
+        "city": "Incheon",
+        "country": "South Korea",
+        "lat": 37.456,
+        "lon": 126.705,
+        "hub": "Incheon"
+      }
+    },
+    {
+      "ticker": "2269.HK",
+      "name": "WuXi Biologics",
+      "layer": "cdmo",
+      "share": 1.0,
+      "what": "Biologics discovery through manufacture",
+      "hq": {
+        "city": "Wuxi",
+        "country": "China",
+        "lat": 31.491,
+        "lon": 120.312,
+        "hub": "Wuxi"
+      }
+    },
+    {
+      "ticker": "603259.SS",
+      "name": "WuXi AppTec",
+      "layer": "cdmo",
+      "share": 1.0,
+      "what": "Small-molecule CRO and CDMO",
+      "hq": {
+        "city": "Shanghai",
+        "country": "China",
+        "lat": 31.23,
+        "lon": 121.474,
+        "hub": "Shanghai"
+      }
+    },
+    {
+      "ticker": "DIVISLAB.NS",
+      "name": "Divi's Laboratories",
+      "layer": "cdmo",
+      "share": 1.0,
+      "what": "Active ingredients at scale",
+      "hq": {
+        "city": "Hyderabad",
+        "country": "India",
+        "lat": 17.385,
+        "lon": 78.487,
+        "hub": "Hyderabad"
+      }
+    },
+    {
+      "ticker": "SFZN.SW",
+      "name": "Siegfried",
+      "layer": "cdmo",
+      "share": 1.0,
+      "what": "Drug substance and finished dose",
+      "hq": {
+        "city": "Zofingen",
+        "country": "Switzerland",
+        "lat": 47.288,
+        "lon": 7.945,
+        "hub": "Basel"
+      }
+    },
+    {
+      "ticker": "BANB.SW",
+      "name": "Bachem",
+      "layer": "cdmo",
+      "share": 1.0,
+      "what": "Peptides — the GLP-1 bottleneck",
+      "hq": {
+        "city": "Bubendorf",
+        "country": "Switzerland",
+        "lat": 47.446,
+        "lon": 7.735,
+        "hub": "Basel"
+      }
+    },
+    {
+      "ticker": "1349.HK",
+      "name": "Pharmaron",
+      "layer": "cdmo",
+      "share": 1.0,
+      "what": "Discovery and development services",
+      "hq": {
+        "city": "Beijing",
+        "country": "China",
+        "lat": 39.904,
+        "lon": 116.407,
+        "hub": "Beijing"
+      }
+    },
+    {
+      "ticker": "IQV",
+      "name": "IQVIA",
+      "layer": "cro",
+      "share": 1.0,
+      "what": "The largest trial operator, and the industry's data broker",
+      "hq": {
+        "city": "Durham",
+        "country": "United States",
+        "lat": 35.994,
+        "lon": -78.899,
+        "region": "North Carolina",
+        "hub": "Research Triangle"
+      }
+    },
+    {
+      "ticker": "ICLR",
+      "name": "ICON",
+      "layer": "cro",
+      "share": 1.0,
+      "what": "Global trial operations",
+      "hq": {
+        "city": "Dublin",
+        "country": "Ireland",
+        "lat": 53.35,
+        "lon": -6.26,
+        "hub": "Dublin"
+      }
+    },
+    {
+      "ticker": "MEDP",
+      "name": "Medpace",
+      "layer": "cro",
+      "share": 1.0,
+      "what": "Trials for small and mid-size biotech",
+      "hq": {
+        "city": "Cincinnati",
+        "country": "United States",
+        "lat": 39.103,
+        "lon": -84.512,
+        "region": "Ohio",
+        "hub": "Cincinnati"
+      }
+    },
+    {
+      "ticker": "FTRE",
+      "name": "Fortrea",
+      "layer": "cro",
+      "share": 1.0,
+      "what": "Spun out of Labcorp in 2023",
+      "hq": {
+        "city": "Durham",
+        "country": "United States",
+        "lat": 35.994,
+        "lon": -78.899,
+        "region": "North Carolina",
+        "hub": "Research Triangle"
+      }
+    },
+    {
+      "ticker": "ARGX",
+      "name": "argenx",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Antibodies for autoimmune disease",
+      "hq": {
+        "city": "Amsterdam",
+        "country": "Netherlands",
+        "lat": 52.37,
+        "lon": 4.895,
+        "hub": "Amsterdam"
+      }
+    },
+    {
+      "ticker": "ALNY",
+      "name": "Alnylam",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "RNA interference",
+      "hq": {
+        "city": "Cambridge",
+        "country": "United States",
+        "lat": 42.373,
+        "lon": -71.11,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "NBIX",
+      "name": "Neurocrine",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Neurological and endocrine disease",
+      "hq": {
+        "city": "San Diego",
+        "country": "United States",
+        "lat": 32.716,
+        "lon": -117.161,
+        "region": "California",
+        "hub": "San Diego"
+      }
+    },
+    {
+      "ticker": "INSM",
+      "name": "Insmed",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Rare lung disease",
+      "hq": {
+        "city": "Bridgewater",
+        "country": "United States",
+        "lat": 40.594,
+        "lon": -74.605,
+        "region": "New Jersey",
+        "hub": "New York & New Jersey"
+      }
+    },
+    {
+      "ticker": "UTHR",
+      "name": "United Therapeutics",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Pulmonary hypertension, and organ engineering",
+      "hq": {
+        "city": "Silver Spring",
+        "country": "United States",
+        "lat": 38.991,
+        "lon": -77.026,
+        "region": "Maryland",
+        "hub": "Washington DC area"
+      }
+    },
+    {
+      "ticker": "BNTX",
+      "name": "BioNTech",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "mRNA, now aimed at oncology",
+      "hq": {
+        "city": "Mainz",
+        "country": "Germany",
+        "lat": 49.993,
+        "lon": 8.247,
+        "hub": "Rhine-Main"
+      }
+    },
+    {
+      "ticker": "MRNA",
+      "name": "Moderna",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "mRNA vaccines and therapeutics",
+      "hq": {
+        "city": "Cambridge",
+        "country": "United States",
+        "lat": 42.373,
+        "lon": -71.11,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "BMRN",
+      "name": "BioMarin",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Rare genetic disease",
+      "hq": {
+        "city": "San Rafael",
+        "country": "United States",
+        "lat": 37.974,
+        "lon": -122.531,
+        "region": "California",
+        "hub": "San Francisco Bay Area"
+      }
+    },
+    {
+      "ticker": "IONS",
+      "name": "Ionis",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Antisense oligonucleotides",
+      "hq": {
+        "city": "Carlsbad",
+        "country": "United States",
+        "lat": 33.158,
+        "lon": -117.351,
+        "region": "California",
+        "hub": "San Diego"
+      }
+    },
+    {
+      "ticker": "EXEL",
+      "name": "Exelixis",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Targeted cancer therapy",
+      "hq": {
+        "city": "Alameda",
+        "country": "United States",
+        "lat": 37.765,
+        "lon": -122.242,
+        "region": "California",
+        "hub": "San Francisco Bay Area"
+      }
+    },
+    {
+      "ticker": "INCY",
+      "name": "Incyte",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Oncology and inflammation",
+      "hq": {
+        "city": "Wilmington",
+        "country": "United States",
+        "lat": 39.746,
+        "lon": -75.547,
+        "region": "Delaware",
+        "hub": "Greater Philadelphia"
+      }
+    },
+    {
+      "ticker": "JAZZ",
+      "name": "Jazz",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Sleep and epilepsy medicines",
+      "hq": {
+        "city": "Dublin",
+        "country": "Ireland",
+        "lat": 53.35,
+        "lon": -6.26,
+        "hub": "Dublin"
+      }
+    },
+    {
+      "ticker": "SRPT",
+      "name": "Sarepta",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Duchenne muscular dystrophy",
+      "hq": {
+        "city": "Cambridge",
+        "country": "United States",
+        "lat": 42.373,
+        "lon": -71.11,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "MDGL",
+      "name": "Madrigal",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "The first approved drug for MASH",
+      "hq": {
+        "city": "West Conshohocken",
+        "country": "United States",
+        "lat": 40.07,
+        "lon": -75.315,
+        "region": "Pennsylvania",
+        "hub": "Greater Philadelphia"
+      }
+    },
+    {
+      "ticker": "LEGN",
+      "name": "Legend Biotech",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "CAR-T for myeloma",
+      "hq": {
+        "city": "Somerset",
+        "country": "United States",
+        "lat": 40.497,
+        "lon": -74.488,
+        "region": "New Jersey",
+        "hub": "New York & New Jersey"
+      }
+    },
+    {
+      "ticker": "ROIV",
+      "name": "Roivant",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "A holding company of biotechs",
+      "hq": {
+        "city": "New York",
+        "country": "United States",
+        "lat": 40.713,
+        "lon": -74.006,
+        "region": "New York",
+        "hub": "New York & New Jersey"
+      }
+    },
+    {
+      "ticker": "RARE",
+      "name": "Ultragenyx",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Ultra-rare disease",
+      "hq": {
+        "city": "Novato",
+        "country": "United States",
+        "lat": 38.108,
+        "lon": -122.57,
+        "region": "California",
+        "hub": "San Francisco Bay Area"
+      }
+    },
+    {
+      "ticker": "CRSP",
+      "name": "CRISPR Therapeutics",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Gene editing",
+      "hq": {
+        "city": "Zug",
+        "country": "Switzerland",
+        "lat": 47.172,
+        "lon": 8.517,
+        "hub": "Zurich"
+      }
+    },
+    {
+      "ticker": "NTLA",
+      "name": "Intellia",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "In-vivo gene editing",
+      "hq": {
+        "city": "Cambridge",
+        "country": "United States",
+        "lat": 42.373,
+        "lon": -71.11,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "BEAM",
+      "name": "Beam",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Base editing",
+      "hq": {
+        "city": "Cambridge",
+        "country": "United States",
+        "lat": 42.373,
+        "lon": -71.11,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "SMMT",
+      "name": "Summit",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Bispecific antibody licensed from China",
+      "hq": {
+        "city": "Menlo Park",
+        "country": "United States",
+        "lat": 37.453,
+        "lon": -122.182,
+        "region": "California",
+        "hub": "San Francisco Bay Area"
+      }
+    },
+    {
+      "ticker": "ZLAB",
+      "name": "Zai Lab",
+      "layer": "biotech",
+      "share": 1.0,
+      "what": "Licenses Western drugs into China",
+      "hq": {
+        "city": "Shanghai",
+        "country": "China",
+        "lat": 31.23,
+        "lon": 121.474,
+        "hub": "Shanghai"
+      }
+    },
+    {
+      "ticker": "LLY",
+      "name": "Eli Lilly",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "GLP-1s, diabetes, Alzheimer's",
+      "hq": {
+        "city": "Indianapolis",
+        "country": "United States",
+        "lat": 39.768,
+        "lon": -86.158,
+        "region": "Indiana",
+        "hub": "Indianapolis area"
+      }
+    },
+    {
+      "ticker": "NVO",
+      "name": "Novo Nordisk",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Semaglutide, insulin",
+      "hq": {
+        "city": "Bagsværd",
+        "country": "Denmark",
+        "lat": 55.762,
+        "lon": 12.455,
+        "hub": "Copenhagen"
+      }
+    },
+    {
+      "ticker": "JNJ",
+      "name": "Johnson & Johnson",
+      "layer": "pharma",
+      "share": 0.65,
+      "what": "Innovative Medicine, excluding MedTech",
+      "hq": {
+        "city": "New Brunswick",
+        "country": "United States",
+        "lat": 40.487,
+        "lon": -74.452,
+        "region": "New Jersey",
+        "hub": "New York & New Jersey"
+      }
+    },
+    {
+      "ticker": "ABBV",
+      "name": "AbbVie",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Immunology and aesthetics",
+      "hq": {
+        "city": "North Chicago",
+        "country": "United States",
+        "lat": 42.325,
+        "lon": -87.861,
+        "region": "Illinois",
+        "hub": "Chicago area"
+      }
+    },
+    {
+      "ticker": "ROG.SW",
+      "name": "Roche",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Pharma and diagnostics",
+      "hq": {
+        "city": "Basel",
+        "country": "Switzerland",
+        "lat": 47.559,
+        "lon": 7.588,
+        "hub": "Basel"
+      }
+    },
+    {
+      "ticker": "MRK",
+      "name": "Merck & Co",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Keytruda, vaccines",
+      "hq": {
+        "city": "Rahway",
+        "country": "United States",
+        "lat": 40.608,
+        "lon": -74.278,
+        "region": "New Jersey",
+        "hub": "New York & New Jersey"
+      }
+    },
+    {
+      "ticker": "AZN",
+      "name": "AstraZeneca",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Oncology, respiratory, rare disease",
+      "hq": {
+        "city": "Cambridge",
+        "country": "United Kingdom",
+        "lat": 52.205,
+        "lon": 0.121,
+        "hub": "Cambridge, UK"
+      }
+    },
+    {
+      "ticker": "NVS",
+      "name": "Novartis",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Cardiovascular, oncology, radioligands",
+      "hq": {
+        "city": "Basel",
+        "country": "Switzerland",
+        "lat": 47.559,
+        "lon": 7.588,
+        "hub": "Basel"
+      }
+    },
+    {
+      "ticker": "PFE",
+      "name": "Pfizer",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Vaccines and oncology",
+      "hq": {
+        "city": "New York",
+        "country": "United States",
+        "lat": 40.713,
+        "lon": -74.006,
+        "region": "New York",
+        "hub": "New York & New Jersey"
+      }
+    },
+    {
+      "ticker": "AMGN",
+      "name": "Amgen",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Biologics and biosimilars",
+      "hq": {
+        "city": "Thousand Oaks",
+        "country": "United States",
+        "lat": 34.171,
+        "lon": -118.838,
+        "region": "California",
+        "hub": "Greater Los Angeles"
+      }
+    },
+    {
+      "ticker": "SAN.PA",
+      "name": "Sanofi",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Immunology and vaccines",
+      "hq": {
+        "city": "Paris",
+        "country": "France",
+        "lat": 48.857,
+        "lon": 2.352,
+        "hub": "Paris"
+      }
+    },
+    {
+      "ticker": "GILD",
+      "name": "Gilead",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "HIV and virology",
+      "hq": {
+        "city": "Foster City",
+        "country": "United States",
+        "lat": 37.558,
+        "lon": -122.271,
+        "region": "California",
+        "hub": "San Francisco Bay Area"
+      }
+    },
+    {
+      "ticker": "VRTX",
+      "name": "Vertex",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Cystic fibrosis, now pain and kidney",
+      "hq": {
+        "city": "Boston",
+        "country": "United States",
+        "lat": 42.352,
+        "lon": -71.049,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "REGN",
+      "name": "Regeneron",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Eylea, Dupixent",
+      "hq": {
+        "city": "Tarrytown",
+        "country": "United States",
+        "lat": 41.076,
+        "lon": -73.858,
+        "region": "New York",
+        "hub": "New York & New Jersey"
+      }
+    },
+    {
+      "ticker": "GSK",
+      "name": "GSK",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Vaccines, HIV, respiratory",
+      "hq": {
+        "city": "London",
+        "country": "United Kingdom",
+        "lat": 51.507,
+        "lon": -0.128,
+        "hub": "London"
+      }
+    },
+    {
+      "ticker": "BMY",
+      "name": "Bristol Myers Squibb",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Oncology and cardiovascular",
+      "hq": {
+        "city": "Princeton",
+        "country": "United States",
+        "lat": 40.357,
+        "lon": -74.667,
+        "region": "New Jersey",
+        "hub": "New York & New Jersey"
+      }
+    },
+    {
+      "ticker": "BIIB",
+      "name": "Biogen",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Neurology",
+      "hq": {
+        "city": "Cambridge",
+        "country": "United States",
+        "lat": 42.373,
+        "lon": -71.11,
+        "region": "Massachusetts",
+        "hub": "Greater Boston"
+      }
+    },
+    {
+      "ticker": "4502.T",
+      "name": "Takeda",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Japan's largest drugmaker",
+      "hq": {
+        "city": "Tokyo",
+        "country": "Japan",
+        "lat": 35.69,
+        "lon": 139.692,
+        "hub": "Tokyo"
+      }
+    },
+    {
+      "ticker": "BAYN.DE",
+      "name": "Bayer",
+      "layer": "pharma",
+      "share": 0.45,
+      "what": "Pharma division, excluding crop science",
+      "hq": {
+        "city": "Leverkusen",
+        "country": "Germany",
+        "lat": 51.033,
+        "lon": 6.985,
+        "hub": "Leverkusen"
+      }
+    },
+    {
+      "ticker": "4568.T",
+      "name": "Daiichi Sankyo",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "Antibody-drug conjugates",
+      "hq": {
+        "city": "Tokyo",
+        "country": "Japan",
+        "lat": 35.69,
+        "lon": 139.692,
+        "hub": "Tokyo"
+      }
+    },
+    {
+      "ticker": "TEVA",
+      "name": "Teva",
+      "layer": "pharma",
+      "share": 1.0,
+      "what": "The largest generics maker",
+      "hq": {
+        "city": "Tel Aviv",
+        "country": "Israel",
+        "lat": 32.085,
+        "lon": 34.781,
+        "hub": "Tel Aviv"
+      }
+    },
+    {
+      "ticker": "MCK",
+      "name": "McKesson",
+      "layer": "distribution",
+      "share": 1.0,
+      "what": "Drug wholesaling at national scale",
+      "hq": {
+        "city": "Irving",
+        "country": "United States",
+        "lat": 32.814,
+        "lon": -96.949,
+        "region": "Texas",
+        "hub": "Dallas–Fort Worth"
+      }
+    },
+    {
+      "ticker": "COR",
+      "name": "Cencora",
+      "layer": "distribution",
+      "share": 1.0,
+      "what": "Formerly AmerisourceBergen",
+      "hq": {
+        "city": "Conshohocken",
+        "country": "United States",
+        "lat": 40.079,
+        "lon": -75.302,
+        "region": "Pennsylvania",
+        "hub": "Greater Philadelphia"
+      }
+    },
+    {
+      "ticker": "CAH",
+      "name": "Cardinal Health",
+      "layer": "distribution",
+      "share": 1.0,
+      "what": "Distribution and medical products",
+      "hq": {
+        "city": "Dublin",
+        "country": "United States",
+        "lat": 40.099,
+        "lon": -83.114,
+        "region": "Ohio",
+        "hub": "Columbus"
+      }
+    },
+    {
+      "ticker": "WBA",
+      "name": "Walgreens",
+      "layer": "distribution",
+      "share": 0.6,
+      "what": "Retail pharmacy",
+      "hq": {
+        "city": "Deerfield",
+        "country": "United States",
+        "lat": 42.171,
+        "lon": -87.845,
+        "region": "Illinois",
+        "hub": "Chicago area"
+      }
+    }
   ]
 }

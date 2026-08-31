@@ -19,9 +19,11 @@ function el(tag, attrs = {}, text) {
   return node;
 }
 
-function svg(width, height) {
+function svg(width, height, box) {
   const node = el('svg', {
-    viewBox: `0 0 ${width} ${height}`,
+    // A crop is given as [x, y, w, h] in the drawing's own coordinates: the map
+    // is generated for the whole globe and then shown without the empty ocean.
+    viewBox: box ? box.join(' ') : `0 0 ${width} ${height}`,
     preserveAspectRatio: 'xMidYMin meet',
     role: 'img'
   });
@@ -535,8 +537,8 @@ function renderValue(layers, companies, caps) {
     const warn = document.createElement('p');
     warn.className = 'placeholder-warning';
     warn.textContent = 'Provisional figures. These are rounded approximations, not quotes — '
-      + 'read the shape, not the numbers. Live values, plus revenue and margins on hover, '
-      + 'appear the first time the scheduled job runs.';
+      + 'read the shape, not the numbers. Live market values, revenue and margins load a '
+      + 'moment after the page opens, and replace these when the quote endpoint answers.';
     host.prepend(warn);
   }
 }
@@ -932,6 +934,417 @@ function renderPricing(data, layerColor) {
   $('profit-cap').textContent = data.profitCap;
 }
 
+
+/* =========================================================
+   10 · who actually works here
+
+   Bars are headcount, coloured by layer, and the colours are the finding:
+   the largest employers are not all drugmakers. Sorting by people rather
+   than by value reshuffles the list from section 02 entirely.
+   ========================================================= */
+
+function renderEmployers(data, layerColor, layerName) {
+  const W = 1000, PAD = 16, LABEL = 250, ROW = 66;
+  const items = [...data.employers].sort((a, b) => b.employees - a.employees);
+  const most = items[0].employees;
+  const chart = svg(W, PAD * 2 + items.length * ROW);
+  const trackX = LABEL, trackW = W - LABEL - 160;
+
+  items.forEach((item, i) => {
+    const y = PAD + i * ROW;
+    const color = inkable(layerColor[item.layer] || '#8b7ff0');
+    chart.append(el('text', { x: LABEL - 20, y: y + 24, 'text-anchor': 'end', class: 'row-label', style: 'fill:var(--ink);font-weight:600' }, item.name));
+    chart.append(el('text', { x: LABEL - 20, y: y + 44, 'text-anchor': 'end', class: 'row-sub' }, layerName[item.layer]));
+    chart.append(el('rect', { class: 'row-track', x: trackX, y: y + 8, width: trackW, height: 28, rx: 3 }));
+    chart.append(el('rect', {
+      x: trackX, y: y + 8, width: Math.max(3, trackW * (item.employees / most)), height: 28, rx: 3, fill: color
+    }));
+    chart.append(el('text', { x: W, y: y + 29, 'text-anchor': 'end', class: 'row-value' },
+      item.employees.toLocaleString('en-US')));
+    chart.append(el('text', { x: trackX, y: y + 54, class: 'row-sub' }, `${item.note} · ${item.asOf}`));
+  });
+
+  fill($('employers-vis'), chart);
+
+  const drugOwners = items.filter(i => i.layer === 'pharma').length;
+  $('employers-stat').innerHTML =
+    `Of the ten largest employers here, <strong>${items.length - drugOwners}</strong> do not own a drug at all — `
+    + `they supply, test or manufacture for the ones that do.`;
+}
+
+/* =========================================================
+   11 · where the jobs are
+   ========================================================= */
+
+function renderJobGeography(data) {
+  const W = 1000, H = 620, TOP = 66, BOTTOM = 24;
+  const chart = svg(W, H);
+  const colH = H - TOP - BOTTOM;
+  const colW = 260, gap = 150;
+  const biggest = Math.max(...data.regions.map(r => r.total));
+  const startX = (W - (colW * data.regions.length + gap * (data.regions.length - 1))) / 2;
+  // Both columns share one scale, so Europe reading more than twice the US is
+  // a fact you can see rather than one you have to read off the labels.
+  const palette = ['#3b82f6', '#ea580c', '#10a37f', '#d99a0b', '#ec4899', '#8b7ff0'];
+
+  data.regions.forEach((region, ri) => {
+    const x = startX + ri * (colW + gap);
+    const scaled = (region.total / biggest) * colH;
+    let y = TOP + (colH - scaled);
+
+    chart.append(el('text', { x, y: 22, class: 'row-label', style: 'fill:var(--ink);font-weight:600' }, region.name));
+    chart.append(el('text', { x, y: 44, class: 'row-sub' }, region.basis));
+    // The total sits on the heading line, right-aligned to the column. Putting
+    // it above the bar collided with the subtitle for whichever region is tall
+    // enough to start at the top of the plot.
+    chart.append(el('text', {
+      x: x + colW, y: 22, 'text-anchor': 'end', class: 'row-value'
+    }, `${Math.round(region.total / 1000)}k`));
+
+    region.countries.forEach((c, ci) => {
+      const h = (c.employees / region.total) * scaled;
+      const color = inkable(palette[ci % palette.length]);
+      chart.append(el('rect', { x, y: y + 1, width: colW, height: Math.max(0, h - 2), rx: 2, fill: color }));
+      const text = `${c.name} ${Math.round(c.employees / 1000)}k`;
+      if (h > 30) {
+        chart.append(el('text', { x: x + colW / 2, y: y + h / 2 + 6, 'text-anchor': 'middle', class: 'col-seg-label' }, text));
+      } else {
+        // A thin band gets its label outside — on whichever side has room, so
+        // the rightmost column does not run its labels off the canvas.
+        const needed = textWidth(text, 17) + 26;
+        const right = x + colW + needed <= W;
+        const edge = right ? x + colW : x;
+        const tip = right ? edge + 14 : edge - 14;
+        chart.append(el('line', { x1: edge, x2: tip, y1: y + h / 2, y2: y + h / 2, stroke: color }));
+        chart.append(el('text', {
+          x: right ? tip + 6 : tip - 6, y: y + h / 2 + 5,
+          'text-anchor': right ? 'start' : 'end', class: 'row-sub'
+        }, text));
+      }
+      y += h;
+    });
+  });
+
+  fill($('jobgeo-vis'), chart);
+
+  const [eu, us] = data.regions;
+  const o = data.outlook;
+  $('jobgeo-stat').innerHTML =
+    `Europe employs <strong>${(eu.total / 1000).toFixed(0)}k</strong> directly, about `
+    + `<strong>${(eu.total / us.total).toFixed(1)}×</strong> what US pharmaceutical manufacturing does.`;
+  $('outlook-note').textContent = o.note;
+}
+
+/* =========================================================
+   12 · what the jobs are
+
+   Laid against the same nine layers as section 01, so a role can be read
+   back to the part of the chain it belongs to.
+   ========================================================= */
+
+function renderRoles(data, layerColor) {
+  const host = $('roles-vis');
+  // Only some roles map cleanly onto a published occupation. The ones that do
+  // carry the median; the rest say nothing rather than borrow a neighbour's.
+  const median = Object.fromEntries(data.pay.occupations.map(o => [o.title, o.median]));
+
+  host.replaceChildren(...data.roles.map(group => {
+    const block = document.createElement('div');
+    block.className = 'role-block';
+    // Same darkening as the chart fills: the grey and amber are too light
+    // to read as a heading on cream.
+    block.style.setProperty('--layer', inkable(layerColor[group.layer] || '#8b7ff0'));
+    block.innerHTML = `
+      <div class="role-stage">${group.stage}</div>
+      <div class="role-list">
+        ${group.roles.map(r => `
+          <div class="role">
+            <div class="role-title">${r.title}</div>
+            <div class="role-what">${r.what}</div>
+            <div class="role-wants">${r.wants}</div>
+            ${r.bls && median[r.bls]
+              ? `<div class="role-pay">Median <strong>$${median[r.bls].toLocaleString('en-US')}</strong> · ${r.bls}</div>`
+              : ''}
+          </div>`).join('')}
+      </div>`;
+    return block;
+  }));
+
+  const total = data.roles.reduce((n, g) => n + g.roles.length, 0);
+  $('roles-stat').innerHTML =
+    `<strong>${total} roles</strong> across the nine layers — and only a handful of them are the ones people picture.`;
+}
+
+/* =========================================================
+   13 · what it pays
+
+   One bar per occupation against a shared scale, with the median for every
+   US occupation drawn across it — the reference line is the point, because
+   every one of these clears it, including the one at the bottom.
+   ========================================================= */
+
+// OEWS May 2025 put the median hourly wage for all occupations at $24.51,
+// which is this at a 2,080-hour year. Drawn as a line rather than a bar so it
+// reads as the ground the others stand on.
+const US_MEDIAN_WAGE = 50980;
+
+function renderPay(data, layerColor, layerName) {
+  const pay = data.pay;
+  const W = 1000, PAD = 18, LABEL = 330, ROW = 74;
+  const items = [...pay.occupations].sort((a, b) => b.median - a.median);
+  const trackX = LABEL, trackW = W - LABEL - 190;
+  const top = Math.max(...items.map(i => i.median));
+  const chart = svg(W, PAD * 2 + items.length * ROW + 34);
+  const x = v => trackX + (v / top) * trackW;
+
+  items.forEach((item, i) => {
+    const y = PAD + i * ROW;
+    const color = inkable(layerColor[item.layer] || '#8b7ff0');
+
+    const name = item.title;
+    const size = Math.min(19, sizeToFit(name, LABEL - 30));
+    chart.append(el('text', {
+      x: LABEL - 20, y: y + 24, 'text-anchor': 'end', class: 'row-label',
+      style: `fill:var(--ink);font-weight:600;font-size:${size.toFixed(1)}px`
+    }, name));
+    chart.append(el('text', { x: LABEL - 20, y: y + 46, 'text-anchor': 'end', class: 'row-sub' }, layerName[item.layer]));
+
+    chart.append(el('rect', { class: 'row-track', x: trackX, y: y + 8, width: trackW, height: 30, rx: 3 }));
+    chart.append(el('rect', { x: trackX, y: y + 8, width: Math.max(3, x(item.median) - trackX), height: 30, rx: 3, fill: color }));
+    chart.append(el('text', { x: W, y: y + 31, 'text-anchor': 'end', class: 'row-value' },
+      `$${item.median.toLocaleString('en-US')}`));
+    chart.append(el('text', { x: trackX, y: y + 58, class: 'row-sub' },
+      `${item.note} · projected ${item.growth >= 0 ? '+' : ''}${item.growth}% to 2034`));
+  });
+
+  // Behind the bars it would disappear under the long ones, and drawn straight
+  // down the chart it struck through every note. So it runs in segments, one
+  // per bar, at the height of the bar it is being compared with.
+  const mx = x(US_MEDIAN_WAGE);
+  const bottom = PAD + items.length * ROW;
+  items.forEach((item, i) => {
+    const y = PAD + i * ROW;
+    chart.append(el('line', { x1: mx, x2: mx, y1: y + 2, y2: y + 44, class: 'ref-line' }));
+  });
+  chart.append(el('text', { x: mx + 8, y: bottom + 16, class: 'row-sub' },
+    `$${US_MEDIAN_WAGE.toLocaleString('en-US')} — the median for every US occupation`));
+
+  fill($('pay-vis'), chart);
+
+  const lowest = items[items.length - 1];
+  $('pay-stat').innerHTML =
+    `Every occupation here clears the national median, the lowest of them by `
+    + `<strong>${Math.round((lowest.median / US_MEDIAN_WAGE - 1) * 100)}%</strong> — `
+    + `but the top of the list still pays <strong>${(items[0].median / lowest.median).toFixed(1)}×</strong> the bottom of it.`;
+  $('pay-basis').textContent = `${pay.basis} Figures are ${pay.asOf}; the growth figure is the projected change in US employment in that occupation between 2024 and 2034.`;
+}
+
+/* =========================================================
+   14 · where the companies are
+
+   Headquarters projected onto an equirectangular world, then merged into
+   clusters at a fixed screen distance: at this scale Cambridge, Waltham and
+   Billerica are one circle whatever the coordinates say, and drawing them
+   apart would claim a precision the map does not have.
+   ========================================================= */
+
+// Companies are grouped by the metro their head office sits in, named in the
+// data rather than derived from the coordinates. Merging by distance chained
+// the American northeast into one circle — Boston reaching New York reaching
+// Philadelphia — and naming a cluster after whichever city held the most of
+// them called the Bay Area "Pleasanton".
+function clusterCompanies(companies) {
+  const byHub = new Map();
+  for (const c of companies) {
+    if (!c.hq) continue;
+    if (!byHub.has(c.hq.hub)) byHub.set(c.hq.hub, []);
+    byHub.get(c.hq.hub).push(c);
+  }
+
+  return [...byHub.entries()].map(([hub, members]) => {
+    const layers = {};
+    for (const m of members) layers[m.layer] = (layers[m.layer] || 0) + 1;
+    return {
+      hub,
+      members,
+      count: members.length,
+      country: members[0].hq.country,
+      layer: Object.entries(layers).sort((a, b) => b[1] - a[1])[0][0],
+      x: members.reduce((t, m) => t + m.hq.x, 0) / members.length,
+      y: members.reduce((t, m) => t + m.hq.y, 0) / members.length
+    };
+  }).sort((a, b) => b.count - a.count || a.hub.localeCompare(b.hub));
+}
+
+function renderMap(world, companies, layers, layerColor, layerName) {
+  const host = $('map-vis');
+  const W = world.width, H = world.height;
+  const project = hq => ({
+    x: ((hq.lon - world.lon0) / (world.lon1 - world.lon0)) * W,
+    y: ((world.lat1 - hq.lat) / (world.lat1 - world.lat0)) * H
+  });
+
+  const placed = companies
+    .filter(c => c.hq)
+    .map(c => ({ ...c, hq: { ...c.hq, ...project(c.hq) } }));
+
+  const clusters = clusterCompanies(placed);
+  // Numbered down to the natural break rather than to a round ten: below three
+  // companies there are a dozen clusters on the same count and the ordering
+  // between them would be invented.
+  const ranked = clusters.filter(g => g.count >= 3).length;
+
+  // Cropped to the band the industry actually occupies. The outlines are
+  // generated for the whole globe, so this is a viewBox rather than a second
+  // dataset — and it buys about a fifth more scale, which the American east
+  // coast needs badly.
+  const cropX = lon => ((lon - world.lon0) / (world.lon1 - world.lon0)) * W;
+  const cropY = lat => ((world.lat1 - lat) / (world.lat1 - world.lat0)) * H;
+  const box = [cropX(-132), cropY(74), cropX(152) - cropX(-132), cropY(2) - cropY(74)];
+
+  const chart = svg(W, H, box);
+  chart.append(el('path', { d: world.land, class: 'map-land' }));
+  const hosts = new Set(placed.map(c => c.hq.country));
+  for (const [name, d] of Object.entries(world.countries)) {
+    if (hosts.has(name)) chart.append(el('path', { d, class: 'map-country' }));
+  }
+
+  // Area, not radius, carries the count — a thirteen-company cluster next to a
+  // one-company cluster would otherwise be thirteen times too loud.
+  for (const g of clusters) g.r = 3.0 + Math.sqrt(g.count) * 3.9;
+
+  // Boston, New York and Philadelphia are five pixels apart at this scale, so
+  // the largest circle swallowed the two behind it and took their numbers with
+  // it. Overlaps are pushed apart, largest held still, until every circle is
+  // visible — which moves a few of them a degree or so off true, and the
+  // footnote says as much.
+  const anchored = clusters.map(g => ({ ...g }));
+  // Displacement is capped: left to run, the pile on the American east coast
+  // pushed New York into Kentucky. Twelve units is roughly three hundred
+  // kilometres here, so a circle stays inside the region it belongs to and
+  // some overlap survives, which is the better trade.
+  const MAX_SHIFT = 12;
+  for (let pass = 0; pass < 200; pass++) {
+    let moved = false;
+    for (let a = 0; a < clusters.length; a++) {
+      for (let b = a + 1; b < clusters.length; b++) {
+        const p = clusters[a], q = clusters[b];
+        const dx = q.x - p.x, dy = q.y - p.y;
+        const gap = p.r + q.r + 1.4;
+        let d = Math.hypot(dx, dy);
+        if (d >= gap) continue;
+        // Two head offices in the same city land on the same point; nudge on a
+        // fixed diagonal rather than dividing by zero.
+        const ux = d < 0.01 ? 0.7 : dx / d;
+        const uy = d < 0.01 ? 0.7 : dy / d;
+        const push = (gap - (d < 0.01 ? 0 : d)) / 2;
+        // Each gives ground in inverse proportion to its size, so the hubs
+        // stay put and the singletons move around them.
+        const total = p.count + q.count;
+        p.x -= ux * push * (q.count / total) * 2;
+        p.y -= uy * push * (q.count / total) * 2;
+        q.x += ux * push * (p.count / total) * 2;
+        q.y += uy * push * (p.count / total) * 2;
+        moved = true;
+      }
+    }
+    clusters.forEach((g, i) => {
+      const home = anchored[i];
+      const dx = g.x - home.x, dy = g.y - home.y;
+      const d = Math.hypot(dx, dy);
+      if (d > MAX_SHIFT) {
+        g.x = home.x + (dx / d) * MAX_SHIFT;
+        g.y = home.y + (dy / d) * MAX_SHIFT;
+      }
+    });
+    if (!moved) break;
+  }
+
+  // Drawn smallest first so the numbered hubs sit on top of whatever is left
+  // touching them.
+  [...clusters].reverse().forEach(g => {
+    const i = clusters.indexOf(g);
+    const r = g.r;
+    const home = anchored[i];
+    if (Math.hypot(g.x - home.x, g.y - home.y) > r * 0.5) {
+      chart.append(el('line', {
+        x1: home.x, y1: home.y, x2: g.x, y2: g.y, class: 'map-tether'
+      }));
+    }
+    const color = inkable(layerColor[g.layer] || '#8b7ff0');
+    const dot = el('circle', {
+      cx: g.x, cy: g.y, r, fill: color, class: 'map-dot',
+      'fill-opacity': isLight() ? 0.85 : 0.72
+    });
+    dot.append(el('title', {}, `${g.hub} — ${g.count} ${g.count === 1 ? 'company' : 'companies'}: ${g.members.map(m => m.name).join(', ')}`));
+    chart.append(dot);
+    if (i < ranked) {
+      chart.append(el('text', { x: g.x, y: g.y + 3.6, 'text-anchor': 'middle', class: 'map-rank' }, String(i + 1)));
+    }
+  });
+
+  // A share bar rather than a second ranking: the finding is the proportion of
+  // one list held by one country, and that is a thing to see rather than read.
+  const byCountry = {};
+  for (const c of placed) byCountry[c.hq.country] = (byCountry[c.hq.country] || 0) + 1;
+  const countries = Object.entries(byCountry).sort((a, b) => b[1] - a[1]);
+  const palette = ['#3b82f6', '#8b7ff0', '#10a37f', '#ea580c', '#d99a0b', '#ec4899',
+                   '#0ea5e9', '#84cc16', '#f43f5e', '#a855f7', '#14b8a6', '#f59e0b', '#6366f1', '#e11d48'];
+  const colorOf = i => inkable(palette[i % palette.length]);
+
+  const bar = svg(W, 78);
+  bar.append(el('text', { x: 0, y: 20, class: 'row-sub' }, `All ${placed.length} headquarters, by country`));
+
+  let cx = 0;
+  countries.forEach(([name, n], i) => {
+    const w = (n / placed.length) * W;
+    const seg = el('rect', { x: cx, y: 34, width: Math.max(1, w - 2), height: 44, rx: 2, fill: colorOf(i) });
+    seg.append(el('title', {}, `${name} — ${n}`));
+    bar.append(seg);
+    // Ten of the fourteen countries hold one or two companies each, so their
+    // segments are a few pixels wide. Stalk labels collided into an unreadable
+    // stack; the key underneath carries them instead.
+    const label = `${name} ${n}`;
+    if (w > textWidth(label, 19) + 18) {
+      bar.append(el('text', { x: cx + w / 2, y: 63, 'text-anchor': 'middle', class: 'col-seg-label' }, label));
+    }
+    cx += w;
+  });
+
+  fill(host, chart, bar);
+
+  const key = document.createElement('div');
+  key.className = 'legend country-key';
+  host.append(key);
+  legendInto(key, countries.map(([name, n], i) => [`${name} ${n}`, colorOf(i)]));
+
+  // The ranked clusters get named in a list under the map rather than on it:
+  // at this scale the New Jersey and Basel labels would sit on top of each
+  // other, and the numbers in the circles do the pointing.
+  const list = document.createElement('ol');
+  list.className = 'hub-list';
+  list.replaceChildren(...clusters.slice(0, ranked).map(g => {
+    const li = document.createElement('li');
+    li.style.setProperty('--layer', inkable(layerColor[g.layer] || '#8b7ff0'));
+    const names = g.members.map(m => m.name);
+    const shown = names.slice(0, 4).join(', ');
+    li.innerHTML = `
+      <div class="hub-place">${g.hub}<span class="hub-country">${g.country}</span></div>
+      <div class="hub-count"><strong>${g.count}</strong> ${g.count === 1 ? 'company' : 'companies'} · mostly ${layerName[g.layer].toLowerCase()}</div>
+      <div class="hub-names">${shown}${names.length > 4 ? ` <em>+${names.length - 4} more</em>` : ''}</div>`;
+    return li;
+  }));
+  host.append(list);
+
+  legendInto($('map-legend'), layers.map(l => [l.name, inkable(l.color)]));
+
+  const topFive = clusters.slice(0, 5).reduce((n, g) => n + g.count, 0);
+  const us = byCountry['United States'] || 0;
+  $('map-stat').innerHTML =
+    `<strong>${us}</strong> of the ${placed.length} are American — and <strong>${topFive}</strong> of the `
+    + `whole list, ${Math.round((topFive / placed.length) * 100)}% of it, sit in five city-regions.`;
+}
+
 /* =========================================================
    theme
 
@@ -979,21 +1392,69 @@ function scrollspy() {
    boot
    ========================================================= */
 
-// This page has no live market data, and says so on the chart itself.
+// Market value and the income statement come from Yahoo's quoteSummary
+// endpoint, which answers 429 to GitHub's runners — so no scheduled job in
+// this repository can write them into a file, and marketcaps.json holds
+// nothing but rounded placeholder market values.
 //
-// Market value and the income statement come from Yahoo's quote and
-// quoteSummary endpoints, which answer 429 for GitHub's runners, so no
-// scheduled job can produce them. The dashboard gets them from Cloudflare Pages
-// functions, which Yahoo will serve — but those sit on a private origin behind
-// an access policy and send no CORS headers, so this page cannot read them.
-//
-// So marketcaps.json is the only source here. It holds rounded approximations,
-// and renderValue puts a warning across the chart because a treemap of
+// Yahoo does answer Cloudflare, so the live figures come from a function on
+// the site that links to this page, called from the browser and merged over
+// the placeholders. When it cannot be reached the placeholders stand and
+// renderValue puts a warning across the chart, because a treemap of
 // provisional numbers looks exactly like a real one.
 async function load(name) {
   const res = await fetch(`data/${name}.json`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`${name}: http ${res.status}`);
   return res.json();
+}
+
+// Live quotes, fetched cross-origin from the personal site's own endpoint.
+//
+// One invocation there is capped at Cloudflare's 50 subrequests, and each
+// symbol costs one, so the list goes over in batches. A batch that fails is
+// simply absent from the merge: those companies keep their placeholder.
+const LIVE_ENDPOINT = 'https://personal-b8d.pages.dev/api/fundamentals';
+const LIVE_BATCH = 36;
+
+async function fetchLive(tickers) {
+  const batches = [];
+  for (let i = 0; i < tickers.length; i += LIVE_BATCH) {
+    batches.push(tickers.slice(i, i + LIVE_BATCH));
+  }
+
+  const settled = await Promise.allSettled(batches.map(async batch => {
+    const res = await fetch(`${LIVE_ENDPOINT}?symbols=${encodeURIComponent(batch.join(','))}`, {
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error(`http ${res.status}`);
+    return res.json();
+  }));
+
+  const quotes = {};
+  const fx = {};
+  for (const outcome of settled) {
+    if (outcome.status !== 'fulfilled') continue;
+    Object.assign(quotes, outcome.value.quotes || {});
+    Object.assign(fx, outcome.value.fx || {});
+  }
+  return { quotes, fx };
+}
+
+// Overwrites whole quotes rather than filling gaps in them: a placeholder
+// market value next to a live margin would be a figure no source ever
+// reported.
+function mergeLive(caps, live) {
+  const tickers = Object.keys(live.quotes);
+  if (tickers.length === 0) return false;
+
+  for (const ticker of tickers) caps.quotes[ticker] = live.quotes[ticker];
+  caps.fx = live.fx;
+  caps.generatedAt = new Date().toISOString();
+  caps.missing = Object.keys(caps.quotes).filter(t => !live.quotes[t]);
+  caps.source = tickers.length === Object.keys(caps.quotes).length
+    ? 'Yahoo Finance, read when this page was opened'
+    : `Yahoo Finance, read when this page was opened — ${caps.missing.length} still on placeholder values`;
+  return true;
 }
 
 // Kept so a theme change can redraw without refetching: the fills are chosen
@@ -1002,8 +1463,8 @@ let loaded = null;
 
 function redraw() {
   if (!loaded) return;
-  const { layers, companies, caps, layerColor, layerName,
-          gauntlet, trials, chokepoints, geography, prices, exclusivity, pricing } = loaded;
+  const { layers, companies, caps, layerColor, layerName, world,
+          gauntlet, trials, chokepoints, geography, prices, exclusivity, pricing, jobs } = loaded;
   renderGauntlet(gauntlet, layerColor);
   renderTrials(trials);
   renderChokepoints(chokepoints, layerColor, layerName);
@@ -1011,6 +1472,11 @@ function redraw() {
   renderPrices(prices);
   renderExclusivity(exclusivity, layerColor);
   renderPricing(pricing, layerColor);
+  renderEmployers(jobs, layerColor, layerName);
+  renderJobGeography(jobs);
+  renderRoles(jobs, layerColor);
+  renderPay(jobs, layerColor, layerName);
+  renderMap(world, companies, layers, layerColor, layerName);
   if (caps) {
     renderChain(layers, companies, caps);
     renderValue(layers, companies, caps);
@@ -1019,8 +1485,8 @@ function redraw() {
 
 (async function main() {
   try {
-    const [layersFile, companiesFile, gauntlet, trials, chokepoints, geography, prices, exclusivity, pricing] = await Promise.all(
-      ['layers', 'companies', 'gauntlet', 'trials', 'chokepoints', 'geography', 'prices', 'exclusivity', 'pricing'].map(load)
+    const [layersFile, companiesFile, gauntlet, trials, chokepoints, geography, prices, exclusivity, pricing, jobs, world] = await Promise.all(
+      ['layers', 'companies', 'gauntlet', 'trials', 'chokepoints', 'geography', 'prices', 'exclusivity', 'pricing', 'jobs', 'world'].map(load)
     );
 
     const layers = layersFile.layers;
@@ -1028,10 +1494,10 @@ function redraw() {
     const layerColor = Object.fromEntries(layers.map(l => [l.id, l.color]));
     const layerName = Object.fromEntries(layers.map(l => [l.id, l.name]));
 
-    loaded = { layers, companies, caps: null, layerColor, layerName,
-               gauntlet, trials, chokepoints, geography, prices, exclusivity, pricing };
+    loaded = { layers, companies, caps: null, layerColor, layerName, world,
+               gauntlet, trials, chokepoints, geography, prices, exclusivity, pricing, jobs };
 
-    // Seven of the nine sections need no market data, so they are drawn before
+    // Twelve of the fourteen sections need no market data, so they are drawn before
     // the file is read at all.
     redraw();
 
@@ -1040,13 +1506,31 @@ function redraw() {
     renderChain(layers, companies, caps);
     renderValue(layers, companies, caps);
 
+    // Drawn once from the file so the treemap is there immediately, then again
+    // if the live read lands — which takes a few seconds for eighty-six
+    // symbols and can fail outright.
+    try {
+      if (mergeLive(caps, await fetchLive(companies.map(c => c.ticker)))) {
+        renderChain(layers, companies, caps);
+        renderValue(layers, companies, caps);
+      }
+    } catch (err) {
+      console.warn('live quotes unavailable', err);
+    }
+
     const list = $('sources');
     list.replaceChildren(...[
       ...gauntlet.sources, ...trials.sources, ...chokepoints.sources, ...geography.sources, ...prices.sources,
-      ...exclusivity.sources, ...pricing.sources,
-      'Market values on this page are rounded approximations, not quotes. Yahoo refuses the '
-      + 'endpoints carrying market capitalisation to automated callers, so there is no scheduled '
-      + 'job behind these figures — read the shape, not the numbers.'
+      ...exclusivity.sources, ...pricing.sources, ...jobs.sources,
+      'Headquarters locations are each company\'s registered head office, placed at the city it '
+      + 'sits in. Country outlines are Natural Earth 1:110m (public domain), simplified by '
+      + 'tools/build-world.py; this dataset carries the United Kingdom as Great Britain only.',
+      'The national wage line is the US median hourly wage across all occupations in the OEWS '
+      + 'May 2025 estimates, $24.51, at a 2,080-hour year.',
+      'Market value, revenue and margins: Yahoo Finance, read live when the page is opened, by way '
+      + 'of a function on parisaetemadi.dev that Yahoo will answer. Yahoo returns 429 to automated '
+      + 'callers, so nothing here is written by a scheduled job; if that read fails the chart falls '
+      + 'back to rounded placeholder market values and says so on the chart itself.'
     ].map(text => {
       const li = document.createElement('li');
       li.textContent = text;

@@ -15,6 +15,11 @@
   --line: #232326;
   --line-soft: #17171a;
   --chip: #141417;
+  /* The map needs three greys of its own: ocean is the page, land sits just
+     above it, and a country with a head office in it sits above that. */
+  --map-land: #1a1a1e;
+  --map-host: #2b2b33;
+  --map-edge: #3a3a44;
 
   --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 
@@ -30,6 +35,9 @@
   --line: #dccdac;
   --line-soft: #e5d9bc;
   --chip: #e5d9bc;
+  --map-land: #e3d6b8;
+  --map-host: #d2bf94;
+  --map-edge: #b8a374;
 
   color-scheme: light;
 }
@@ -333,6 +341,12 @@ body {
 .row-sub { font-size: 17px; fill: var(--muted); }
 .row-value { font-size: 20px; fill: var(--ink); font-variant-numeric: tabular-nums; font-weight: 500; }
 .row-track { fill: #1a1a1e; }
+/* The trough is a recess in the page, so it has to follow the ground it is cut
+   into — hard-coded near-black read as a hole punched through the cream. */
+:root[data-theme="light"] .row-track { fill: #e2d5b7; }
+
+/* A reference line the bars are measured against, not another bar. */
+.ref-line { stroke: var(--muted); stroke-width: 2; stroke-dasharray: 6 5; }
 
 /* ---------- funnel ---------- */
 
@@ -527,4 +541,119 @@ body {
   font-size: 15px;
   line-height: 1.6;
   color: var(--ink);
+}
+
+/* ---------- 12 · what the jobs are ----------
+   A list rather than a chart: the content is language, and forcing it into a
+   diagram would cost the detail that makes it useful. It keeps the layer
+   colours so a role can be read back to its place in the chain. */
+
+.role-block {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 24px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+.role-block:first-child { border-top: 0; padding-top: 0; }
+
+.role-stage {
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--layer, var(--ink));
+  position: sticky;
+  top: 76px;
+  align-self: start;
+}
+
+.role-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px 22px;
+}
+
+.role-title { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+.role-what { font-size: 13.5px; line-height: 1.5; color: var(--body); }
+.role-wants {
+  margin-top: 5px;
+  font-size: 12.5px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.role-pay {
+  margin-top: 5px;
+  font-size: 12.5px;
+  color: var(--body);
+  font-variant-numeric: tabular-nums;
+}
+.role-pay strong { font-weight: 650; color: var(--ink); }
+
+/* ---------- the map ---------- */
+
+/* Land is context, not data: it sits far enough back that the circles read as
+   the only thing carrying a number. */
+.map-land { fill: var(--map-land); stroke: var(--map-edge); stroke-width: 0.4; }
+.map-country { fill: var(--map-host); stroke: var(--map-edge); stroke-width: 0.5; }
+/* Drawn from a circle's true position to where crowding pushed it. */
+.map-tether { stroke: var(--muted); stroke-width: 0.6; }
+.map-dot { stroke: var(--bg); stroke-width: 1.2; }
+.map-rank { font-size: 10px; font-weight: 700; fill: #fff; paint-order: stroke; stroke: rgba(0, 0, 0, 0.35); stroke-width: 2.5px; }
+
+/* Sits directly under the share bar it explains, tighter than a chart legend. */
+.country-key { margin-top: 2px; }
+
+.hub-list {
+  list-style: none;
+  counter-reset: hub;
+  margin: 26px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px 26px;
+}
+/* The numbers are the link back to the circles on the map, so they are set in
+   the same weight as the ones drawn inside them. */
+.hub-list li {
+  counter-increment: hub;
+  padding-left: 30px;
+  position: relative;
+}
+.hub-list li::before {
+  content: counter(hub);
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: var(--layer, var(--muted));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.hub-place { font-size: 15px; font-weight: 600; color: var(--ink); }
+.hub-country {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-left: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.hub-count { font-size: 13px; color: var(--body); margin-top: 2px; }
+.hub-count strong { font-size: 15px; color: var(--ink); }
+.hub-names { font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.45; }
+.hub-names em { font-style: normal; }
+
+/* This section is a list of language, not a picture, so it reads better across
+   the full width than squeezed into the chart column. */
+.section.wide { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+
+@media (max-width: 900px) {
+  .role-block { grid-template-columns: 1fr; gap: 10px; }
+  .role-stage { position: static; }
 }

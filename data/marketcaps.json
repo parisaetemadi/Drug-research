@@ -1,7 +1,7 @@
 {
   "generatedAt": null,
   "source": "approximate placeholder, pending the first live fetch",
-  "note": "Rounded order-of-magnitude market values so the chart has a shape before the scheduled job first runs. Not quotes. Overwritten wholesale by scripts/fetch-marketcaps.mjs.",
+  "note": "Rounded order-of-magnitude market values so the chart has a shape before the live read lands, and a fallback for when it does not. Not quotes. app.js overwrites whichever of these the /api/fundamentals endpoint returns.",
   "priced": 86,
   "missing": [],
   "fx": {

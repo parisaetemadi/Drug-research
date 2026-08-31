@@ -37,6 +37,11 @@
   <a href="#prices">Prices</a>
   <a href="#exclusivity">Monopoly</a>
   <a href="#pricing">Price caps</a>
+  <a href="#employers">Employers</a>
+  <a href="#jobgeo">Where</a>
+  <a href="#roles">The jobs</a>
+  <a href="#pay">What it pays</a>
+  <a href="#map">On the map</a>
   <span class="nav-spacer"></span>
   <a class="nav-repo" href="https://github.com/parisaetemadi/Drug-research" target="_blank" rel="noopener">Source</a>
 </nav>
@@ -256,6 +261,116 @@
       </p>
     </div>
     <div class="chart" id="pricing-vis"><p class="loading">Loading…</p></div>
+  </section>
+
+
+  <!-- ============ 10 · WHO ACTUALLY WORKS HERE ============ -->
+  <section class="section" id="employers">
+    <div class="section-copy">
+      <div class="section-num">10</div>
+      <h2>Who actually works here</h2>
+      <p class="lede">
+        Sort the industry by people instead of by money and the order falls apart.
+        The second-largest employer on this page sells instruments to everyone else
+        on it. The seventh runs other companies' trials. Work is where the headcount
+        is, and the work is not mostly at the companies whose names are on the boxes.
+      </p>
+      <p class="stat" id="employers-stat"></p>
+      <p class="footnote">
+        Most recently reported figure for each company, and they are not all from the
+        same date &mdash; each row carries its own. Johnson &amp; Johnson's includes
+        MedTech, which the market-value chart counts at 65%.
+      </p>
+    </div>
+    <div class="chart" id="employers-vis"><p class="loading">Loading…</p></div>
+  </section>
+
+  <!-- ============ 11 · WHERE THE JOBS ARE ============ -->
+  <section class="section" id="jobgeo">
+    <div class="section-copy">
+      <div class="section-num">11</div>
+      <h2>Where the jobs are</h2>
+      <p class="lede">
+        Manufacturing is spread across four regions, but employment is not. Europe
+        carries more than twice the direct headcount of US pharmaceutical
+        manufacturing, concentrated in five countries &mdash; Germany alone employs
+        about a third as many people as the entire US industry.
+      </p>
+      <p class="stat" id="jobgeo-stat"></p>
+      <p class="footnote" id="outlook-note"></p>
+      <p class="footnote">
+        The two columns count different things: EFPIA reports direct employment across
+        the whole European industry, while the US figure is pharmaceutical manufacturing
+        specifically. Both bars share one scale, so their heights are comparable even
+        though their definitions are not identical.
+      </p>
+    </div>
+    <div class="chart" id="jobgeo-vis"><p class="loading">Loading…</p></div>
+  </section>
+
+  <!-- ============ 12 · WHAT THE JOBS ARE ============ -->
+  <section class="section wide" id="roles">
+    <div class="section-copy">
+      <div class="section-num">12</div>
+      <h2>What the jobs are</h2>
+      <p class="lede">
+        Every layer hires differently. The chemists and the clinicians are the ones
+        people picture, but most of the industry is neither: it is the people who
+        monitor a trial site, release a batch, validate a machine, chase a discrepancy
+        in a database, or explain the evidence to a specialist.
+      </p>
+      <p class="stat" id="roles-stat"></p>
+      <p class="footnote">
+        What each stage routinely advertises for and what those jobs involve. These are
+        descriptive &mdash; no count of open positions is claimed, and the qualification
+        noted is the usual one, not a requirement.
+      </p>
+    </div>
+    <div class="chart" id="roles-vis"><p class="loading">Loading…</p></div>
+  </section>
+
+  <!-- ============ 13 · WHAT IT PAYS ============ -->
+  <section class="section" id="pay">
+    <div class="section-copy">
+      <div class="section-num">13</div>
+      <h2>What it pays</h2>
+      <p class="lede">
+        The pay ladder does not follow the chain. It follows how long the
+        training takes and how much money moves through the decision: the
+        people who run a site or sign off a therapy sit at the top, and the
+        bench work that everything upstream depends on sits at the bottom.
+      </p>
+      <p class="stat" id="pay-stat"></p>
+      <p class="footnote" id="pay-basis"></p>
+    </div>
+    <div class="chart" id="pay-vis"><p class="loading">Loading…</p></div>
+  </section>
+
+  <!-- ============ 14 · ON THE MAP ============ -->
+  <section class="section wide" id="map">
+    <div class="section-copy">
+      <div class="section-num">14</div>
+      <h2>Where the companies are</h2>
+      <p class="lede">
+        Eighty-six companies, and they are not spread out. The industry is a
+        handful of city-regions: a few square miles of Cambridge, a stretch of
+        New Jersey, one street in Basel, the Yangtze delta. Being able to hire
+        the person who did this last time is worth more than cheap floor space,
+        so the clusters keep tightening.
+      </p>
+      <p class="stat" id="map-stat"></p>
+      <div class="legend" id="map-legend"></div>
+      <p class="footnote">
+        Each circle is a headquarters cluster, sized by how many of these
+        companies sit in it and coloured by the layer most of them belong to.
+        Where two circles would sit on top of each other they are nudged apart
+        by up to about 300km, so a few sit slightly off true; the numbers match
+        the list below. Headquarters only &mdash; research sites, plants and
+        trial networks are spread far wider than this, and section 06 covers
+        where the making actually happens.
+      </p>
+    </div>
+    <div class="chart" id="map-vis"><p class="loading">Loading…</p></div>
   </section>
 
 </main>
