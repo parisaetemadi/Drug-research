@@ -113,7 +113,7 @@ land = []
 for name, geom in byname.items():
     if name in DROP:
         continue
-    p = path_for(geom, 1.1, 3.0)
+    p = path_for(geom, 0.5, 1.5)
     if p:
         land.append(p)
 
@@ -121,7 +121,7 @@ hi = {}
 for label, key in HIGHLIGHT.items():
     if key not in byname:
         sys.exit("missing country in source: %s" % key)
-    hi[label] = path_for(byname[key], 0.8, 1.5)
+    hi[label] = path_for(byname[key], 0.22, 0.8)
 
 json.dump({
     "note": "Country outlines simplified from Natural Earth 1:110m (public domain), "

@@ -21,6 +21,8 @@
   --map-host: #2b2b33;
   --map-edge: #3a3a44;
 
+  --rail: 216px;
+
   --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 
   color-scheme: dark;
@@ -62,60 +64,92 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Leaves room for the fixed rail; the rail itself is out of flow. */
+  padding-left: var(--rail);
 }
 
-/* ---------- top nav ---------- */
+/* ---------- section rail ---------- */
 
+/* A rail down the left rather than a strip across the top: fourteen sections
+   would not fit on one line at any readable size, and the top strip was
+   wrapping to two rows of grey text nobody could pick a section out of. As a
+   column each entry gets its own line, its section number, and enough weight
+   to read as a table of contents. */
 .nav {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  bottom: 0;
   z-index: 50;
+  width: var(--rail);
   display: flex;
-  align-items: center;
-  gap: 28px;
-  padding: 0 40px;
-  height: 52px;
-  background: color-mix(in srgb, var(--bg) 86%, transparent);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line-soft);
+  flex-direction: column;
+  gap: 4px;
+  padding: 28px 20px 24px;
+  overflow-y: auto;
+  background: var(--bg);
+  border-right: 1px solid var(--line);
 }
 
 .nav-brand {
+  font-size: 15px;
   font-weight: 700;
+  line-height: 1.25;
   letter-spacing: -0.02em;
-  margin-right: 8px;
+  color: var(--ink);
+  margin-bottom: 22px;
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  counter-reset: nav;
 }
 
 .nav a {
   position: relative;
-  color: var(--muted);
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 6px 0 6px 12px;
+  color: var(--body);
   text-decoration: none;
   font-size: 14px;
-  font-weight: 500;
-  height: 52px;
-  display: flex;
-  align-items: center;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   transition: color 0.15s ease;
 }
-.nav a:hover { color: var(--body); }
+/* The same numbering the sections carry, so the rail and the page agree. */
+.nav-list a::before {
+  counter-increment: nav;
+  content: counter(nav, decimal-leading-zero);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+.nav a:hover { color: var(--ink); }
 
-/* The underline marks the section currently under the reader, set from JS. */
+/* A bar down the left marks the section currently under the reader, set from JS. */
 .nav a.current { color: var(--ink); }
 .nav a.current::after {
   content: "";
   position: absolute;
   left: 0;
-  right: 0;
-  bottom: -1px;
-  height: 2px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  border-radius: 2px;
   background: #4a8bf0;
 }
-
-.nav-spacer { flex: 1; }
+.nav-list a.current::before { color: #4a8bf0; }
 
 .nav-repo {
+  margin-top: auto;
+  padding-top: 22px;
   color: var(--muted);
   font-size: 13px;
+  font-weight: 500;
 }
 
 /* ---------- masthead ---------- */
@@ -151,8 +185,9 @@ body {
 /* ---------- sections ---------- */
 
 .section {
-  /* The nav is sticky, so an anchor jump must stop below it. */
-  scroll-margin-top: 52px;
+  /* The rail is beside the page rather than over it, so an anchor jump only
+     needs to clear its own top padding. */
+  scroll-margin-top: 24px;
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   gap: 64px;
@@ -161,7 +196,7 @@ body {
   border-bottom: 1px solid var(--line);
 }
 
-.section-copy { position: sticky; top: 96px; }
+.section-copy { position: sticky; top: 48px; }
 
 .section-num {
   font-size: 12px;
@@ -392,8 +427,30 @@ body {
   }
   .section-copy { position: static; }
   .masthead { padding: 56px 22px 32px; }
-  .nav { padding: 0 22px; gap: 18px; overflow-x: auto; }
+  /* No room for a rail beside the page, so it goes back over the top of it
+     as one scrolling row. */
+  body { padding-left: 0; }
+  .nav {
+    position: sticky;
+    inset: 0 auto auto 0;
+    width: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+    padding: 0 22px;
+    height: 52px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter: blur(12px);
+    border-right: 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-list { flex-direction: row; gap: 18px; }
+  .nav a { padding: 0; white-space: nowrap; }
+  .nav a.current::after { top: auto; bottom: 0; left: 0; right: 0; width: auto; height: 2px; }
   .nav-repo, .nav-brand { display: none; }
+  .section { scroll-margin-top: 52px; }
   .site-footer { padding: 48px 22px 72px; }
 }
 
@@ -462,6 +519,26 @@ body {
   padding-top: 9px;
   border-top: 1px solid var(--line);
 }
+
+/* The hub card names every company in the cluster, so it is a list rather than
+   the figure pairs a company card carries. */
+.card-list {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.card-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 13px;
+  color: var(--ink);
+}
+.card-list em { font-style: normal; color: var(--muted); font-size: 12px; white-space: nowrap; }
 
 .card-gap {
   margin: 10px 0 0;
@@ -592,62 +669,24 @@ body {
 
 /* ---------- the map ---------- */
 
+/* .chart svg is overflow:visible so a chart's outside labels can hang past its
+   box. The map is the opposite case: it is a crop of a whole globe, and
+   everything outside the crop has to be clipped rather than drawn over the
+   rest of the section. */
+/* Beats `.chart svg`, which is the rule being overridden. */
+.chart svg.map-svg { overflow: hidden; }
+
 /* Land is context, not data: it sits far enough back that the circles read as
    the only thing carrying a number. */
-.map-land { fill: var(--map-land); stroke: var(--map-edge); stroke-width: 0.4; }
-.map-country { fill: var(--map-host); stroke: var(--map-edge); stroke-width: 0.5; }
+.map-land { fill: var(--map-land); stroke: var(--map-edge); stroke-width: 0.4; vector-effect: non-scaling-stroke; }
+.map-country { fill: var(--map-host); stroke: var(--map-edge); stroke-width: 0.5; vector-effect: non-scaling-stroke; }
+.map-dot { stroke: var(--bg); stroke-width: 1.2; vector-effect: non-scaling-stroke; cursor: pointer; }
+.map-dot:hover, .map-dot:focus { fill-opacity: 1; outline: none; }
 /* Drawn from a circle's true position to where crowding pushed it. */
-.map-tether { stroke: var(--muted); stroke-width: 0.6; }
-.map-dot { stroke: var(--bg); stroke-width: 1.2; }
-.map-rank { font-size: 10px; font-weight: 700; fill: #fff; paint-order: stroke; stroke: rgba(0, 0, 0, 0.35); stroke-width: 2.5px; }
+.map-tether { stroke: var(--muted); stroke-width: 0.6; vector-effect: non-scaling-stroke; }
 
 /* Sits directly under the share bar it explains, tighter than a chart legend. */
 .country-key { margin-top: 2px; }
-
-.hub-list {
-  list-style: none;
-  counter-reset: hub;
-  margin: 26px 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px 26px;
-}
-/* The numbers are the link back to the circles on the map, so they are set in
-   the same weight as the ones drawn inside them. */
-.hub-list li {
-  counter-increment: hub;
-  padding-left: 30px;
-  position: relative;
-}
-.hub-list li::before {
-  content: counter(hub);
-  position: absolute;
-  left: 0;
-  top: 1px;
-  width: 21px;
-  height: 21px;
-  border-radius: 50%;
-  background: var(--layer, var(--muted));
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  display: grid;
-  place-items: center;
-}
-.hub-place { font-size: 15px; font-weight: 600; color: var(--ink); }
-.hub-country {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--muted);
-  margin-left: 7px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-.hub-count { font-size: 13px; color: var(--body); margin-top: 2px; }
-.hub-count strong { font-size: 15px; color: var(--ink); }
-.hub-names { font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.45; }
-.hub-names em { font-style: normal; }
 
 /* This section is a list of language, not a picture, so it reads better across
    the full width than squeezed into the chart column. */
